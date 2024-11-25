@@ -28,7 +28,7 @@ const Login = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label>Email:</label>
+        <label>Username:</label>
         <input
           type="text"
           value={username}
@@ -46,7 +46,7 @@ const Login = () => {
         />
       </div>
       <button type="submit">Login</button>
-      <p>Current user: {user}</p>
+      <p>Current user: {user.username}</p>
     </form>
   );
 };
