@@ -3,7 +3,8 @@ import { useState } from "react";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState({ username: "none" });
+  const [user, setUser] = useState();
+  const [allUsers, setAllUsers] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +23,26 @@ const Login = () => {
       }
     } catch (err) {
       console.error("Error during login: ", err);
+    }
+  };
+
+  const handleGetAllUsers = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:3000/all-users", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        credentials: "include",
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setAllUsers(data);
+      }
+    } catch (err) {
+      console.error("Error during fetch: ", err);
     }
   };
 
@@ -46,7 +67,17 @@ const Login = () => {
         />
       </div>
       <button type="submit">Login</button>
-      <p>Current user: {user.username}</p>
+      {user && (
+        <div>
+          <p>Current user: {user.username}</p>
+          <button onClick={handleGetAllUsers}>Get all users</button>
+          <ul>
+            {allUsers.map((item) => (
+              <li key={item.id}>{item.username}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </form>
   );
 };
