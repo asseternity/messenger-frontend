@@ -1,10 +1,10 @@
 import { useState } from "react";
+import UsersList from "./users_list";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState();
-  const [allUsers, setAllUsers] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,6 +19,7 @@ const Login = () => {
       });
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         setUser(data);
       }
     } catch (err) {
@@ -26,59 +27,41 @@ const Login = () => {
     }
   };
 
-  const handleGetAllUsers = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch("http://localhost:3000/all-users", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        credentials: "include",
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setAllUsers(data);
-      }
-    } catch (err) {
-      console.error("Error during fetch: ", err);
-    }
-  };
-
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Username:</label>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </div>
-      <button type="submit">Login</button>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Username:</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit">Login</button>
+      </form>
       {user && (
         <div>
+          <button onClick={() => console.log(user.token)}>
+            Console.log token
+          </button>
           <p>Current user: {user.username}</p>
-          <button onClick={handleGetAllUsers}>Get all users</button>
-          <ul>
-            {allUsers.map((item) => (
-              <li key={item.id}>{item.username}</li>
-            ))}
-          </ul>
+          <div>
+            <UsersList user={user} />
+          </div>
         </div>
       )}
-    </form>
+    </div>
   );
 };
 
