@@ -47,8 +47,7 @@ const UsersList = ({ user }) => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
-        // occasionally api returns null. what gives?
+        console.log(data.participants);
       }
     } catch (err) {
       console.error("Error during fetch: ", err);
