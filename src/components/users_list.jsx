@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
+import ChatWindow from "./chat_window";
 
 const UsersList = ({ user }) => {
   // save users in state
+  const [loggedInUser, setLoggedInUser] = useState(user);
   const [allUsers, setAllUsers] = useState([]);
+  const [currentTargetUser, setCurrentTargetUser] = useState();
+  const [currentConversation, setCurrentConversation] = useState();
   // get all users on load
   useEffect(() => {
     const handleGetAllUsers = async () => {
@@ -48,6 +52,8 @@ const UsersList = ({ user }) => {
       if (response.ok) {
         const data = await response.json();
         console.log(data.participants);
+        setCurrentConversation(data);
+        setCurrentTargetUser(targetUser);
       }
     } catch (err) {
       console.error("Error during fetch: ", err);
@@ -65,6 +71,15 @@ const UsersList = ({ user }) => {
           </div>
         ))}
       </ul>
+      {currentConversation && (
+        <div>
+          <ChatWindow
+            conversation={currentConversation}
+            targetUser={currentTargetUser}
+            user={loggedInUser}
+          />
+        </div>
+      )}
     </div>
   );
 };
