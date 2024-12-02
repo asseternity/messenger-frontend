@@ -4,6 +4,34 @@ const ChatWindow = ({ conversation, targetUser, user }) => {
   const [newMessage, setNewMessage] = useState("");
   const [newConversation, setNewConversation] = useState(conversation);
 
+  useEffect(() => {
+    const updateChat = async () => {
+      try {
+        const user1 = user.username;
+        const user2 = targetUser.username;
+        const participants = [user1, user2];
+
+        const response = await fetch("http://localhost:3000/new-chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({ participant_usernames: participants }),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setNewConversation(data);
+        }
+      } catch (err) {
+        console.error("Error during fetch: ", err);
+      }
+    };
+
+    updateChat();
+  }, [newConversation, newMessage, targetUser]);
+
   const handleSend = (e) => {
     e.preventDefault();
     if (newMessage.trim()) {
@@ -13,7 +41,7 @@ const ChatWindow = ({ conversation, targetUser, user }) => {
   };
 
   const onSendMessage = async (message) => {
-    console.log(message);
+    console.log(user);
     try {
       const response = await fetch("http://localhost:3000/new-message", {
         method: "POST",
@@ -24,12 +52,13 @@ const ChatWindow = ({ conversation, targetUser, user }) => {
         body: JSON.stringify({
           conversationId: newConversation.id,
           content: message,
-          userId: user.id,
+          userId: user.userId,
         }),
         credentials: "include",
       });
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         setNewConversation(data);
       }
     } catch (err) {
@@ -40,12 +69,17 @@ const ChatWindow = ({ conversation, targetUser, user }) => {
   return (
     <div>
       <h3>Chat with {targetUser.username}</h3>
-      {newConversation.messages && (
+      {newConversation.message && (
         <div>
-          {newConversation.messages.map((msg, index) => (
+          {newConversation.message.map((msg, index) => (
             <div key={index}>
-              <strong>{msg.sender}: </strong>
-              <span>{msg.text}</span>
+              <strong>
+                {msg.senderId === user.userId
+                  ? user.username
+                  : targetUser.username}
+                :{" "}
+              </strong>
+              <span>{msg.content}</span>
             </div>
           ))}
         </div>

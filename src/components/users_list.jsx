@@ -21,7 +21,10 @@ const UsersList = ({ user }) => {
         });
         if (response.ok) {
           const data = await response.json();
-          setAllUsers(data);
+          const allOtherUsers = data.filter(
+            (item) => item.username !== user.username
+          );
+          setAllUsers(allOtherUsers);
         }
       } catch (err) {
         console.error("Error during fetch: ", err);
@@ -31,7 +34,7 @@ const UsersList = ({ user }) => {
     if (user.token) {
       handleGetAllUsers();
     }
-  }, []);
+  }, [user]);
   // users should be buttons to chat with them
   // check whether there already is a one-v-one convo with that user (create only if there isn't)
   const handleStartChat = async (targetUser) => {
