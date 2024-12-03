@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const GroupChatCreator = ({ user, allUsers }) => {
+const GroupChatCreator = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [addedUsers, setAddedUsers] = useState([]);
+  const { user, allUsers } = location.state || {};
   // should list all users
   // with a button to add user to groupchat
   // if the button is clicked, the button is changed to "remove"
@@ -16,23 +20,15 @@ const GroupChatCreator = ({ user, allUsers }) => {
       (item) => item.id === userToAdd.id
     );
     if (userAlreadyAdded.length > 0) {
-      // find userToAdd in addedUsers
-      let existingUserIndex;
-      for (let i = 0; i < addedUsers.length; i++) {
-        if ((addedUsers[i].id = userAlreadyAdded.id)) {
-          existingUserIndex = i;
-        }
-      }
-      let newArray = addedUsers.splice(existingUserIndex, i);
-      setAddedUsers(newArray);
+      setAddedUsers(addedUsers.filter((item) => item.id !== userToAdd.id));
     } else {
-      setAddedUsers(addedUsers.push(userToAdd));
+      setAddedUsers([...addedUsers, userToAdd]);
     }
   };
 
   const handleCreateGroupchat = async () => {
     try {
-      let arrayIncludingUs = addedUsers.push(user);
+      let arrayIncludingUs = [...addedUsers, user];
 
       let usernameArray = arrayIncludingUs.map((item) => item.username);
 
@@ -47,7 +43,10 @@ const GroupChatCreator = ({ user, allUsers }) => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data.participants);
+        console.log("Created groupchat with participants:", data.participants);
+
+        // After successfully creating the group chat, navigate back to the UsersList
+        navigate("/"); // Navigate back to the users list (or any other route you want)
         // close the UI and go back to users_list
         // have the users_list reload
       }
@@ -70,7 +69,7 @@ const GroupChatCreator = ({ user, allUsers }) => {
         {allUsers.map((item) => (
           <div key={item.id}>
             <li key={item.id}>
-              <button onClick={(item) => handleAddUser(item)}>
+              <button onClick={() => handleAddUser(item)}>
                 {item.username}
               </button>
             </li>

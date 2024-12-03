@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ChatWindow from "./chat_window";
 
 const UsersList = ({ user }) => {
@@ -7,6 +8,7 @@ const UsersList = ({ user }) => {
   const [allUsers, setAllUsers] = useState([]);
   const [currentTargetUser, setCurrentTargetUser] = useState();
   const [currentConversation, setCurrentConversation] = useState();
+  const navigate = useNavigate();
   // get all users on load
   useEffect(() => {
     const handleGetAllUsers = async () => {
@@ -63,8 +65,8 @@ const UsersList = ({ user }) => {
     }
   };
 
-  const handleCreateGroupchat = async () => {
-    // display UI to create a groupchat
+  const handleCreateGroupchat = () => {
+    navigate("/groupchat", { state: { user: user, allUsers: allUsers } }); // Navigate to the group chat creation page
   };
 
   return (
