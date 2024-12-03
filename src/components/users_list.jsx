@@ -63,8 +63,13 @@ const UsersList = ({ user }) => {
     }
   };
 
+  const handleCreateGroupchat = async () => {
+    // display UI to create a groupchat
+  };
+
   return (
     // display all users
+    // also display all groupchats that the user is a part of
     <div>
       <ul>
         {allUsers.map((item) => (
@@ -83,6 +88,11 @@ const UsersList = ({ user }) => {
           />
         </div>
       )}
+      <div>
+        <button onClick={() => handleCreateGroupchat()}>
+          Start a groupchat!
+        </button>
+      </div>
     </div>
   );
 };
