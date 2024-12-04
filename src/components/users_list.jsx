@@ -122,6 +122,35 @@ const UsersList = ({ user }) => {
     });
   };
 
+  const handleGoToGroupChat = async (groupchatObject) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/${groupchatObject.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error fetching group chat: ${response.statusText}`);
+      }
+
+      const conversationData = await response.json();
+
+      // You can now handle the conversationData, e.g., update UI or store state
+      console.log("Group Chat Data:", conversationData);
+
+      // Handle navigation, state update, or other actions here
+    } catch (error) {
+      console.error("Failed to fetch group chat data:", error);
+    }
+  };
+
   return (
     // display all users
     // also display all groupchats that the user is a part of
@@ -140,7 +169,7 @@ const UsersList = ({ user }) => {
             <li key={item.id}>
               {item.participants.map((user) => user.username).join(", ")}
             </li>
-            <button>Chat</button>
+            <button onClick={() => handleGoToGroupChat(item)}>Chat</button>
           </div>
         ))}
       </ul>
