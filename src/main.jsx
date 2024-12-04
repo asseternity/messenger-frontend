@@ -17,7 +17,8 @@ createRoot(document.getElementById("root")).render(
 );
 
 // groupchat:
-// list groupchats in users_list (backend, probably)
+// backend: fetch a particular convo based on ID
+// frontend: tie it to frontend
 // registration
 // css
 // deploy
