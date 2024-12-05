@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ChatWindow from "./chat_window";
+import GroupChatWindow from "./groupchat_window";
 
 const UsersList = ({ user }) => {
   // save users in state
@@ -9,6 +10,7 @@ const UsersList = ({ user }) => {
   const [allGroupChats, setAllGroupChats] = useState([]);
   const [currentTargetUser, setCurrentTargetUser] = useState();
   const [currentConversation, setCurrentConversation] = useState();
+  const [currentConversationType, setCurrentConversationType] = useState();
   const navigate = useNavigate();
   // Get all users on load
   useEffect(() => {
@@ -37,7 +39,7 @@ const UsersList = ({ user }) => {
     if (user.token) {
       handleGetAllUsers();
     }
-  }, [user]);
+  }, [user, currentConversationType]);
 
   // Combine group chats with user details after allUsers is updated
   useEffect(() => {
@@ -61,7 +63,6 @@ const UsersList = ({ user }) => {
             dataGroupChats,
             allUsers
           );
-          console.log(dataGroupChatsWithUsernames);
           setAllGroupChats(dataGroupChatsWithUsernames);
         }
       } catch (err) {
@@ -70,7 +71,7 @@ const UsersList = ({ user }) => {
     };
 
     handleGetGroupChats();
-  }, [allUsers]);
+  }, [user, allUsers, currentConversationType]);
   // users should be buttons to chat with them
   // check whether there already is a one-v-one convo with that user (create only if there isn't)
   const handleStartChat = async (targetUser) => {
@@ -90,9 +91,9 @@ const UsersList = ({ user }) => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data.participants);
         setCurrentConversation(data);
         setCurrentTargetUser(targetUser);
+        setCurrentConversationType("one-on-one");
       }
     } catch (err) {
       console.error("Error during fetch: ", err);
@@ -114,7 +115,7 @@ const UsersList = ({ user }) => {
           // Add the username to the participant object
           return {
             ...participant, // spread existing participant properties
-            username: user ? user.username : "you", // add username (or null if not found)
+            username: user ? user.username : "you",
           };
         }),
       };
@@ -140,12 +141,11 @@ const UsersList = ({ user }) => {
         throw new Error(`Error fetching group chat: ${response.statusText}`);
       }
 
-      const conversationData = await response.json();
-
-      // You can now handle the conversationData, e.g., update UI or store state
-      console.log("Group Chat Data:", conversationData);
-
-      // Handle navigation, state update, or other actions here
+      if (response.ok) {
+        const data = await response.json();
+        setCurrentConversation(data);
+        setCurrentConversationType("groupchat");
+      }
     } catch (error) {
       console.error("Failed to fetch group chat data:", error);
     }
@@ -173,11 +173,21 @@ const UsersList = ({ user }) => {
           </div>
         ))}
       </ul>
-      {currentConversation && (
+      {currentConversationType === "one-on-one" && (
         <div>
           <ChatWindow
             conversation={currentConversation}
             targetUser={currentTargetUser}
+            user={loggedInUser}
+          />
+        </div>
+      )}
+      {currentConversationType === "groupchat" && (
+        <div>
+          <GroupChatWindow
+            key={currentConversation?.id}
+            conversation={currentConversation}
+            allUsers={allUsers}
             user={loggedInUser}
           />
         </div>

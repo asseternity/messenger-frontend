@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 const ChatWindow = ({ conversation, targetUser, user }) => {
   const [newMessage, setNewMessage] = useState("");
   const [newConversation, setNewConversation] = useState(conversation);
+  const [whichConversation, setWhichConversation] = useState(conversation);
 
   useEffect(() => {
     const updateChat = async () => {
@@ -22,6 +23,7 @@ const ChatWindow = ({ conversation, targetUser, user }) => {
         });
         if (response.ok) {
           const data = await response.json();
+          console.log(data);
           setNewConversation(data);
         }
       } catch (err) {
@@ -30,7 +32,7 @@ const ChatWindow = ({ conversation, targetUser, user }) => {
     };
 
     updateChat();
-  }, [newConversation, newMessage, targetUser]);
+  }, [whichConversation, newMessage, targetUser]);
 
   const handleSend = (e) => {
     e.preventDefault();

@@ -16,9 +16,8 @@ createRoot(document.getElementById("root")).render(
   </StrictMode>
 );
 
-// groupchat:
-// backend: fetch a particular convo based on ID
-// frontend: tie it to frontend
+// groupchat: fix infinite loops in both ChatWindow and GroupChatWindow
+// groupchat: fix not re-rendering after clicking on another groupchat
 // registration
 // css
 // deploy

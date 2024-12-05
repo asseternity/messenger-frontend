@@ -1,21 +1,45 @@
 import { useState, useEffect } from "react";
 
-const GroupChatWindow = ({ conversation, user }) => {
+const GroupChatWindow = ({ conversation, allUsers, user }) => {
   const [newMessage, setNewMessage] = useState("");
   const [newConversation, setNewConversation] = useState(conversation);
+  const [whichConversation, setWhichConversation] = useState(conversation);
 
   useEffect(() => {
     const updateChat = async () => {
       try {
         // fetch the conversation again to get the new messages
         // and save it to setNewConversation
+        const response = await fetch(
+          `http://localhost:3000/${newConversation.id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`,
+            },
+            credentials: "include",
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          const dataWithUsernames = combineGroupChatWithUsernames(
+            data,
+            allUsers
+          );
+          const mappedMessages = combineMessageWithUsername(
+            dataWithUsernames,
+            allUsers
+          );
+          setNewConversation(mappedMessages);
+        }
       } catch (err) {
         console.error("Error during fetch", err);
       }
     };
 
     updateChat();
-  }, [conversation, newMessage]);
+  }, [whichConversation, newMessage]);
 
   const handleSend = (e) => {
     e.preventDefault();
@@ -26,7 +50,6 @@ const GroupChatWindow = ({ conversation, user }) => {
   };
 
   const onSendMessage = async (message) => {
-    console.log(user);
     try {
       const response = await fetch("http://localhost:3000/new-message", {
         method: "POST",
@@ -43,48 +66,65 @@ const GroupChatWindow = ({ conversation, user }) => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
-        setNewConversation(data);
+        const dataWithUsernames = combineGroupChatWithUsernames(data, allUsers);
+        const mappedMessages = combineMessageWithUsername(
+          dataWithUsernames,
+          allUsers
+        );
+        setNewConversation(mappedMessages);
       }
     } catch (err) {
       console.error("Error during fetch: ", err);
     }
   };
 
-  const combineGroupChatsWithUsernames = (groupchats, allUsers) => {
-    return groupchats.map((chat) => {
-      // Create a new object for each groupchat
-      let newChat = {
-        ...chat, // Spread existing chat properties
-        participants: chat.participants.map((participant) => {
-          // Find the user corresponding to the userId in the allUsers array
-          const user = allUsers.find((u) => u.id === participant.userId);
-          // Add the username to the participant object
-          return {
-            ...participant, // spread existing participant properties
-            username: user ? user.username : "you", // add username (or null if not found)
-          };
-        }),
-      };
-      return newChat;
+  const combineGroupChatWithUsernames = (groupchat, allUsers) => {
+    console.log(groupchat);
+    console.log(allUsers);
+    // Create a new object for the groupchat
+    let newChat = {
+      ...groupchat, // Spread existing groupchat properties
+      participants: groupchat.participants.map((participant) => {
+        // Find the user corresponding to the userId in the allUsers array
+        const eachUser = allUsers.find((u) => u.id === participant.userId);
+        // Add the username to the participant object
+        return {
+          ...participant, // spread existing participant properties
+          username: eachUser ? eachUser.username : participant.username, // Ensure a fallback if user not found
+        };
+      }),
+    };
+    return newChat;
+  };
+
+  const combineMessageWithUsername = (groupchat, allUsers) => {
+    // Create a map of userId to username for faster lookup
+    const userMap = allUsers.reduce((acc, user) => {
+      acc[user.id] = user.username;
+      return acc;
+    }, {});
+    // Update messages with senderUsername
+    groupchat.message.forEach((msg) => {
+      const senderUsername = userMap[msg.senderId]; // Lookup username by senderId
+      if (senderUsername) {
+        msg.senderUsername = senderUsername;
+      }
     });
+
+    return groupchat; // Return updated groupchat
   };
 
   return (
     <div>
-      <h3>Chat with </h3>{" "}
-      {/* !!! list the users with the same function as in users_list !!! */}
+      <h3>Chat with </h3>
       {newConversation.message && (
         <div>
           {newConversation.message.map((msg, index) => (
             <div key={index}>
               <strong>
-                {msg.senderId === user.userId
-                  ? user.username
-                  : targetUser.username}{" "}
-                {/* !!! need a new way to understand who sent the message !!! */}
-                :{" "}
+                {msg.senderUsername ? msg.senderUsername : user.username}
               </strong>
+              {": "}
               <span>{msg.content}</span>
             </div>
           ))}
@@ -102,3 +142,5 @@ const GroupChatWindow = ({ conversation, user }) => {
     </div>
   );
 };
+
+export default GroupChatWindow;
