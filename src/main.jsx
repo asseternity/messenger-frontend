@@ -16,8 +16,6 @@ createRoot(document.getElementById("root")).render(
   </StrictMode>
 );
 
-// groupchat: fix infinite loops in both ChatWindow and GroupChatWindow
-// groupchat: fix not re-rendering after clicking on another groupchat
 // registration
 // css
 // deploy
