@@ -1,5 +1,7 @@
 import { useState } from "react";
 import UsersList from "./users_list";
+import { Link } from "react-router-dom";
+import MessageBubbleWrapper from "./styled/wrapper";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -29,38 +31,46 @@ const Login = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
+      {!user && (
+        <MessageBubbleWrapper>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label>Username:</label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label>Password:</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit">Login</button>
+          </form>
+        </MessageBubbleWrapper>
+      )}
       {user && (
         <div>
-          <button onClick={() => console.log(user.token)}>
+          {/* <button onClick={() => console.log(user.token)}>
             Console.log token
-          </button>
+          </button> */}
           <p>Current user: {user.username}</p>
           <div>
             <UsersList user={user} />
           </div>
         </div>
       )}
+      <p>
+        Don&apos;t have an account? Register{" "}
+        <Link to="/registration">here</Link>.
+      </p>
     </div>
   );
 };
