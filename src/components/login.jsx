@@ -2,6 +2,8 @@ import { useState } from "react";
 import UsersList from "./users_list";
 import { Link } from "react-router-dom";
 import MessageBubbleWrapper from "./styled/wrapper";
+import PhoneButton from "./styled/styledButton";
+import CenteredContainer from "./styled/centeringWrapper";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -32,45 +34,45 @@ const Login = () => {
   return (
     <div>
       {!user && (
-        <MessageBubbleWrapper>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Username:</label>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label>Password:</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            <button type="submit">Login</button>
-          </form>
-        </MessageBubbleWrapper>
+        <CenteredContainer>
+          <MessageBubbleWrapper>
+            <h3>Fullstack Messenger</h3>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <label>Username:</label>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label>Password:</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <PhoneButton type="submit">Login</PhoneButton>
+            </form>
+            <p>Don&apos;t have an account?</p>
+            <p>
+              Register <Link to="/registration">here</Link>.
+            </p>
+          </MessageBubbleWrapper>
+        </CenteredContainer>
       )}
       {user && (
         <div>
-          {/* <button onClick={() => console.log(user.token)}>
-            Console.log token
-          </button> */}
-          <p>Current user: {user.username}</p>
+          <p className="current_user">Current user: {user.username}</p>
           <div>
             <UsersList user={user} />
           </div>
         </div>
       )}
-      <p>
-        Don&apos;t have an account? Register{" "}
-        <Link to="/registration">here</Link>.
-      </p>
     </div>
   );
 };

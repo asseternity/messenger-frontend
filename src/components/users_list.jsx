@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ChatWindow from "./chat_window";
 import GroupChatWindow from "./groupchat_window";
+import SplitLayout from "./styled/split_layout";
+import PhoneButton from "./styled/styledButton";
+import PhoneButton2 from "./styled/styledButton2";
 
 const UsersList = ({ user }) => {
   // save users in state
@@ -154,50 +157,67 @@ const UsersList = ({ user }) => {
   return (
     // display all users
     // also display all groupchats that the user is a part of
-    <div>
-      <ul>
-        {allUsers.map((item) => (
-          <div key={item.id}>
-            <li key={item.id}>{item.username}</li>
-            <button onClick={() => handleStartChat(item)}>Chat</button>
-          </div>
-        ))}
-      </ul>
-      <ul>
-        {allGroupChats.map((item) => (
-          <div key={item.id}>
-            <li key={item.id}>
-              {item.participants.map((user) => user.username).join(", ")}
-            </li>
-            <button onClick={() => handleGoToGroupChat(item)}>Chat</button>
-          </div>
-        ))}
-      </ul>
-      {currentConversationType === "one-on-one" && (
+    <SplitLayout>
+      <div className="left_nav">
+        <ul>
+          {allUsers.map((item) => (
+            <div key={item.id}>
+              <li key={item.id}>
+                <button
+                  className="list_button"
+                  onClick={() => handleStartChat(item)}
+                >
+                  {item.username}
+                </button>
+              </li>
+            </div>
+          ))}
+        </ul>
+        <ul>
+          {allGroupChats.map((item) => (
+            <div key={item.id}>
+              <li key={item.id}>
+                <button
+                  className="list_button"
+                  onClick={() => handleGoToGroupChat(item)}
+                >
+                  {item.participants.map((user) => user.username).join(", ")}
+                </button>
+              </li>
+            </div>
+          ))}
+        </ul>
         <div>
-          <ChatWindow
-            conversation={currentConversation}
-            targetUser={currentTargetUser}
-            user={loggedInUser}
-          />
+          <PhoneButton2
+            className="start_groupchat_button"
+            onClick={() => handleCreateGroupchat()}
+          >
+            Start a groupchat!
+          </PhoneButton2>
         </div>
-      )}
-      {currentConversationType === "groupchat" && (
-        <div>
-          <GroupChatWindow
-            key={currentConversation?.id}
-            conversation={currentConversation}
-            allUsers={allUsers}
-            user={loggedInUser}
-          />
-        </div>
-      )}
-      <div>
-        <button onClick={() => handleCreateGroupchat()}>
-          Start a groupchat!
-        </button>
       </div>
-    </div>
+      <div className="right_chat">
+        {currentConversationType === "one-on-one" && (
+          <div className="inside_right_chat">
+            <ChatWindow
+              conversation={currentConversation}
+              targetUser={currentTargetUser}
+              user={loggedInUser}
+            />
+          </div>
+        )}
+        {currentConversationType === "groupchat" && (
+          <div className="inside_right_chat">
+            <GroupChatWindow
+              key={currentConversation?.id}
+              conversation={currentConversation}
+              allUsers={allUsers}
+              user={loggedInUser}
+            />
+          </div>
+        )}
+      </div>
+    </SplitLayout>
   );
 };
 

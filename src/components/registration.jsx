@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MessageBubbleWrapper from "./styled/wrapper";
+import PhoneButton from "./styled/styledButton";
+import CenteredContainer from "./styled/centeringWrapper";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -60,54 +62,56 @@ const Registration = () => {
   };
 
   return (
-    <MessageBubbleWrapper>
-      <h2>Register</h2>
-      {error && <div>{error}</div>}
-      {success && <div>{success}</div>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username</label>
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Confirm Password</label>
-          <input
-            type="password"
-            name="cpassword"
-            value={formData.cpassword}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit">Register</button>
-      </form>
-    </MessageBubbleWrapper>
+    <CenteredContainer>
+      <MessageBubbleWrapper>
+        <h2>Register</h2>
+        {error && <div>{error}</div>}
+        {success && <div>{success}</div>}
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Username</label>
+            <input
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            <label>Confirm Password</label>
+            <input
+              type="password"
+              name="cpassword"
+              value={formData.cpassword}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <PhoneButton type="submit">Register</PhoneButton>
+        </form>
+      </MessageBubbleWrapper>
+    </CenteredContainer>
   );
 };
 

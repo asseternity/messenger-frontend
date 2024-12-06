@@ -1,0 +1,100 @@
+@font-face {
+  font-family: "Poppins";
+  src: url("/Poppins-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+html,
+body {
+  font-family: "Poppins";
+  margin: 0; /* Remove default body margin */
+  padding: 0; /* Remove default body padding */
+  display: flex; /* Use flex to ensure centering */
+  justify-content: center; /* Horizontally center content */
+  align-items: center; /* Vertically center content */
+  overflow: hidden;
+}
+
+button,
+input {
+  font-family: "Poppins";
+  margin: 5px;
+}
+
+label {
+  display: block;
+}
+
+.current_user {
+  margin-left: 5px;
+}
+
+.left_nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+}
+
+.right_chat {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: start;
+  margin: 5px;
+  font-size: 90%;
+}
+
+.inside_right_chat {
+  width: 90%;
+}
+
+.start_groupchat_button {
+  background-color: white;
+  color: #003e7d;
+}
+
+/* Remove default styles from <ul> and <li> */
+ul {
+  list-style-type: none; /* Remove bullet points */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margin */
+  width: 100%;
+}
+
+/* Remove the margin and padding from <li> and ensure no indent */
+li {
+  margin: 0; /* Remove margin */
+  padding: 0; /* Remove padding */
+  width: 100%;
+}
+
+/* Style the button to resemble an iPhone button */
+.list_button {
+  all: unset; /* Reset all styles */
+  display: inline-block;
+  padding: 7px; /* Adjust padding for button size */
+  background-color: #7d7d7d; /* iPhone button blue */
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s; /* Smooth transitions for hover effects */
+  width: 80%;
+  font-size: 80%;
+}
+
+.list_button:hover {
+  background-color: #0051a2; /* Darker blue on hover */
+  transform: translateY(-2px); /* Slightly raise the button on hover */
+}
+
+.list_button:active {
+  background-color: #003e7d; /* Even darker blue on active */
+  transform: translateY(0); /* Reset the transform */
+}
+
+.list_button:focus {
+  outline: none; /* Remove default outline on focus */
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.5); /* Add custom focus ring */
+}

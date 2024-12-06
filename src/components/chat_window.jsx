@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import PhoneButton from "./styled/styledButton";
 
 const ChatWindow = ({ conversation, targetUser, user }) => {
   const [newMessage, setNewMessage] = useState("");
@@ -93,7 +94,7 @@ const ChatWindow = ({ conversation, targetUser, user }) => {
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Type a message"
         />
-        <button type="submit">Send</button>
+        <PhoneButton type="submit">Send</PhoneButton>
       </form>
     </div>
   );
