@@ -159,44 +159,52 @@ const UsersList = ({ user }) => {
     // also display all groupchats that the user is a part of
     <SplitLayout>
       <div className="left_nav">
-        <ul>
-          {allUsers.map((item) => (
-            <div key={item.id}>
-              <li key={item.id}>
-                <button
-                  className="list_button"
-                  onClick={() => handleStartChat(item)}
-                >
-                  {item.username}
-                </button>
-              </li>
-            </div>
-          ))}
-        </ul>
-        <ul>
-          {allGroupChats.map((item) => (
-            <div key={item.id}>
-              <li key={item.id}>
-                <button
-                  className="list_button"
-                  onClick={() => handleGoToGroupChat(item)}
-                >
-                  {item.participants.map((user) => user.username).join(", ")}
-                </button>
-              </li>
-            </div>
-          ))}
-        </ul>
+        <p className="current_user">Current user: {user.username}</p>
         <div>
-          <PhoneButton2
-            className="start_groupchat_button"
-            onClick={() => handleCreateGroupchat()}
-          >
-            Start a groupchat!
-          </PhoneButton2>
+          <ul>
+            {allUsers.map((item) => (
+              <div key={item.id}>
+                <li key={item.id}>
+                  <button
+                    className="list_button"
+                    onClick={() => handleStartChat(item)}
+                  >
+                    {item.username}
+                  </button>
+                </li>
+              </div>
+            ))}
+          </ul>
+          <ul>
+            {allGroupChats.map((item) => (
+              <div key={item.id}>
+                <li key={item.id}>
+                  <button
+                    className="list_button"
+                    onClick={() => handleGoToGroupChat(item)}
+                  >
+                    {item.participants.map((user) => user.username).join(", ")}
+                  </button>
+                </li>
+              </div>
+            ))}
+          </ul>
+          <div>
+            <PhoneButton2
+              className="start_groupchat_button"
+              onClick={() => handleCreateGroupchat()}
+            >
+              Start a groupchat!
+            </PhoneButton2>
+          </div>
         </div>
       </div>
       <div className="right_chat">
+        {!currentConversationType && (
+          <div>
+            <h3>Click on a user or create a groupchat to start chatting!</h3>
+          </div>
+        )}
         {currentConversationType === "one-on-one" && (
           <div className="inside_right_chat">
             <ChatWindow

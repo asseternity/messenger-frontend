@@ -6,14 +6,17 @@
 }
 
 html,
-body {
+body,
+:root,
+#root {
   font-family: "Poppins";
   margin: 0; /* Remove default body margin */
   padding: 0; /* Remove default body padding */
   display: flex; /* Use flex to ensure centering */
   justify-content: center; /* Horizontally center content */
   align-items: center; /* Vertically center content */
-  overflow: hidden;
+  height: 100%;
+  min-height: 100vh;
 }
 
 button,
@@ -27,22 +30,36 @@ label {
 }
 
 .current_user {
-  margin-left: 5px;
+  color: white;
 }
 
 .left_nav {
   display: flex;
   flex-direction: column;
-  justify-content: start;
   align-items: start;
+  background-color: #7d7d7d;
+  justify-content: space-between;
+  align-items: start;
+  height: 80vh;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 5px;
+  width: 140px;
+}
+
+.left_nav p {
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .right_chat {
+  height: 80vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: end;
   align-items: start;
-  margin: 5px;
+  padding: 5px;
   font-size: 90%;
 }
 
@@ -53,6 +70,12 @@ label {
 .start_groupchat_button {
   background-color: white;
   color: #003e7d;
+}
+
+.groupchat_creator {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 320px;
 }
 
 /* Remove default styles from <ul> and <li> */
@@ -85,12 +108,14 @@ li {
 }
 
 .list_button:hover {
-  background-color: #0051a2; /* Darker blue on hover */
+  background-color: white;
+  color: #0051a2; /* Darker blue on hover */
   transform: translateY(-2px); /* Slightly raise the button on hover */
 }
 
 .list_button:active {
-  background-color: #003e7d; /* Even darker blue on active */
+  background-color: white;
+  color: #003e7d; /* Even darker blue on active */
   transform: translateY(0); /* Reset the transform */
 }
 

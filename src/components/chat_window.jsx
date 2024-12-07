@@ -71,9 +71,8 @@ const ChatWindow = ({ conversation, targetUser, user }) => {
 
   return (
     <div>
-      <h3>Chat with {targetUser.username}</h3>
       {newConversation.message && (
-        <div>
+        <div className="message_window">
           {newConversation.message.map((msg, index) => (
             <div key={index}>
               <strong>

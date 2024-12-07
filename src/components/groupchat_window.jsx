@@ -117,9 +117,8 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
 
   return (
     <div>
-      <h3>Chat with </h3>
       {newConversation.message && (
-        <div>
+        <div className="message_window">
           {newConversation.message.map((msg, index) => (
             <div key={index}>
               <strong>

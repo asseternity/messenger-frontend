@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const PhoneButton2 = styled.button`
   display: inline-block;
-  padding: 12px 20px;
+  padding: 12px;
   font-size: 16px;
   font-weight: 600;
   border: none;

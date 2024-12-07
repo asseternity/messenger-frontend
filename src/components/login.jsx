@@ -32,7 +32,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <CenteredContainer>
       {!user && (
         <CenteredContainer>
           <MessageBubbleWrapper>
@@ -65,15 +65,8 @@ const Login = () => {
           </MessageBubbleWrapper>
         </CenteredContainer>
       )}
-      {user && (
-        <div>
-          <p className="current_user">Current user: {user.username}</p>
-          <div>
-            <UsersList user={user} />
-          </div>
-        </div>
-      )}
-    </div>
+      {user && <UsersList user={user} />}
+    </CenteredContainer>
   );
 };
 

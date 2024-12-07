@@ -18,19 +18,6 @@ const MessageBubbleWrapper = styled.div`
     padding: 12px;
   }
 
-  /* Optional: add a slight "tail" to make it feel like a real speech bubble */
-  &:after {
-    content: "";
-    position: absolute;
-    bottom: -10px;
-    left: 10px;
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid #daf8ff;
-  }
-
   /* Optional: add a little animation for entering */
   animation: fadeIn 0.3s ease-out;
 

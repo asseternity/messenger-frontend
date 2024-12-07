@@ -19,7 +19,8 @@ createRoot(document.getElementById("root")).render(
 );
 
 // css:
-// 1) centered, blue bubble, iphone like wrapper for login and registration
-// 2) on the left, tabs with users and groupchats, on the right, classic white and blue bubbles
-// 3) same as 1 for groupchatcreator
+// - same as login for groupchatcreator
+// - chatwindows till the bottom
+// - scrolling or something for users AND for messages
+// - make it look better for PC
 // deploy

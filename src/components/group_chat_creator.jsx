@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import MessageBubbleWrapper from "./styled/wrapper";
+import PhoneButton from "./styled/styledButton";
+import PhoneButton2 from "./styled/styledButton2";
+import CenteredContainer from "./styled/centeringWrapper";
 
 const GroupChatCreator = () => {
   const navigate = useNavigate();
@@ -56,28 +60,40 @@ const GroupChatCreator = () => {
   };
 
   return (
-    <div>
-      <h1>Create a groupchat!</h1>
-      <h2>
-        Users to add to groupchat:
-        {addedUsers.map((item) => (
-          <span key={item.id}>{item.username} | </span>
-        ))}
-      </h2>
-      <h2>All users: </h2>
-      <ul>
-        {allUsers.map((item) => (
-          <div key={item.id}>
-            <li key={item.id}>
-              <button onClick={() => handleAddUser(item)}>
-                {item.username}
-              </button>
-            </li>
-          </div>
-        ))}
-      </ul>
-      <button onClick={() => handleCreateGroupchat()}>Create groupchat</button>
-    </div>
+    <CenteredContainer>
+      <MessageBubbleWrapper className="groupchat_creator">
+        <h1>Create a groupchat!</h1>
+        <p>Users to add to groupchat: </p>
+        <p>
+          {" "}
+          {addedUsers.map((item) => (
+            <span key={item.id}>{item.username} | </span>
+          ))}
+        </p>
+        <p>All users: </p>
+        <ul>
+          {allUsers.map((item) => (
+            <div key={item.id}>
+              <li key={item.id}>
+                <PhoneButton2 onClick={() => handleAddUser(item)}>
+                  {item.username}
+                </PhoneButton2>
+              </li>
+            </div>
+          ))}
+        </ul>
+        <PhoneButton onClick={() => handleCreateGroupchat()}>
+          Create groupchat
+        </PhoneButton>
+        <PhoneButton
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          Back
+        </PhoneButton>
+      </MessageBubbleWrapper>
+    </CenteredContainer>
   );
 };
 
