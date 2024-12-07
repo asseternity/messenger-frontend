@@ -161,34 +161,43 @@ const UsersList = ({ user }) => {
       <div className="left_nav">
         <p className="current_user">Current user: {user.username}</p>
         <div>
-          <ul>
-            {allUsers.map((item) => (
-              <div key={item.id}>
-                <li key={item.id}>
-                  <button
-                    className="list_button"
-                    onClick={() => handleStartChat(item)}
-                  >
-                    {item.username}
-                  </button>
-                </li>
-              </div>
-            ))}
-          </ul>
-          <ul>
-            {allGroupChats.map((item) => (
-              <div key={item.id}>
-                <li key={item.id}>
-                  <button
-                    className="list_button"
-                    onClick={() => handleGoToGroupChat(item)}
-                  >
-                    {item.participants.map((user) => user.username).join(", ")}
-                  </button>
-                </li>
-              </div>
-            ))}
-          </ul>
+          <h3>Users:</h3>
+          <div className="users_groupchats">
+            <ul>
+              {allUsers.map((item) => (
+                <div key={item.id}>
+                  <li key={item.id}>
+                    <button
+                      className="list_button"
+                      onClick={() => handleStartChat(item)}
+                    >
+                      {item.username}
+                    </button>
+                  </li>
+                </div>
+              ))}
+            </ul>
+          </div>
+          <h3>Groupchats:</h3>
+          <div className="users_groupchats">
+            <ul>
+              {allGroupChats.map((item) => (
+                <div key={item.id}>
+                  <li key={item.id}>
+                    <button
+                      className="list_button"
+                      onClick={() => handleGoToGroupChat(item)}
+                    >
+                      {item.participants
+                        .map((user) => user.username)
+                        .join(", ")}
+                    </button>
+                  </li>
+                </div>
+              ))}
+            </ul>
+          </div>
+
           <div>
             <PhoneButton2
               className="start_groupchat_button"

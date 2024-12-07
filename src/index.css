@@ -78,6 +78,11 @@ label {
   width: 320px;
 }
 
+.users_groupchats {
+  height: 120px;
+  overflow-y: scroll;
+}
+
 /* Remove default styles from <ul> and <li> */
 ul {
   list-style-type: none; /* Remove bullet points */
