@@ -1,8 +1,10 @@
-# React + Vite
+# Messenger
+A full-stack web application with a database, user authentication with jwt secure token. You can chat with other users or create groupchats.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Frontend:
+React Styled-Components Vite
 
-Currently, two official plugins are available:
+## Backend:
+Node.js Express.js PostgreSQL Prisma ORM Passport JWT
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Check it out here: [https://asseternity.github.io/c5-personal-react/](https://asseternity.github.io/messenger-frontend/)
