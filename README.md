@@ -1,4 +1,4 @@
-# Messenger
+# Messaging App
 A full-stack web application with a database, user authentication with jwt secure token. You can chat with other users or create groupchats.
 
 ## Frontend:
