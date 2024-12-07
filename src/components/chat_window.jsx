@@ -13,15 +13,18 @@ const ChatWindow = ({ conversation, targetUser, user }) => {
         const user2 = targetUser.username;
         const participants = [user1, user2];
 
-        const response = await fetch("http://localhost:3000/new-chat", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-          credentials: "include",
-          body: JSON.stringify({ participant_usernames: participants }),
-        });
+        const response = await fetch(
+          "https://messenger-backend-production-a259.up.railway.app/new-chat",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`,
+            },
+            credentials: "include",
+            body: JSON.stringify({ participant_usernames: participants }),
+          }
+        );
         if (response.ok) {
           const data = await response.json();
           console.log(data);
@@ -46,19 +49,22 @@ const ChatWindow = ({ conversation, targetUser, user }) => {
   const onSendMessage = async (message) => {
     console.log(user);
     try {
-      const response = await fetch("http://localhost:3000/new-message", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({
-          conversationId: newConversation.id,
-          content: message,
-          userId: user.userId,
-        }),
-        credentials: "include",
-      });
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/new-message",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          body: JSON.stringify({
+            conversationId: newConversation.id,
+            content: message,
+            userId: user.userId,
+          }),
+          credentials: "include",
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         console.log(data);

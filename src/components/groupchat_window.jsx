@@ -12,7 +12,7 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
         // fetch the conversation again to get the new messages
         // and save it to setNewConversation
         const response = await fetch(
-          `http://localhost:3000/${newConversation.id}`,
+          `https://messenger-backend-production-a259.up.railway.app/${newConversation.id}`,
           {
             method: "GET",
             headers: {
@@ -52,19 +52,22 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
 
   const onSendMessage = async (message) => {
     try {
-      const response = await fetch("http://localhost:3000/new-message", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({
-          conversationId: newConversation.id,
-          content: message,
-          userId: user.userId,
-        }),
-        credentials: "include",
-      });
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/new-message",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          body: JSON.stringify({
+            conversationId: newConversation.id,
+            content: message,
+            userId: user.userId,
+          }),
+          credentials: "include",
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         const dataWithUsernames = combineGroupChatWithUsernames(data, allUsers);

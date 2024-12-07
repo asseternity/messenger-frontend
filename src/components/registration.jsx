@@ -31,18 +31,21 @@ const Registration = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/sign-up", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-          cpassword: formData.cpassword,
-        }),
-      });
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/sign-up",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: formData.username,
+            email: formData.email,
+            password: formData.password,
+            cpassword: formData.cpassword,
+          }),
+        }
+      );
       if (response.ok) {
         setSuccess("Registration successful! Redirecting...");
         setFormData({

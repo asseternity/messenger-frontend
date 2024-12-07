@@ -19,14 +19,17 @@ const UsersList = ({ user }) => {
   useEffect(() => {
     const handleGetAllUsers = async () => {
       try {
-        const response = await fetch("http://localhost:3000/all-users", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-          credentials: "include",
-        });
+        const response = await fetch(
+          "https://messenger-backend-production-a259.up.railway.app/all-users",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`,
+            },
+            credentials: "include",
+          }
+        );
         if (response.ok) {
           const data = await response.json();
           const allOtherUsers = data.filter(
@@ -49,7 +52,7 @@ const UsersList = ({ user }) => {
     const handleGetGroupChats = async () => {
       try {
         const responseGroupChats = await fetch(
-          "http://localhost:3000/group-chats",
+          "https://messenger-backend-production-a259.up.railway.app/group-chats",
           {
             method: "POST",
             headers: {
@@ -83,15 +86,18 @@ const UsersList = ({ user }) => {
       const user2 = targetUser.username;
       const participants = [user1, user2];
 
-      const response = await fetch("http://localhost:3000/new-chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        credentials: "include",
-        body: JSON.stringify({ participant_usernames: participants }),
-      });
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/new-chat",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({ participant_usernames: participants }),
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         setCurrentConversation(data);
@@ -129,7 +135,7 @@ const UsersList = ({ user }) => {
   const handleGoToGroupChat = async (groupchatObject) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/${groupchatObject.id}`,
+        `https://messenger-backend-production-a259.up.railway.app/${groupchatObject.id}`,
         {
           method: "GET",
           headers: {

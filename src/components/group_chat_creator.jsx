@@ -36,15 +36,18 @@ const GroupChatCreator = () => {
 
       let usernameArray = arrayIncludingUs.map((item) => item.username);
 
-      const response = await fetch("http://localhost:3000/new-chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        credentials: "include",
-        body: JSON.stringify({ participant_usernames: usernameArray }),
-      });
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/new-chat",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({ participant_usernames: usernameArray }),
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         console.log("Created groupchat with participants:", data.participants);
