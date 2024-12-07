@@ -26,7 +26,6 @@ const Login = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setUser(data);
       }
     } catch (err) {

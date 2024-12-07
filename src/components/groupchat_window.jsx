@@ -83,8 +83,6 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
   };
 
   const combineGroupChatWithUsernames = (groupchat, allUsers) => {
-    console.log(groupchat);
-    console.log(allUsers);
     // Create a new object for the groupchat
     let newChat = {
       ...groupchat, // Spread existing groupchat properties

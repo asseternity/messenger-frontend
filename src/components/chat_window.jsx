@@ -27,7 +27,6 @@ const ChatWindow = ({ conversation, targetUser, user }) => {
         );
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           setNewConversation(data);
         }
       } catch (err) {
@@ -47,7 +46,6 @@ const ChatWindow = ({ conversation, targetUser, user }) => {
   };
 
   const onSendMessage = async (message) => {
-    console.log(user);
     try {
       const response = await fetch(
         "https://messenger-backend-production-a259.up.railway.app/new-message",
@@ -67,7 +65,6 @@ const ChatWindow = ({ conversation, targetUser, user }) => {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setNewConversation(data);
       }
     } catch (err) {

@@ -50,7 +50,6 @@ const GroupChatCreator = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log("Created groupchat with participants:", data.participants);
 
         // After successfully creating the group chat, navigate back to the UsersList
         navigate("/"); // Navigate back to the users list (or any other route you want)
