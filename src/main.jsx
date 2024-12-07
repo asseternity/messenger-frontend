@@ -17,10 +17,3 @@ createRoot(document.getElementById("root")).render(
     </HashRouter>
   </StrictMode>
 );
-
-// css:
-// - same as login for groupchatcreator
-// - chatwindows till the bottom
-// - scrolling or something for users AND for messages
-// - make it look better for PC
-// deploy
