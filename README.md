@@ -7,4 +7,4 @@ React Styled-Components Vite
 ## Backend:
 Node.js Express.js PostgreSQL Prisma ORM Passport JWT
 
-# Check it out here: [https://asseternity.github.io/c5-personal-react/](https://asseternity.github.io/messenger-frontend/)
+# Check it out here: https://asseternity.github.io/messenger-frontend/
