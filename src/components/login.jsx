@@ -2,6 +2,7 @@ import { useState } from "react";
 import UsersList from "./users_list";
 import { Link } from "react-router-dom";
 
+/* eslint-disable react/prop-types */
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

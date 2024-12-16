@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+/* eslint-disable react/prop-types */
 const Registration = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -58,6 +59,7 @@ const Registration = () => {
       }
     } catch (err) {
       setError("An error occurred. Please try again later.");
+      console.log(err);
     }
   };
 

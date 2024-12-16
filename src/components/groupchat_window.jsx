@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+/* eslint-disable react/prop-types */
 const GroupChatWindow = ({ conversation, allUsers, user }) => {
   const [newMessage, setNewMessage] = useState("");
   const [newConversation, setNewConversation] = useState(conversation);

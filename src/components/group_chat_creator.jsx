@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
+/* eslint-disable react/prop-types */
 const GroupChatCreator = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -45,8 +46,7 @@ const GroupChatCreator = () => {
         }
       );
       if (response.ok) {
-        const data = await response.json();
-
+        // const data = await response.json();
         // After successfully creating the group chat, navigate back to the UsersList
         navigate("/"); // Navigate back to the users list (or any other route you want)
         // close the UI and go back to users_list

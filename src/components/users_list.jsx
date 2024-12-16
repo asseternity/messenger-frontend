@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ChatWindow from "./chat_window";
 import GroupChatWindow from "./groupchat_window";
 
+/* eslint-disable react/prop-types */
 const UsersList = ({ user }) => {
   // save users in state
   const [loggedInUser, setLoggedInUser] = useState(user);

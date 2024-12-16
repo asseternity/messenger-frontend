@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+/* eslint-disable react/prop-types */
 const ChatWindow = ({ conversation, targetUser, user }) => {
   const [newMessage, setNewMessage] = useState("");
   const [newConversation, setNewConversation] = useState(conversation);
