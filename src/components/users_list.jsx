@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ChatWindow from "./chat_window";
 import GroupChatWindow from "./groupchat_window";
-import SplitLayout from "./styled/split_layout";
-import PhoneButton from "./styled/styledButton";
-import PhoneButton2 from "./styled/styledButton2";
 
 const UsersList = ({ user }) => {
   // save users in state
@@ -163,7 +160,7 @@ const UsersList = ({ user }) => {
   return (
     // display all users
     // also display all groupchats that the user is a part of
-    <SplitLayout>
+    <div>
       <div className="left_nav">
         <p className="current_user">Current user: {user.username}</p>
         <div>
@@ -205,12 +202,12 @@ const UsersList = ({ user }) => {
           </div>
 
           <div>
-            <PhoneButton2
+            <button
               className="start_groupchat_button"
               onClick={() => handleCreateGroupchat()}
             >
               Start a groupchat!
-            </PhoneButton2>
+            </button>
           </div>
         </div>
       </div>
@@ -240,7 +237,7 @@ const UsersList = ({ user }) => {
           </div>
         )}
       </div>
-    </SplitLayout>
+    </div>
   );
 };
 

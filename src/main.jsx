@@ -17,3 +17,16 @@ createRoot(document.getElementById("root")).render(
     </HashRouter>
   </StrictMode>
 );
+
+// remaking the messenger:
+// [_]
+// [_] redo the css
+// [_]
+// [_]
+// [_]
+// [_]
+// [_]
+// [_]
+// [_]
+// [_]
+// [_]

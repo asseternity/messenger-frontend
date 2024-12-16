@@ -1,9 +1,6 @@
 import { useState } from "react";
 import UsersList from "./users_list";
 import { Link } from "react-router-dom";
-import MessageBubbleWrapper from "./styled/wrapper";
-import PhoneButton from "./styled/styledButton";
-import CenteredContainer from "./styled/centeringWrapper";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -34,10 +31,10 @@ const Login = () => {
   };
 
   return (
-    <CenteredContainer>
+    <div>
       {!user && (
-        <CenteredContainer>
-          <MessageBubbleWrapper>
+        <div>
+          <div>
             <h3>Fullstack Messenger</h3>
             <form onSubmit={handleSubmit}>
               <div>
@@ -58,17 +55,17 @@ const Login = () => {
                   required
                 />
               </div>
-              <PhoneButton type="submit">Login</PhoneButton>
+              <button type="submit">Login</button>
             </form>
             <p>Don&apos;t have an account?</p>
             <p>
               Register <Link to="/registration">here</Link>.
             </p>
-          </MessageBubbleWrapper>
-        </CenteredContainer>
+          </div>
+        </div>
       )}
       {user && <UsersList user={user} />}
-    </CenteredContainer>
+    </div>
   );
 };
 

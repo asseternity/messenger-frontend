@@ -1,8 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import MessageBubbleWrapper from "./styled/wrapper";
-import PhoneButton from "./styled/styledButton";
-import CenteredContainer from "./styled/centeringWrapper";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -65,8 +62,8 @@ const Registration = () => {
   };
 
   return (
-    <CenteredContainer>
-      <MessageBubbleWrapper>
+    <div>
+      <div>
         <h2>Register</h2>
         {error && <div>{error}</div>}
         {success && <div>{success}</div>}
@@ -111,10 +108,10 @@ const Registration = () => {
               required
             />
           </div>
-          <PhoneButton type="submit">Register</PhoneButton>
+          <button type="submit">Register</button>
         </form>
-      </MessageBubbleWrapper>
-    </CenteredContainer>
+      </div>
+    </div>
   );
 };
 

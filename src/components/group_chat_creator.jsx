@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import MessageBubbleWrapper from "./styled/wrapper";
-import PhoneButton from "./styled/styledButton";
-import PhoneButton2 from "./styled/styledButton2";
-import CenteredContainer from "./styled/centeringWrapper";
 
 const GroupChatCreator = () => {
   const navigate = useNavigate();
@@ -62,8 +58,8 @@ const GroupChatCreator = () => {
   };
 
   return (
-    <CenteredContainer>
-      <MessageBubbleWrapper className="groupchat_creator">
+    <div>
+      <div className="groupchat_creator">
         <h1>Create a groupchat!</h1>
         <p>Users to add to groupchat: </p>
         <p>
@@ -77,25 +73,25 @@ const GroupChatCreator = () => {
           {allUsers.map((item) => (
             <div key={item.id}>
               <li key={item.id}>
-                <PhoneButton2 onClick={() => handleAddUser(item)}>
+                <button onClick={() => handleAddUser(item)}>
                   {item.username}
-                </PhoneButton2>
+                </button>
               </li>
             </div>
           ))}
         </ul>
-        <PhoneButton onClick={() => handleCreateGroupchat()}>
+        <button onClick={() => handleCreateGroupchat()}>
           Create groupchat
-        </PhoneButton>
-        <PhoneButton
+        </button>
+        <button
           onClick={() => {
             navigate("/");
           }}
         >
           Back
-        </PhoneButton>
-      </MessageBubbleWrapper>
-    </CenteredContainer>
+        </button>
+      </div>
+    </div>
   );
 };
 
