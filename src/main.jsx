@@ -30,25 +30,28 @@ createRoot(document.getElementById("root")).render(
 // [_] Users can create a profile with a profile picture.
 
 // db:
-// [_] users: following, profile pic (assign a default one on registration), bio
-// [_] posts: who wrote it, comments, likes
-// [_] comments: to which post, likes, who wrote it
+// [v] users: following, profile pic, bio
+// [v] posts: who wrote it, comments, likes
+// [v] comments: to which post, likes, who wrote it
 
 // api routes:
-// [_] serve a user's data by id
-// [_] serve posts of everyone you follow
-// [_] search usernames AND groupchats you are a member of
-// [_] change your profile
-// [_] follow a user
-// [_] unfollow a user
-// [_] write a post
-// [_] write a comment
-// [_] like a post
-// [_] like a comment
+// [v] serve a user's data by id
+// [v] serve posts of everyone you follow
+// [v] change your profile
+// [v] follow a user
+// [v] unfollow a user
+// [v] write a post
+// [v] write a comment
+// [v] like a post
+// [v] like a comment
+// [v] conversationsController: search usernames AND groupchats you are a member of
+// [_] indexController: multer for file upload
+// [_] map the new routes
 
 // do the frontend:
 // [v] fix the "missing prop validation" eslint thing
-// [_] top bar: your profile pic and two tabs on top: feed / messages
+// [_] handle a default profile pic if there is none
+// [_] top bar: a top bar with your profile and username; two bookmark tabs under it: feed / messages that switch the bar's colors when switched
 // [_] feed page: "What's happening?", then a feed of everyone whom the user follows
 // [_] messages: users and groupchats with whom you've got messages, sorted by last message with a date, above that a search for all users
 // [_] profile page for yourself: change it (profile pic, bio, username)
