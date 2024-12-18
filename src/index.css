@@ -8,10 +8,12 @@
 html,
 body,
 :root,
-#root {
+#root,
+.root {
   font-family: "Poppins";
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
 button,
@@ -19,8 +21,53 @@ input {
   font-family: "Poppins";
 }
 
-ul {
-  list-style-type: none; /* Remove bullet points */
-  padding: 0; /* Remove padding */
-  margin: 0; /* Remove margin */
+.container {
+  min-height: 100%;
+  min-width: 100%;
+  display: grid;
+  grid-template-rows: 100px 1fr;
+}
+
+.top_bar {
+  display: flex;
+  flex-direction: column;
+}
+
+.username_bar {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #d2042d;
+}
+
+.tabs_bar {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tab_bar {
+}
+
+.feedActive {
+}
+
+.feedInactive {
+}
+
+.messagesActive {
+}
+
+.messagesInactive {
+}
+
+.main_container {
+}
+
+.feed_container {
+}
+
+.messages_container {
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import UsersList from "./users_list";
 import { Link } from "react-router-dom";
+import Index from "./index";
 
 /* eslint-disable react/prop-types */
 const Login = () => {
@@ -32,7 +32,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="root">
       {!user && (
         <div>
           <div>
@@ -65,7 +65,7 @@ const Login = () => {
           </div>
         </div>
       )}
-      {user && <UsersList user={user} />}
+      {user && <Index user={user} />}
     </div>
   );
 };
