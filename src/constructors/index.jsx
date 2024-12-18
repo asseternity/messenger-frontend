@@ -19,7 +19,15 @@ const Index = ({ user }) => {
   return (
     <div className="container">
       <div className="top_bar">
-        <div className="username_bar">{user.username}</div>
+        <div
+          className={
+            feedOrMessages === "feed"
+              ? "username_bar username_bar_feed"
+              : "username_bar username_bar_messages"
+          }
+        >
+          {user.username}
+        </div>
         <div className="tabs_bar">
           <button
             className={

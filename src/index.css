@@ -38,7 +38,15 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
+}
+
+.username_bar_feed {
   background-color: #d2042d;
+}
+
+.username_bar_messages {
+  background-color: #a45953;
 }
 
 .tabs_bar {
@@ -46,24 +54,50 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #f88379;
+  z-index: 5;
+}
+
+.tabs_bar button {
+  height: 100%;
+  border: none;
+  width: 100px;
+  border-radius: 0 0 40% 40%;
+  transition: transform 0.3s ease-in-out;
 }
 
 .tab_bar {
 }
 
 .feedActive {
+  background-color: #d2042d;
+  box-shadow: 5px 5px 15px #a00223;
+  z-index: 1;
+  transform: translateY(0);
 }
 
 .feedInactive {
+  background-color: #a00223;
+  transform: translateY(-15px);
+  z-index: 0;
 }
 
 .messagesActive {
+  background-color: #a45953;
+  box-shadow: -5px 5px 15px #803f3a;
+  z-index: 1;
+  transform: translateY(0);
 }
 
 .messagesInactive {
+  background-color: #803f3a;
+  transform: translateY(-15px);
+  z-index: 0;
 }
 
 .main_container {
+  background-color: #f88379;
+  z-index: -1;
 }
 
 .feed_container {
