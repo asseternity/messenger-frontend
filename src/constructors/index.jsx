@@ -80,8 +80,8 @@ const Index = ({ user }) => {
         </div>
       </div>
       <div className="main_container">
-        {feedOrMessages === "feed" && <Feed />}
-        {feedOrMessages === "messages" && <Messages />}
+        {feedOrMessages === "feed" && <Feed user={user} />}
+        {feedOrMessages === "messages" && <Messages user={user} />}
       </div>
     </div>
   );
@@ -93,9 +93,10 @@ export default Index;
 // // [v] make home / messages into buttons with functions
 // // [v] tie the whole thing to main.jsx and grab props from it
 // // [v] populate username bar with a profile pic (or a default one)
-// // [_] logo in upper left that doubles as a favicon and a button to return to the main page
+// // [v] logo in upper left that doubles as a favicon
+// // [_] and a button to return to the main page
 
-// [_] create a messages sub-component:
+// [v] create a messages sub-component:
 // // [_] add a search through messages
 // // [_] rework users_list, chat_window and groupchat_window
 

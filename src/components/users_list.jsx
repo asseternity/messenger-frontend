@@ -163,7 +163,6 @@ const UsersList = ({ user }) => {
     // also display all groupchats that the user is a part of
     <div>
       <div className="left_nav">
-        <p className="current_user">Current user: {user.username}</p>
         <div>
           <h3>Users:</h3>
           <div className="users_groupchats">
