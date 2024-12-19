@@ -36,7 +36,7 @@ const Login = () => {
       {!user && (
         <div>
           <div>
-            <h3>Fullstack Messenger</h3>
+            <h3>Soleira's Lounge</h3>
             <form onSubmit={handleSubmit}>
               <div>
                 <label>Username:</label>
