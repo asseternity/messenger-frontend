@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 
 /* eslint-disable react/prop-types */
-const ChatWindow = ({ conversation, targetUser, user }) => {
+const ChatWindow = ({ targetUsername, user }) => {
   const [newMessage, setNewMessage] = useState("");
-  const [newConversation, setNewConversation] = useState(conversation);
-  const [whichConversation, setWhichConversation] = useState(conversation);
+  const [newConversation, setNewConversation] = useState();
+  const [whichConversation, setWhichConversation] = useState(targetUsername);
 
   useEffect(() => {
     const updateChat = async () => {
       try {
         const user1 = user.username;
-        const user2 = targetUser.username;
+        const user2 = targetUsername;
         const participants = [user1, user2];
 
         const response = await fetch(
@@ -35,7 +35,7 @@ const ChatWindow = ({ conversation, targetUser, user }) => {
     };
 
     updateChat();
-  }, [whichConversation, newMessage, targetUser]);
+  }, [whichConversation, newMessage]);
 
   const handleSend = (e) => {
     e.preventDefault();
@@ -74,19 +74,23 @@ const ChatWindow = ({ conversation, targetUser, user }) => {
 
   return (
     <div>
-      {newConversation.message && (
-        <div className="message_window">
-          {newConversation.message.map((msg, index) => (
-            <div key={index}>
-              <strong>
-                {msg.senderId === user.userId
-                  ? user.username
-                  : targetUser.username}
-                :{" "}
-              </strong>
-              <span>{msg.content}</span>
+      {newConversation && (
+        <div>
+          {newConversation.message && (
+            <div className="message_window">
+              {newConversation.message.map((msg, index) => (
+                <div key={index}>
+                  <strong>
+                    {msg.senderId === user.userId
+                      ? user.username
+                      : targetUsername}
+                    :{" "}
+                  </strong>
+                  <span>{msg.content}</span>
+                </div>
+              ))}
             </div>
-          ))}
+          )}
         </div>
       )}
       <form onSubmit={handleSend}>

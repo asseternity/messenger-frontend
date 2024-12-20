@@ -39,8 +39,8 @@ createRoot(document.getElementById("root")).render(
 
 // do the frontend:
 // [v] fix the "missing prop validation" eslint thing
-// [_] handle a default profile pic if there is none
-// [_] top bar: a top bar with your profile and username; two bookmark tabs under it: feed / messages that switch the bar's colors when switched
+// [v] handle a default profile pic if there is none
+// [v] top bar: a top bar with your profile and username; two bookmark tabs under it: feed / messages that switch the bar's colors when switched
 // [_] feed page: "What's happening?", then a feed of everyone whom the user follows
 // [_] messages: users and groupchats with whom you've got messages, sorted by last message with a date, above that a search for all users
 // [_] profile page for yourself: by default, no bio and default profile pic, change profile pic, bio, username if you want

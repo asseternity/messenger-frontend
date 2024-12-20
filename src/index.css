@@ -118,11 +118,31 @@ input {
 
 .main_container {
   background-color: #f88379;
-  z-index: -1;
-}
-
-.feed_container {
 }
 
 .messages_container {
+}
+
+.chat_button {
+  padding: 5px;
+  background-color: transparent;
+  border: none;
+  transition: transform 0.3s ease-in-out;
+}
+
+.chat_button:hover {
+  background-color: #a00223;
+}
+
+.chat_button_inactivated {
+  transform: translateX(0px);
+}
+
+.chat_button_activated {
+  background-color: #a00223;
+  color: white;
+  transform: translateX(10px);
+}
+
+.feed_container {
 }
