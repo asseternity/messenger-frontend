@@ -118,7 +118,7 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
 
   return (
     <div>
-      {newConversation.message && (
+      {newConversation && (
         <div className="message_window">
           {newConversation.message.map((msg, index) => (
             <div key={index}>

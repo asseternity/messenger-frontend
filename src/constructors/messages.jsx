@@ -10,12 +10,15 @@ const Messages = ({ user }) => {
   const [activatedChatId, setActivatedChatId] = useState("");
   const [chatType, setChatType] = useState("");
   const [chat, setChat] = useState("");
+  const [groupchatUsers, setGroupchatUsers] = useState([]);
+  const [groupchatData, setGroupchatData] = useState();
   // [v] get all chats and groupchats by searching "" on that route
   // [v] left bar: search on top
   // [v] left bar: css the things like buttons
   // [_] left bar: chats by recency under that (with date of latest message)
-  // [_] right bar: by clicking on chats, send the thing to chat_window / groupchat_window
+  // [v] right bar: by clicking on chats, send the thing to chat_window / groupchat_window
   // [_] right bar: chat css by classes, right leaning, left leaning and with profile pics, not usernames
+  // [_] right bar: "loading o"
 
   useEffect(() => {
     const handleGetAllChats = async () => {
@@ -38,7 +41,6 @@ const Messages = ({ user }) => {
         if (response.ok) {
           const data = await response.json();
           setUsersChats(data.conversations);
-          console.log(data.conversations);
         }
       } catch (err) {
         console.error("Error during fetch: ", err);
@@ -69,16 +71,54 @@ const Messages = ({ user }) => {
     if (chatType === "one-on-one") {
       setChatType("one-on-one");
       // extract the target username
-      const targetUsername = chat.participants.map(
-        (item) => item.user.username !== loggedInUser.username
-      );
-      setChat(targetUsername);
+      const targetUsername = chat.participants
+        .filter((item) => item.user.username !== loggedInUser.username)
+        .map((item) => item.user.username);
+
+      setChat(targetUsername[0]);
     } else if (chatType === "groupchat") {
       setChatType("groupchat");
-
+      // extract all participant usernames
+      const groupChatters = chat.participants.map((item) => item.user.username);
       // fetch the conversation object
-
-      // fetch allUsers array
+      try {
+        // fetch allUsers array
+        const allUsersResponse = await fetch(
+          "https://messenger-backend-production-a259.up.railway.app/all-users",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`,
+            },
+            credentials: "include",
+          }
+        );
+        if (allUsersResponse.ok) {
+          const allUsersData = await allUsersResponse.json();
+          const allOtherUsers = allUsersData.filter(
+            (item) => item.username !== loggedInUser.username
+          );
+          setGroupchatUsers(allOtherUsers);
+          const groupchatObjectResponse = await fetch(
+            `https://messenger-backend-production-a259.up.railway.app/${chat.id}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${loggedInUser.token}`,
+              },
+              credentials: "include",
+            }
+          );
+          if (groupchatObjectResponse.ok) {
+            const groupchatObjectData = await groupchatObjectResponse.json();
+            setGroupchatData(groupchatObjectData);
+          }
+        }
+      } catch (err) {
+        console.log("Error during fetch: ", err);
+      }
     }
   };
 
@@ -143,7 +183,13 @@ const Messages = ({ user }) => {
         {chatType === "one-on-one" && (
           <ChatWindow user={loggedInUser} targetUsername={chat} />
         )}
-        {chatType === "groupchat" && ""}
+        {chatType === "groupchat" && groupchatData && (
+          <GroupChatWindow
+            user={loggedInUser}
+            conversation={groupchatData}
+            allUsers={groupchatUsers}
+          />
+        )}
       </div>
     </div>
   );
