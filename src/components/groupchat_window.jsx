@@ -3,44 +3,11 @@ import { useState, useEffect } from "react";
 /* eslint-disable react/prop-types */
 const GroupChatWindow = ({ conversation, allUsers, user }) => {
   const [newMessage, setNewMessage] = useState("");
-  const [newConversation, setNewConversation] = useState(conversation);
-  const [whichConversation, setWhichConversation] = useState(conversation);
+  const [currentConversation, setCurrentConversation] = useState(conversation);
 
   useEffect(() => {
-    const updateChat = async () => {
-      try {
-        // fetch the conversation again to get the new messages
-        // and save it to setNewConversation
-        const response = await fetch(
-          `https://messenger-backend-production-a259.up.railway.app/${newConversation.id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user.token}`,
-            },
-            credentials: "include",
-          }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          const dataWithUsernames = combineGroupChatWithUsernames(
-            data,
-            allUsers
-          );
-          const mappedMessages = combineMessageWithUsername(
-            dataWithUsernames,
-            allUsers
-          );
-          setNewConversation(mappedMessages);
-        }
-      } catch (err) {
-        console.error("Error during fetch", err);
-      }
-    };
-
-    updateChat();
-  }, [conversation, whichConversation, newMessage]);
+    setCurrentConversation(conversation); // Update when the prop changes
+  }, [conversation]);
 
   const handleSend = (e) => {
     e.preventDefault();
@@ -61,7 +28,7 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
             Authorization: `Bearer ${user.token}`,
           },
           body: JSON.stringify({
-            conversationId: newConversation.id,
+            conversationId: currentConversation.id,
             content: message,
             userId: user.userId,
           }),
@@ -75,7 +42,7 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
           dataWithUsernames,
           allUsers
         );
-        setNewConversation(mappedMessages);
+        setCurrentConversation(mappedMessages);
       }
     } catch (err) {
       console.error("Error during fetch: ", err);
@@ -118,9 +85,9 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
 
   return (
     <div>
-      {newConversation && (
+      {currentConversation && (
         <div className="message_window">
-          {newConversation.message.map((msg, index) => (
+          {currentConversation.message.map((msg, index) => (
             <div key={index}>
               <strong>
                 {msg.senderUsername ? msg.senderUsername : user.username}

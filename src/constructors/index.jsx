@@ -7,14 +7,13 @@ import Feed from "./feed";
 
 /* eslint-disable react/prop-types */
 const Index = ({ user }) => {
-  const [loggedInUser, setLoggedInUser] = useState(user);
   const [profilePicUrl, setProfilePicUrl] = useState();
   const [feedOrMessages, setFeedOrMessages] = useState("feed");
 
   useEffect(() => {
     const fetchProfilePic = async () => {
       try {
-        if (loggedInUser.profilePicture) {
+        if (user.profilePicture) {
           setProfilePicUrl(
             `https://messenger-backend-production-a259.up.railway.app/uploads/${user.profilePicture}`
           );
@@ -27,7 +26,7 @@ const Index = ({ user }) => {
     };
 
     fetchProfilePic();
-  }, [loggedInUser]);
+  }, [user]);
 
   const handleTabClick = (section) => {
     if (section === "feed") {
