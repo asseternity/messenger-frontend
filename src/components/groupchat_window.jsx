@@ -40,7 +40,7 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
     };
 
     updateChat();
-  }, [whichConversation, newMessage]);
+  }, [conversation, whichConversation, newMessage]);
 
   const handleSend = (e) => {
     e.preventDefault();

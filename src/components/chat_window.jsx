@@ -1,28 +1,24 @@
 import { useState, useEffect } from "react";
 
 /* eslint-disable react/prop-types */
-const ChatWindow = ({ targetUsername, user }) => {
+const ChatWindow = ({ conversation, user }) => {
   const [newMessage, setNewMessage] = useState("");
   const [newConversation, setNewConversation] = useState();
-  const [whichConversation, setWhichConversation] = useState(targetUsername);
+  const [whichConversation, setWhichConversation] = useState(conversation);
 
   useEffect(() => {
+    console.log(conversation);
     const updateChat = async () => {
       try {
-        const user1 = user.username;
-        const user2 = targetUsername;
-        const participants = [user1, user2];
-
         const response = await fetch(
-          "https://messenger-backend-production-a259.up.railway.app/new-chat",
+          `https://messenger-backend-production-a259.up.railway.app/conversation/${whichConversation.id}`,
           {
-            method: "POST",
+            method: "GET",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${user.token}`,
             },
             credentials: "include",
-            body: JSON.stringify({ participant_usernames: participants }),
           }
         );
         if (response.ok) {
@@ -81,9 +77,7 @@ const ChatWindow = ({ targetUsername, user }) => {
               {newConversation.message.map((msg, index) => (
                 <div key={index}>
                   <strong>
-                    {msg.senderId === user.userId
-                      ? user.username
-                      : targetUsername}
+                    {msg.senderId === user.userId ? user.username : "other guy"}
                     :{" "}
                   </strong>
                   <span>{msg.content}</span>
