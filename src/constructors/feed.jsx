@@ -1,8 +1,14 @@
 import { useState, useEffect } from "react";
 
 // api changes:
-// include the user's OWN posts into the original fetch
-// make a new route - fetch a user's posts by id, for profile reasons
+// v include the user's OWN posts into the original fetch
+// v make a new route - fetch a user's posts by id, for profile reasons
+
+// feed changes:
+// add a post popup view, with scrollable comments
+// ability to leave a comment
+// put profile pics up on posts
+// also on the messages tab!
 
 /* eslint-disable react/prop-types */
 const Feed = ({ user }) => {
