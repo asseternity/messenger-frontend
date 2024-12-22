@@ -78,10 +78,8 @@ const Index = ({ user }) => {
           </button>
         </div>
       </div>
-      <div className="main_container">
-        {feedOrMessages === "feed" && <Feed user={user} />}
-        {feedOrMessages === "messages" && <Messages user={user} />}
-      </div>
+      {feedOrMessages === "feed" && <Feed user={user} />}
+      {feedOrMessages === "messages" && <Messages user={user} />}
     </div>
   );
 };
@@ -107,6 +105,7 @@ export default Index;
 // // [_] to the side of user: profile, chat (leads to postNewConversation - one on one chat)
 
 // [_] profile component:
+// // [_] open profiles through the search tab
 // // [_] see your profile
 // // [_] editing mode for your profile
 // // [_] same layout but other's profile

@@ -1,13 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 /* eslint-disable react/prop-types */
 const ChatWindow = ({ conversation, user }) => {
   const [newMessage, setNewMessage] = useState("");
   const [currentConversation, setCurrentConversation] = useState(conversation);
+  const messageWindowRef = useRef(null);
 
   useEffect(() => {
     setCurrentConversation(conversation); // Update when the prop changes
   }, [conversation]);
+
+  useEffect(() => {
+    // Scroll to the bottom whenever the conversation or messages change
+    if (messageWindowRef.current) {
+      messageWindowRef.current.scrollTop =
+        messageWindowRef.current.scrollHeight;
+    }
+  }, [currentConversation]);
 
   const handleSend = (e) => {
     e.preventDefault();
@@ -45,33 +54,37 @@ const ChatWindow = ({ conversation, user }) => {
   };
 
   return (
-    <div>
-      {currentConversation && (
-        <div>
-          {currentConversation.message && (
-            <div className="message_window">
-              {currentConversation.message.map((msg, index) => (
-                <div key={index}>
-                  <strong>
-                    {msg.senderId === user.userId ? user.username : "other guy"}
-                    :{" "}
-                  </strong>
-                  <span>{msg.content}</span>
-                </div>
-              ))}
+    <div className="chat_inner">
+      {currentConversation && currentConversation.message && (
+        <div className="message_window" ref={messageWindowRef}>
+          {currentConversation.message.map((msg, index) => (
+            <div
+              key={index}
+              className={
+                msg.senderId === user.userId
+                  ? "chat_message my_message"
+                  : "chat_message notmy_message"
+              }
+            >
+              <div className="sender">
+                {msg.senderId === user.userId ? user.username : "other guy"}
+              </div>
+              <span>{msg.content}</span>
             </div>
-          )}
+          ))}
         </div>
       )}
-      <form onSubmit={handleSend}>
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Type a message"
-        />
-        <button type="submit">Send</button>
-      </form>
+      <div className="chat_keyboard_div">
+        <form onSubmit={handleSend} className="chat_keyboard">
+          <input
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder="Type a message"
+          />
+          <button type="submit">Send</button>
+        </form>
+      </div>
     </div>
   );
 };

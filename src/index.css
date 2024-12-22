@@ -14,6 +14,7 @@ body,
   margin: 0;
   padding: 0;
   height: 100%;
+  overflow: hidden;
 }
 
 button,
@@ -23,6 +24,7 @@ input {
 
 .container {
   min-height: 100%;
+  max-height: 100svh;
   min-width: 100%;
   display: grid;
   grid-template-rows: 100px 1fr;
@@ -116,11 +118,20 @@ input {
   z-index: 0;
 }
 
-.main_container {
+.messages_container {
+  max-height: 100%;
+  display: grid;
+  grid-template-columns: 150px auto;
   background-color: #f88379;
+  padding: 10px;
 }
 
-.messages_container {
+.messages_container input {
+  width: 120px;
+}
+
+.chats_list {
+  max-height: 100%;
 }
 
 .chat_button {
@@ -151,5 +162,107 @@ input {
   font-style: italic;
 }
 
+.chat_inner {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr 50px;
+}
+
+.chat_message {
+  width: fit-content;
+  background-color: white;
+  border-radius: 20px;
+  padding: 8px;
+}
+
+.message_window {
+  max-height: calc(100svh - 170px);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.message_window::-webkit-scrollbar {
+  display: none;
+}
+
+.message_window {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.my_message {
+  align-self: flex-end;
+  margin-bottom: 5px;
+}
+
+.notmy_message {
+  align-self: flex-start;
+  margin-bottom: 5px;
+}
+
+.sender {
+  font-size: 70%;
+  font-style: italic;
+}
+
+.chat_keyboard_div {
+  width: 100%; /* Full width of the parent container */
+}
+
+.chat_keyboard {
+  display: flex;
+  width: 100%; /* Ensure the form covers the entire div */
+}
+
+.chat_keyboard input {
+  flex-grow: 1; /* Input takes up remaining space */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc; /* Border for separation */
+  border-radius: 5px;
+  box-sizing: border-box; /* Ensure padding doesn't affect layout */
+}
+
+.chat_keyboard button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: 1px solid #a00223;
+  border-radius: 5px;
+  cursor: pointer;
+  box-sizing: border-box;
+  background-color: transparent;
+}
+
+.chat_keyboard button:hover {
+  color: white;
+}
+
+.chat_keyboard button:active {
+  color: white;
+  background-color: #a00223;
+}
+
+.loading_bar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .feed_container {
+  padding: 10px;
+  background-color: #f88379;
+}
+
+@media screen and (max-width: 470px) {
+  .chat_keyboard input {
+    font-size: 12px;
+  }
+  .my_message,
+  .notmy_message {
+    font-size: 13px;
+  }
 }

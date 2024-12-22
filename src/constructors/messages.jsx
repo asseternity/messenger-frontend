@@ -25,7 +25,7 @@ const Messages = ({ user }) => {
   // [v] combine conversationUser and conversationObject into one functionality
   // [v] remove the searching from users_conversations, it just slows down the fetch
   // [v] left bar: chats by recency under that (with date of latest message)
-  // [_] right bar: chat css by classes, right leaning, left leaning and with profile pics, not usernames
+  // [v] right bar: chat css by classes, right leaning, left leaning and with profile pics, not usernames
 
   // refactoring backend:
   // what is currently happening:
@@ -41,6 +41,12 @@ const Messages = ({ user }) => {
   // v include conversation objects (with messages included) as state and show them immediately
   // v do not update these on render of chat components, only when something happens
   // v remove two fetches on switch to the messages tab
+
+  // css messages to do:
+  // v manage overflow without a scrollbar on the right at all times? or restyling the scrollbar?
+  // v fix and beautify keyboard
+  // v loading in the middle of everything
+  // v sizes / responsive for mobile
 
   useEffect(() => {
     const handleGetAllChats = async () => {
@@ -62,7 +68,6 @@ const Messages = ({ user }) => {
         );
         if (response.ok) {
           const data = await response.json();
-          console.log(data.conversationObjects);
           setUsersConversations(data.conversationObjects);
           setAllOtherUsers(data.allOtherUsers);
         }
@@ -132,7 +137,7 @@ const Messages = ({ user }) => {
 
   return (
     <div className="messages_container">
-      <div className="chats_search_&_list">
+      <div className="chats_list">
         <div className="search_form">
           <form>
             <input
@@ -198,23 +203,21 @@ const Messages = ({ user }) => {
           ))}
         </div>
       </div>
-      <div className="chats_themselves">
-        {!usersConversations && (
-          <div>
-            <h2>↺ Loading... </h2>
-          </div>
-        )}
-        {chatType === "one-on-one" && (
-          <ChatWindow conversation={oneOnOneData} user={user} />
-        )}
-        {chatType === "groupchat" && (
-          <GroupChatWindow
-            conversation={groupchatData}
-            allUsers={allOtherUsers}
-            user={user}
-          />
-        )}
-      </div>
+      {!usersConversations && (
+        <div className="loading_bar">
+          <h2>↺ Loading... </h2>
+        </div>
+      )}
+      {chatType === "one-on-one" && (
+        <ChatWindow conversation={oneOnOneData} user={user} />
+      )}
+      {chatType === "groupchat" && (
+        <GroupChatWindow
+          conversation={groupchatData}
+          allUsers={allOtherUsers}
+          user={user}
+        />
+      )}
     </div>
   );
 };
