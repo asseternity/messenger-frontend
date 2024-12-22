@@ -110,6 +110,7 @@ export default Index;
 // // [_] editing mode for your profile
 // // [_] same layout but other's profile
 // // [_] follow / message buttons
+// // [_] profile posts: posts of that person under their profile
 
 // [_] update registration
 // [_] update groupchat creation

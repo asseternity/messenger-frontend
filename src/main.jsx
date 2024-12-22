@@ -45,6 +45,7 @@ createRoot(document.getElementById("root")).render(
 // [_] messages: users and groupchats with whom you've got messages, sorted by last message with a date, above that a search for all users
 // [_] profile page for yourself: by default, no bio and default profile pic, change profile pic, bio, username if you want
 // [_] profile page for others: see profile pic, bio and username, and two buttons below: folllow/unfollow and message
+// [_] profile posts: posts of that person under their profile
 
 // requirements:
 // [v] Users must sign in to see anything except the sign-in page.
