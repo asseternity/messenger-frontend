@@ -1,20 +1,27 @@
 import { useState, useEffect } from "react";
+import defaultProfilePic from "/silhouette.png";
 
 // api changes:
 // v include the user's OWN posts into the original fetch
 // v make a new route - fetch a user's posts by id, for profile reasons
 
+// css changes:
+// v reduce max width of feed and messages to like 800? so that they don't look like shit on PC
+// v also on the messages tab!
+// v make ROOT's bg pink instead to fix
+
 // feed changes:
-// add a post popup view, with scrollable comments
+// v put profile pics up on posts in the feed
+// v default at first, but then replace with correct ones upon fetch
+// click on the post to expand it and show the last five comments with pagination
 // ability to leave a comment
-// put profile pics up on posts
-// also on the messages tab!
 
 /* eslint-disable react/prop-types */
 const Feed = ({ user }) => {
   const [newPostContent, setNewPostContent] = useState("");
   const [feedPosts, setFeedPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [expandedPostId, setExpandedPostId] = useState(null);
 
   // Fetch the posts of people the user follows
   useEffect(() => {
@@ -89,6 +96,11 @@ const Feed = ({ user }) => {
     }
   };
 
+  // Handle post expansion/collapse
+  const togglePostExpansion = (postId) => {
+    setExpandedPostId(expandedPostId === postId ? null : postId);
+  };
+
   return (
     <div className="feed_container">
       {/* New Post Section */}
@@ -114,8 +126,31 @@ const Feed = ({ user }) => {
             <div>No posts from people you follow</div>
           ) : (
             feedPosts.map((post) => (
-              <div key={post.id} className="post_item">
-                <p>{post.author.username + ": " + post.content}</p>
+              <div
+                key={post.id}
+                className="post_item"
+                onClick={() => togglePostExpansion(post.id)}
+              >
+                <div className="post_author">
+                  <img
+                    src={
+                      post.author.profilePicture
+                        ? `https://messenger-backend-production-a259.up.railway.app/uploads/${post.author.profilePicture}`
+                        : defaultProfilePic
+                    }
+                  ></img>
+                  <div className="post_content">
+                    <p>{post.author.username}</p>
+                  </div>
+                </div>
+                <p>{post.content}</p>
+                <div
+                  className={`post_comments ${
+                    expandedPostId === post.id ? "expanded" : ""
+                  }`}
+                >
+                  {expandedPostId === post.id ? <p>Comments</p> : <span></span>}
+                </div>
               </div>
             ))
           )}
