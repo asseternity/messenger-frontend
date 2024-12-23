@@ -97,10 +97,10 @@ export default Index;
 // // [v] add a search through messages
 // // [v] rework users_list, chat_window and groupchat_window
 
-// [_] create a feed sub-component that will fetch the user's feed and handle creating a new post:
-// // [_] handle comments
+// [v] create a feed sub-component that will fetch the user's feed and handle creating a new post:
+// // [v] handle comments
 
-// [_] third tab section: search users
+// [_] top right: search users field
 // // [_] allow for search among all users (also needs to be a route on the api)
 // // [_] to the side of user: profile, chat (leads to postNewConversation - one on one chat)
 
@@ -112,5 +112,9 @@ export default Index;
 // // [_] follow / message buttons
 // // [_] profile posts: posts of that person under their profile
 
-// [_] update registration
-// [_] update groupchat creation
+// [_] top left - button returns to the main page
+
+// [_] update css and functionality if needed:
+// // [_] login screen
+// // [_] registration
+// // [_] groupchat creation

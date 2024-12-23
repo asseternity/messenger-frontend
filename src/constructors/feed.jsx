@@ -13,12 +13,18 @@ import defaultProfilePic from "/silhouette.png";
 // feed changes:
 // v put profile pics up on posts in the feed
 // v default at first, but then replace with correct ones upon fetch
-// click on the post to expand it and show the last five comments with pagination
-// ability to leave a comment
+// v click on the post to expand it
+// v show comments
+// v ability to leave a comment
+// display commenter's username and profile pic
+// pagination for comments
+// css comments and comment field
 
 /* eslint-disable react/prop-types */
 const Feed = ({ user }) => {
   const [newPostContent, setNewPostContent] = useState("");
+  const [newCommentContent, setNewCommentContent] = useState("");
+  const [commentsAdded, setCommentsAdded] = useState(0);
   const [feedPosts, setFeedPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [expandedPostId, setExpandedPostId] = useState(null);
@@ -48,6 +54,7 @@ const Feed = ({ user }) => {
         if (response.ok) {
           const data = await response.json();
           setFeedPosts(data);
+          console.log(data);
         } else {
           console.error("Failed to fetch feed");
         }
@@ -59,7 +66,7 @@ const Feed = ({ user }) => {
     };
 
     fetchFeed();
-  }, [user]);
+  }, [user, commentsAdded]);
 
   // Handle creating a new post
   const handlePostSubmit = async () => {
@@ -98,7 +105,45 @@ const Feed = ({ user }) => {
 
   // Handle post expansion/collapse
   const togglePostExpansion = (postId) => {
-    setExpandedPostId(expandedPostId === postId ? null : postId);
+    setNewCommentContent("");
+    if (expandedPostId !== postId) {
+      setExpandedPostId(postId);
+    }
+  };
+
+  // Handle add comment
+  const handleCommentSubmit = async (postId) => {
+    if (!newCommentContent.trim()) {
+      return; // Don't submit if content is empty
+    }
+
+    try {
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/new_comment",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            myUserId: user.userId,
+            myPostId: postId,
+            commentContent: newCommentContent,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        setCommentsAdded(commentsAdded + 1);
+        setNewCommentContent(""); // Clear the input field
+      } else {
+        console.error("Failed to create post");
+      }
+    } catch (err) {
+      console.error("Error creating post:", err);
+    }
   };
 
   return (
@@ -149,7 +194,32 @@ const Feed = ({ user }) => {
                     expandedPostId === post.id ? "expanded" : ""
                   }`}
                 >
-                  {expandedPostId === post.id ? <p>Comments</p> : <span></span>}
+                  {expandedPostId === post.id ? (
+                    <div>
+                      {post.comments.map((comment) => (
+                        <p key={post.id + "." + comment.id}>
+                          {comment.content}
+                        </p>
+                      ))}
+                      <textarea
+                        value={newCommentContent}
+                        onChange={(e) => setNewCommentContent(e.target.value)}
+                        placeholder="Add a comment."
+                        rows="2"
+                        className="comment_textarea"
+                      />
+                      <button
+                        onClick={() => handleCommentSubmit(post.id)}
+                        className="comment_button"
+                      >
+                        Post
+                      </button>
+                    </div>
+                  ) : (
+                    <span className="comments_instruction">
+                      Click to see comments
+                    </span>
+                  )}
                 </div>
               </div>
             ))

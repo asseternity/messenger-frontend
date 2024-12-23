@@ -349,8 +349,12 @@ input {
   margin-right: 10px;
 }
 
+.comments_instruction {
+  font-size: 10px;
+}
+
 .post_comments {
-  max-height: 0; /* Initially collapsed */
+  max-height: 10px; /* Initially collapsed */
   transition: max-height 0.3s ease-in-out; /* Smooth transition */
 }
 
