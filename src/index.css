@@ -73,6 +73,33 @@ input {
   background-color: #a45953;
 }
 
+.username_bar_right input {
+  padding: 5px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  resize: none;
+  font-size: 12px;
+  box-sizing: border-box;
+  font-family: "Poppins";
+}
+
+.username_bar_right button {
+  padding: 5px;
+  border: 1px solid #a00223;
+  background-color: #a00223;
+  color: white;
+  font-size: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+.username_bar_right button:hover {
+  border: 1px solid white;
+}
+
 .tabs_bar {
   height: 50px;
   display: flex;
@@ -359,21 +386,167 @@ input {
 }
 
 .post_comments.expanded {
-  max-height: 500px; /* Adjust max-height based on content size */
+  max-height: 220px;
+  overflow-y: auto;
 }
 
-/* Optional: Add spacing between posts and ensure it's scrollable */
+.post_comments.expanded::-webkit-scrollbar {
+  display: none;
+}
+
+.post_comments.expanded {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.post_pagination {
+  padding-bottom: 330px;
+}
+
+.post_pagination button {
+  border: none;
+  background-color: transparent;
+  font-size: 9px;
+  color: white;
+}
+
+.post_pagination button:hover {
+  color: orange;
+}
+
+.post_pagination span {
+  color: white;
+  font-size: 9px;
+  padding-left: 4px;
+  padding-right: 4px;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+}
+
+/* Feed scrollbar */
 .feed_posts::-webkit-scrollbar {
-  width: 8px;
+  display: none;
 }
 
-.feed_posts::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
+.feed_posts {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-.feed_posts::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
+/* Each comment */
+.comment_container {
+  border-top: 1px solid black;
+  padding-top: 4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+}
+
+.comment_author {
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+}
+
+.comment_author img {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.comment_content {
+  height: 100%;
+  font-size: 10px;
+  padding-left: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+}
+
+.comment_textarea {
+  width: 100%;
+  height: 40px;
+  padding: 5px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  resize: none;
+  font-size: 10px;
+  box-sizing: border-box;
+  margin-top: 10px;
+  margin-bottom: 2px;
+  font-family: "Poppins";
+}
+
+.comment_button {
+  width: 50px;
+  padding: 5px;
+  border: 1px solid #a00223;
+  background-color: #a00223;
+  color: white;
+  font-size: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background-color 0.3s ease;
+}
+
+.comment_button:hover {
+  border: 1px solid white;
+}
+
+/* Search tab */
+.search_results {
+  max-height: 500px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+}
+
+.search_results::-webkit-scrollbar {
+  display: none;
+}
+
+.search_results {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.search_results ul {
+  list-style-type: none;
+}
+
+.search_results li {
+  width: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  margin-top: 10px;
+  padding: 5px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+.search_results img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.search_results_filler {
+  margin-bottom: 230px;
 }
 
 @media screen and (max-width: 470px) {

@@ -16,9 +16,11 @@ import defaultProfilePic from "/silhouette.png";
 // v click on the post to expand it
 // v show comments
 // v ability to leave a comment
-// display commenter's username and profile pic
-// pagination for comments
-// css comments and comment field
+// v display commenter's username and profile pic
+// v css comments
+// v post pagination
+// v pagination for comments
+// v css comment field
 
 /* eslint-disable react/prop-types */
 const Feed = ({ user }) => {
@@ -28,6 +30,7 @@ const Feed = ({ user }) => {
   const [feedPosts, setFeedPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [expandedPostId, setExpandedPostId] = useState(null);
+  const [postPagination, setPostPagination] = useState(1);
 
   // Fetch the posts of people the user follows
   useEffect(() => {
@@ -45,8 +48,8 @@ const Feed = ({ user }) => {
             credentials: "include",
             body: JSON.stringify({
               myUserId: user.userId,
-              page: 1, // You can implement pagination if needed
-              pageSize: 50,
+              page: postPagination, // You can implement pagination if needed
+              pageSize: 5,
             }),
           }
         );
@@ -54,7 +57,6 @@ const Feed = ({ user }) => {
         if (response.ok) {
           const data = await response.json();
           setFeedPosts(data);
-          console.log(data);
         } else {
           console.error("Failed to fetch feed");
         }
@@ -66,7 +68,7 @@ const Feed = ({ user }) => {
     };
 
     fetchFeed();
-  }, [user, commentsAdded]);
+  }, [user, commentsAdded, postPagination]);
 
   // Handle creating a new post
   const handlePostSubmit = async () => {
@@ -93,6 +95,7 @@ const Feed = ({ user }) => {
 
       if (response.ok) {
         const newPost = await response.json();
+        setPostPagination(1);
         setFeedPosts([newPost, ...feedPosts]); // Add new post to the top of the feed
         setNewPostContent(""); // Clear the input field
       } else {
@@ -197,9 +200,24 @@ const Feed = ({ user }) => {
                   {expandedPostId === post.id ? (
                     <div>
                       {post.comments.map((comment) => (
-                        <p key={post.id + "." + comment.id}>
-                          {comment.content}
-                        </p>
+                        <div
+                          className="comment_container"
+                          key={post.id + "." + comment.id}
+                        >
+                          <div className="comment_author">
+                            <img
+                              src={
+                                post.author.profilePicture
+                                  ? `https://messenger-backend-production-a259.up.railway.app/uploads/${comment.author.profilePicture}`
+                                  : defaultProfilePic
+                              }
+                            ></img>
+                            <span>{comment.author.username}</span>
+                          </div>
+                          <div className="comment_content">
+                            {comment.content}
+                          </div>
+                        </div>
                       ))}
                       <textarea
                         value={newCommentContent}
@@ -224,6 +242,21 @@ const Feed = ({ user }) => {
               </div>
             ))
           )}
+          <div className="post_pagination">
+            <button
+              onClick={() => setPostPagination(Math.max(1, postPagination - 1))}
+              disabled={postPagination === 1}
+            >
+              {"<"}
+            </button>
+            <span>Page {postPagination}</span>
+            <button
+              onClick={() => setPostPagination(postPagination + 1)}
+              disabled={feedPosts.length < 5}
+            >
+              {">"}
+            </button>
+          </div>
         </div>
       )}
     </div>
