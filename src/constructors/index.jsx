@@ -191,8 +191,6 @@ export default Index;
 // // [v] open profiles through the search tab
 
 // [_] top left - button returns to the main page
-
-// [_] update css and functionality if needed:
-// // [_] login screen
-// // [_] registration
-// // [_] groupchat creation
+// [_] login screen
+// [_] registration
+// [_] groupchat creation
