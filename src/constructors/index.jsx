@@ -3,6 +3,7 @@ import defaultProfilePic from "/silhouette.png";
 import sl_logo from "/sl_logo.png";
 import Messages from "./messages";
 import Feed from "./feed";
+import Profile from "./profile";
 
 /* eslint-disable react/prop-types */
 const Index = ({ user }) => {
@@ -11,6 +12,7 @@ const Index = ({ user }) => {
   const [searchString, setSearchString] = useState("");
   const [lastSearch, setLastSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [targetUser, setTargetUser] = useState();
 
   useEffect(() => {
     const fetchProfilePic = async () => {
@@ -73,6 +75,11 @@ const Index = ({ user }) => {
     }
   };
 
+  const handleGoToProfile = (targetUser) => {
+    setTargetUser(targetUser);
+    setFeedOrMessages("user_profile");
+  };
+
   return (
     <div className="container">
       <div className="top_bar">
@@ -98,7 +105,7 @@ const Index = ({ user }) => {
                 value={searchString}
                 onChange={handleInputChange}
               />
-              <button type="submit">Send</button>
+              <button type="submit">Search</button>
             </form>
           </div>
         </div>
@@ -144,6 +151,9 @@ const Index = ({ user }) => {
                       onError={(e) => (e.target.src = defaultProfilePic)} // Handle broken images
                     />
                     <p>{result.username}</p>
+                    <button onClick={() => handleGoToProfile(result)}>
+                      Profile
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -154,6 +164,7 @@ const Index = ({ user }) => {
           )}
         </div>
       )}
+      {feedOrMessages === "user_profile" && <Profile targetUser={targetUser} />}
     </div>
   );
 };
@@ -176,13 +187,8 @@ export default Index;
 // // [v] allow for search among all users (also needs to be a route on the api)
 // // [_] to the side of user: profile, chat (leads to postNewConversation - one on one chat)
 
-// [_] profile component:
-// // [_] open profiles through the search tab
-// // [_] see your profile
-// // [_] editing mode for your profile
-// // [_] same layout but other's profile
-// // [_] follow / message buttons
-// // [_] profile posts: posts of that person under their profile
+// [v] profile component:
+// // [v] open profiles through the search tab
 
 // [_] top left - button returns to the main page
 
