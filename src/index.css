@@ -189,6 +189,7 @@ input {
 .last_message {
   font-size: 70%;
   font-style: italic;
+  font-weight: 400;
 }
 
 .chat_inner {
@@ -364,10 +365,17 @@ input {
 .post_author {
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
   font-weight: bold;
   margin-bottom: 10px;
+}
+
+.post_data {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
 }
 
 .post_author img {
@@ -638,6 +646,19 @@ input {
 
 .profile_feed_filler {
   padding-bottom: 250px;
+}
+
+.delete_post {
+  border: 1px solid #a00223;
+  background-color: #a00223;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete_post:hover {
+  border: 1px solid white;
 }
 
 @media screen and (max-width: 470px) {

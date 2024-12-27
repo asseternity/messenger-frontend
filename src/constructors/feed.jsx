@@ -149,6 +149,44 @@ const Feed = ({ user }) => {
     }
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  const handlePostDelete = async (post) => {
+    try {
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/delete_post",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            myUserId: user.userId,
+            postId: post.id,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        setCommentsAdded(commentsAdded + 1);
+        setNewCommentContent(""); // Clear the input field
+      } else {
+        console.error("Failed to delete post");
+      }
+    } catch (err) {
+      console.error("Error deleting post: ", err);
+    }
+  };
+
   return (
     <div className="feed_container">
       {/* New Post Section */}
@@ -180,16 +218,31 @@ const Feed = ({ user }) => {
                 onClick={() => togglePostExpansion(post.id)}
               >
                 <div className="post_author">
-                  <img
-                    src={
-                      post.author.profilePicture
-                        ? `https://messenger-backend-production-a259.up.railway.app/uploads/${post.author.profilePicture}`
-                        : defaultProfilePic
-                    }
-                  ></img>
-                  <div className="post_content">
-                    <p>{post.author.username}</p>
+                  <div className="post_data">
+                    <img
+                      src={
+                        post.author.profilePicture
+                          ? `https://messenger-backend-production-a259.up.railway.app/uploads/${post.author.profilePicture}`
+                          : defaultProfilePic
+                      }
+                    ></img>
+                    <div className="post_content">
+                      <p>{post.author.username}</p>
+                      <span className="last_message">
+                        {formatDate(post.createdAt)}
+                      </span>
+                    </div>
                   </div>
+                  {post.author.username === user.username ? (
+                    <button
+                      onClick={() => handlePostDelete(post)}
+                      className="delete_post"
+                    >
+                      🗑
+                    </button>
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
                 <p>{post.content}</p>
                 <div

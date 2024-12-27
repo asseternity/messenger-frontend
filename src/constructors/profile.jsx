@@ -8,7 +8,7 @@ import defaultProfilePic from "/silhouette.png";
 // [v] css display
 // [v] posts of that person under their profile
 // [v] perfect css
-// [_] display post dates everywhere (on feed too)
+// [v] display post dates everywhere (on feed too)
 // [_] follow / message buttons
 
 // your profile:
@@ -16,8 +16,8 @@ import defaultProfilePic from "/silhouette.png";
 // [v] css display
 // [v] your posts under your profile
 // [v] perfect css
-// [_] display post dates everywhere (on feed too)
-// [_] delete the the post
+// [v] display post dates everywhere (on feed too)
+// [v] delete the the post (button available on feed as well)
 // [_] editing mode for your profile
 
 /* eslint-disable react/prop-types */
@@ -104,6 +104,44 @@ const Profile = ({ user, targetUser }) => {
     }
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  const handlePostDelete = async (post) => {
+    try {
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/delete_post",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            myUserId: user.userId,
+            postId: post.id,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        setCommentsAdded(commentsAdded + 1);
+        setNewCommentContent(""); // Clear the input field
+      } else {
+        console.error("Failed to delete post");
+      }
+    } catch (err) {
+      console.error("Error deleting post: ", err);
+    }
+  };
+
   return (
     <div className="profile_section">
       <div className="profile_container">
@@ -139,16 +177,27 @@ const Profile = ({ user, targetUser }) => {
                 onClick={() => togglePostExpansion(post.id)}
               >
                 <div className="post_author">
-                  <img
-                    src={
-                      post.author.profilePicture
-                        ? `https://messenger-backend-production-a259.up.railway.app/uploads/${post.author.profilePicture}`
-                        : defaultProfilePic
-                    }
-                  ></img>
-                  <div className="post_content">
-                    <p>{post.author.username}</p>
+                  <div className="post_data">
+                    <img
+                      src={
+                        post.author.profilePicture
+                          ? `https://messenger-backend-production-a259.up.railway.app/uploads/${post.author.profilePicture}`
+                          : defaultProfilePic
+                      }
+                    ></img>
+                    <div className="post_content">
+                      <p>{post.author.username}</p>
+                      <span className="last_message">
+                        {formatDate(post.createdAt)}
+                      </span>
+                    </div>
                   </div>
+                  <button
+                    onClick={() => handlePostDelete(post)}
+                    className="delete_post"
+                  >
+                    🗑
+                  </button>
                 </div>
                 <p>{post.content}</p>
                 <div
