@@ -520,6 +520,8 @@ input {
 }
 
 .search_results ul {
+  margin: 0;
+  padding: 0;
   list-style-type: none;
 }
 
@@ -527,7 +529,7 @@ input {
   width: 300px;
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
   margin-top: 10px;
   padding: 5px;
@@ -539,11 +541,33 @@ input {
   box-sizing: border-box;
 }
 
-.search_results img {
+.search_results_user {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+}
+
+.search_results_user img {
   width: 35px;
   height: 35px;
   border-radius: 50%;
   margin-right: 10px;
+}
+
+.search_results_buttons button {
+  margin-right: 5px;
+  padding: 3px;
+  border: 1px solid #a00223;
+  background-color: #a00223;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search_results_buttons button:hover {
+  border: 1px solid white;
 }
 
 .search_results_filler {
@@ -551,28 +575,69 @@ input {
 }
 
 /* Profile component */
+.profile_section {
+  width: 100%; /* Ensures it covers the entire parent */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: #f88379;
+  box-sizing: border-box;
+}
+
 .profile_container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
   background-color: white;
   border-radius: 30px;
   border: none;
+  margin-bottom: 10px;
+  width: fit-content;
+  height: fit-content;
 }
 
 .profile_pic_container img {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  margin-right: 20px;
+  margin: 10px;
 }
 
 .profile_text_container {
+  padding: 10px;
 }
 
 .profile_username {
+  margin: 0;
+  padding: 0;
 }
 
 .profile_bio {
+}
+
+.profile_feed {
+  max-height: 500px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.profile_feed::-webkit-scrollbar {
+  display: none;
+}
+
+.profile_feed {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.profile_feed_filler {
+  padding-bottom: 250px;
 }
 
 @media screen and (max-width: 470px) {
@@ -582,5 +647,14 @@ input {
   .my_message,
   .notmy_message {
     font-size: 13px;
+  }
+  .username_bar_right input {
+    width: 100px;
+  }
+  .profile_pic_container img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 5px;
   }
 }

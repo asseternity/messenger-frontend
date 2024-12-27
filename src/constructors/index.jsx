@@ -142,18 +142,23 @@ const Index = ({ user }) => {
               <ul>
                 {searchResults.map((result, index) => (
                   <li key={index}>
-                    <img
-                      src={`https://messenger-backend-production-a259.up.railway.app/uploads/${
-                        result.profilePicture || "default.png"
-                      }`}
-                      alt={`${result.username}'s profile`}
-                      className="search_result_pic"
-                      onError={(e) => (e.target.src = defaultProfilePic)} // Handle broken images
-                    />
-                    <p>{result.username}</p>
-                    <button onClick={() => handleGoToProfile(result)}>
-                      Profile
-                    </button>
+                    <div className="search_results_user">
+                      <img
+                        src={`https://messenger-backend-production-a259.up.railway.app/uploads/${
+                          result.profilePicture || "default.png"
+                        }`}
+                        alt={`${result.username}'s profile`}
+                        className="search_result_pic"
+                        onError={(e) => (e.target.src = defaultProfilePic)} // Handle broken images
+                      />
+                      <p>{result.username}</p>
+                    </div>
+                    <div className="search_results_buttons">
+                      <button onClick={() => handleGoToProfile(result)}>
+                        Profile
+                      </button>
+                      <button>Chat</button>
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -164,7 +169,9 @@ const Index = ({ user }) => {
           )}
         </div>
       )}
-      {feedOrMessages === "user_profile" && <Profile targetUser={targetUser} />}
+      {feedOrMessages === "user_profile" && (
+        <Profile user={user} targetUser={targetUser} />
+      )}
     </div>
   );
 };
