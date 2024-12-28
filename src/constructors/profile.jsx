@@ -1,32 +1,16 @@
 import { useEffect, useState } from "react";
 import defaultProfilePic from "/silhouette.png";
 
-// [v] hook up to open profiles through the search tab
-
-// other people's profiles:
-// [v] display username, bio, profile pic
-// [v] css display
-// [v] posts of that person under their profile
-// [v] perfect css
-// [v] display post dates everywhere (on feed too)
-// [_] follow / message buttons
-
-// your profile:
-// [v] display username, bio, profile pic
-// [v] css display
-// [v] your posts under your profile
-// [v] perfect css
-// [v] display post dates everywhere (on feed too)
-// [v] delete the the post (button available on feed as well)
-// [_] editing mode for your profile
-
 /* eslint-disable react/prop-types */
-const Profile = ({ user, targetUser }) => {
+const Profile = ({ user, targetUser, updateUser }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newCommentContent, setNewCommentContent] = useState("");
   const [commentsAdded, setCommentsAdded] = useState(0);
   const [expandedPostId, setExpandedPostId] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedUsername, setEditedUsername] = useState(targetUser.username);
+  const [editedBio, setEditedBio] = useState(targetUser.bio || "");
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -142,6 +126,44 @@ const Profile = ({ user, targetUser }) => {
     }
   };
 
+  const handleEditToggle = () => {
+    if (isEditing) {
+      // Save changes to the backend
+
+      saveProfileChanges();
+    }
+
+    setIsEditing(!isEditing);
+  };
+
+  const saveProfileChanges = async () => {
+    try {
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/update_profile",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            myUserId: user.userId,
+            newUsername: editedUsername,
+            newBio: editedBio,
+          }),
+        }
+      );
+      if (!response.ok) {
+        console.error("Failed to update profile");
+      }
+    } catch (err) {
+      console.error("Error updating profile:", err);
+    } finally {
+      updateUser({ ...user, username: editedUsername });
+    }
+  };
+
   return (
     <div className="profile_section">
       <div className="profile_container">
@@ -155,9 +177,33 @@ const Profile = ({ user, targetUser }) => {
           ></img>
         </div>
         <div className="profile_text_container">
-          <h3 className="profile_username">{targetUser.username}</h3>
-          <div className="profile_bio"></div>
-          {targetUser.bio ? targetUser.bio : "This user has not added a bio."}
+          {isEditing ? (
+            <input
+              type="text"
+              value={editedUsername}
+              onChange={(e) => setEditedUsername(e.target.value)}
+              className="edit_username_input"
+            />
+          ) : (
+            <h3 className="profile_username">{targetUser.username}</h3>
+          )}
+          <div className="profile_bio">
+            {isEditing ? (
+              <textarea
+                value={editedBio}
+                onChange={(e) => setEditedBio(e.target.value)}
+                className="edit_bio_textarea"
+              ></textarea>
+            ) : (
+              targetUser.bio || "This user has not added a bio."
+            )}
+          </div>
+        </div>
+
+        <div className="profile_edit_container">
+          {targetUser.username === user.username && (
+            <button onClick={handleEditToggle}>{isEditing ? "✔" : "🖉"}</button>
+          )}
         </div>
       </div>
       <div>
@@ -258,3 +304,25 @@ const Profile = ({ user, targetUser }) => {
 };
 
 export default Profile;
+
+// [v] hook up to open profiles through the search tab
+
+// your profile:
+// [v] display username, bio, profile pic
+// [v] css display
+// [v] your posts under your profile
+// [v] perfect css
+// [v] display post dates everywhere (on feed too)
+// [v] delete the the post (button available on feed as well)
+// [v] editing mode for your profile
+// [v] the entire app should refetch when username is updated, it doesn't recognize you
+// [_] targetUser prop !== user prop, so the profile window stays the same even after all parents reload
+// [_] PLEASE recenter username and profile pic on top
+
+// other people's profiles:
+// [v] display username, bio, profile pic
+// [v] css display
+// [v] posts of that person under their profile
+// [v] perfect css
+// [v] display post dates everywhere (on feed too)
+// [_] follow / message buttons

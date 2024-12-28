@@ -31,6 +31,10 @@ const Login = () => {
     }
   };
 
+  const updateUser = (newUser) => {
+    setUser(newUser);
+  };
+
   return (
     <div className="root">
       {!user && (
@@ -65,7 +69,7 @@ const Login = () => {
           </div>
         </div>
       )}
-      {user && <Index user={user} />}
+      {user && <Index user={user} updateUser={updateUser} />}
     </div>
   );
 };

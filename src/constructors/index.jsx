@@ -6,7 +6,7 @@ import Feed from "./feed";
 import Profile from "./profile";
 
 /* eslint-disable react/prop-types */
-const Index = ({ user }) => {
+const Index = ({ user, updateUser }) => {
   const [profilePicUrl, setProfilePicUrl] = useState();
   const [feedOrMessages, setFeedOrMessages] = useState("feed");
   const [searchString, setSearchString] = useState("");
@@ -76,8 +76,13 @@ const Index = ({ user }) => {
   };
 
   const handleGoToProfile = (targetUser) => {
-    setTargetUser(targetUser);
-    setFeedOrMessages("user_profile");
+    if (targetUser.id === user.userId) {
+      setTargetUser(user);
+      setFeedOrMessages("user_profile");
+    } else {
+      setTargetUser(targetUser);
+      setFeedOrMessages("user_profile");
+    }
   };
 
   return (
@@ -170,7 +175,7 @@ const Index = ({ user }) => {
         </div>
       )}
       {feedOrMessages === "user_profile" && (
-        <Profile user={user} targetUser={targetUser} />
+        <Profile user={user} targetUser={targetUser} updateUser={updateUser} />
       )}
     </div>
   );
