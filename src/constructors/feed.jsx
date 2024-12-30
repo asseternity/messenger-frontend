@@ -47,7 +47,7 @@ const Feed = ({ user }) => {
             },
             credentials: "include",
             body: JSON.stringify({
-              myUserId: user.userId,
+              myUserId: user.id,
               page: postPagination, // You can implement pagination if needed
               pageSize: 5,
             }),
@@ -87,7 +87,7 @@ const Feed = ({ user }) => {
           },
           credentials: "include",
           body: JSON.stringify({
-            myUserId: user.userId,
+            myUserId: user.id,
             postContent: newPostContent,
           }),
         }
@@ -131,7 +131,7 @@ const Feed = ({ user }) => {
           },
           credentials: "include",
           body: JSON.stringify({
-            myUserId: user.userId,
+            myUserId: user.id,
             myPostId: postId,
             commentContent: newCommentContent,
           }),
@@ -170,7 +170,7 @@ const Feed = ({ user }) => {
           },
           credentials: "include",
           body: JSON.stringify({
-            myUserId: user.userId,
+            myUserId: user.id,
             postId: post.id,
           }),
         }

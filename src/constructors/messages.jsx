@@ -61,7 +61,7 @@ const Messages = ({ user }) => {
             },
             credentials: "include",
             body: JSON.stringify({
-              myUserId: user.userId,
+              myUserId: user.id,
               searchString: "",
             }),
           }

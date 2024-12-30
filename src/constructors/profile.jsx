@@ -2,15 +2,22 @@ import { useEffect, useState } from "react";
 import defaultProfilePic from "/silhouette.png";
 
 /* eslint-disable react/prop-types */
-const Profile = ({ user, targetUser, updateUser }) => {
+const Profile = ({ user, profileUser, updateUser }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newCommentContent, setNewCommentContent] = useState("");
   const [commentsAdded, setCommentsAdded] = useState(0);
   const [expandedPostId, setExpandedPostId] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedUsername, setEditedUsername] = useState(targetUser.username);
-  const [editedBio, setEditedBio] = useState(targetUser.bio || "");
+  const [editedUsername, setEditedUsername] = useState(profileUser.username);
+  const [editedBio, setEditedBio] = useState(profileUser.bio || "");
+  const [targetUser, setTargetUser] = useState(profileUser);
+
+  useEffect(() => {
+    if (user.id === targetUser.id) {
+      setTargetUser(user);
+    }
+  }, [user]);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -160,7 +167,7 @@ const Profile = ({ user, targetUser, updateUser }) => {
     } catch (err) {
       console.error("Error updating profile:", err);
     } finally {
-      updateUser({ ...user, username: editedUsername });
+      updateUser({ ...user, username: editedUsername, bio: editedBio });
     }
   };
 
@@ -316,7 +323,8 @@ export default Profile;
 // [v] delete the the post (button available on feed as well)
 // [v] editing mode for your profile
 // [v] the entire app should refetch when username is updated, it doesn't recognize you
-// [_] targetUser prop !== user prop, so the profile window stays the same even after all parents reload
+// [v] on username change - only username_bar changes
+// [v] on bio change - doesn't update until logout
 // [_] PLEASE recenter username and profile pic on top
 
 // other people's profiles:

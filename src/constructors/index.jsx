@@ -76,7 +76,7 @@ const Index = ({ user, updateUser }) => {
   };
 
   const handleGoToProfile = (targetUser) => {
-    if (targetUser.id === user.userId) {
+    if (targetUser.id === user.id) {
       setTargetUser(user);
       setFeedOrMessages("user_profile");
     } else {
@@ -175,7 +175,7 @@ const Index = ({ user, updateUser }) => {
         </div>
       )}
       {feedOrMessages === "user_profile" && (
-        <Profile user={user} targetUser={targetUser} updateUser={updateUser} />
+        <Profile user={user} profileUser={targetUser} updateUser={updateUser} />
       )}
     </div>
   );
