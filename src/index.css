@@ -45,32 +45,32 @@ input {
   z-index: 10;
 }
 
-.username_bar_center {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-.username_bar .profile_picture {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  margin-right: 14px;
-}
-
-.username_bar .sl_logo {
-  width: 30px;
-  height: 30px;
-  margin: 7px;
-}
-
 .username_bar_feed {
   background-color: #d2042d;
 }
 
 .username_bar_messages {
   background-color: #a45953;
+}
+
+.username_bar_left {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.username_bar_left .sl_logo {
+  width: 30px;
+  height: 30px;
+  margin: 7px;
+}
+
+.username_bar_left .profile_picture {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 14px;
 }
 
 .username_bar_right input {

@@ -325,7 +325,7 @@ export default Profile;
 // [v] the entire app should refetch when username is updated, it doesn't recognize you
 // [v] on username change - only username_bar changes
 // [v] on bio change - doesn't update until logout
-// [_] PLEASE recenter username and profile pic on top
+// [v] recenter username and profile pic on top
 
 // other people's profiles:
 // [v] display username, bio, profile pic

@@ -95,10 +95,8 @@ const Index = ({ user, updateUser }) => {
               : "username_bar username_bar_messages"
           }
         >
-          <div>
+          <div className="username_bar_left">
             <img src={sl_logo} className="sl_logo" />
-          </div>
-          <div className="username_bar_center">
             <img src={profilePicUrl} className="profile_picture" />
             {user.username}
           </div>
