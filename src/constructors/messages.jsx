@@ -3,7 +3,7 @@ import ChatWindow from "../components/chat_window.jsx";
 import GroupChatWindow from "../components/groupchat_window.jsx";
 
 /* eslint-disable react/prop-types */
-const Messages = ({ user }) => {
+const Messages = ({ user, instantConversation }) => {
   const [searchString, setSearchString] = useState("");
   const [activatedChatId, setActivatedChatId] = useState("");
   const [chatType, setChatType] = useState("none");
@@ -78,6 +78,46 @@ const Messages = ({ user }) => {
 
     handleGetAllChats();
   }, [user, activatedChatId]);
+
+  useEffect(() => {
+    const handleInstantConversation = async () => {
+      // fetch the one on one route
+      try {
+        const response = await fetch(
+          "https://messenger-backend-production-a259.up.railway.app/new-chat",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`,
+            },
+            credentials: "include",
+            body: JSON.stringify({
+              participant_usernames: [
+                instantConversation.username,
+                user.username,
+              ],
+            }),
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setChatType("one-on-one");
+          setOneOnOneData({ ...data });
+        } else {
+          console.error("Failed to fetch conversation");
+        }
+      } catch (err) {
+        console.error("Error fetching conversation:", err);
+      }
+    };
+    // if instantConversation is not ""
+    if (instantConversation !== "") {
+      handleInstantConversation();
+    }
+    //
+  });
 
   const handleInputChange = (event) => {
     setSearchString(event.target.value);

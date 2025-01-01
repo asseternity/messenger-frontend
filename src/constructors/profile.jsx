@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import defaultProfilePic from "/silhouette.png";
 
 /* eslint-disable react/prop-types */
-const Profile = ({ user, profileUser, updateUser }) => {
+const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newCommentContent, setNewCommentContent] = useState("");
@@ -197,6 +197,10 @@ const Profile = ({ user, profileUser, updateUser }) => {
     }
   };
 
+  const handleChat = (whoToChatWith) => {
+    goToChatFromProfile(whoToChatWith);
+  };
+
   return (
     <div className="profile_section">
       <div className="profile_container">
@@ -242,7 +246,7 @@ const Profile = ({ user, profileUser, updateUser }) => {
               <button onClick={() => handleFollowUnfollow(targetUser)}>
                 {user.following.includes(targetUser.id) ? "Unfollow" : "Follow"}
               </button>
-              <button>Chat</button>
+              <button onClick={() => handleChat(targetUser)}>Chat</button>
             </div>
           )}
         </div>
@@ -369,5 +373,5 @@ export default Profile;
 // [v] display post dates everywhere (on feed too)
 // [v] follow / message buttons
 // [v] identify whether you're following that user or not
-// [_] follow button hook up
+// [v] follow button hook up
 // [_] raise the chat button up a level to index by callback passing

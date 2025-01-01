@@ -13,6 +13,7 @@ const Index = ({ user, updateUser }) => {
   const [lastSearch, setLastSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [targetUser, setTargetUser] = useState();
+  const [instantConversationUser, setInstantConversationUser] = useState("");
 
   useEffect(() => {
     const fetchProfilePic = async () => {
@@ -34,8 +35,10 @@ const Index = ({ user, updateUser }) => {
 
   const handleTabClick = (section) => {
     if (section === "feed") {
+      setInstantConversationUser("");
       setFeedOrMessages("feed");
     } else {
+      setInstantConversationUser("");
       setFeedOrMessages("messages");
     }
   };
@@ -85,6 +88,11 @@ const Index = ({ user, updateUser }) => {
     }
   };
 
+  const goToChatFromProfile = (data) => {
+    setInstantConversationUser(data);
+    setFeedOrMessages("messages");
+  };
+
   return (
     <div className="container">
       <div className="top_bar">
@@ -96,7 +104,11 @@ const Index = ({ user, updateUser }) => {
           }
         >
           <div className="username_bar_left">
-            <img src={sl_logo} className="sl_logo" />
+            <img
+              src={sl_logo}
+              className="sl_logo"
+              onClick={() => handleTabClick("feed")}
+            />
             <img src={profilePicUrl} className="profile_picture" />
             {user.username}
           </div>
@@ -136,7 +148,9 @@ const Index = ({ user, updateUser }) => {
         </div>
       </div>
       {feedOrMessages === "feed" && <Feed user={user} />}
-      {feedOrMessages === "messages" && <Messages user={user} />}
+      {feedOrMessages === "messages" && (
+        <Messages user={user} instantConversation={instantConversationUser} />
+      )}
       {feedOrMessages === "search" && (
         <div>
           {searchResults.length > 0 ? (
@@ -160,7 +174,9 @@ const Index = ({ user, updateUser }) => {
                       <button onClick={() => handleGoToProfile(result)}>
                         Profile
                       </button>
-                      <button>Chat</button>
+                      <button onClick={() => goToChatFromProfile(result)}>
+                        Chat
+                      </button>
                     </div>
                   </li>
                 ))}
@@ -173,7 +189,12 @@ const Index = ({ user, updateUser }) => {
         </div>
       )}
       {feedOrMessages === "user_profile" && (
-        <Profile user={user} profileUser={targetUser} updateUser={updateUser} />
+        <Profile
+          user={user}
+          profileUser={targetUser}
+          updateUser={updateUser}
+          goToChatFromProfile={goToChatFromProfile}
+        />
       )}
     </div>
   );
@@ -195,12 +216,19 @@ export default Index;
 
 // [v] top right: search users field
 // // [v] allow for search among all users (also needs to be a route on the api)
-// // [_] to the side of user: profile, chat (leads to postNewConversation - one on one chat)
+// // [v] to the side of user: profile, chat (leads to postNewConversation - one on one chat)
 
 // [v] profile component:
 // // [v] open profiles through the search tab
 
-// [_] top left - button returns to the main page
+// [v] top left - button returns to the main page
+
+// bugs:
+// [_] chat width on pc if only short messages
+// [_] chats WITH messages there don't show up on the list
+
+// final features:
 // [_] login screen
 // [_] registration
 // [_] groupchat creation
+// [_] backend - see all messages, comments and posts by date

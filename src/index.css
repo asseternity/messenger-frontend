@@ -66,6 +66,11 @@ input {
   margin: 7px;
 }
 
+.username_bar_left .sl_logo:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
+}
+
 .username_bar_left .profile_picture {
   width: 35px;
   height: 35px;
