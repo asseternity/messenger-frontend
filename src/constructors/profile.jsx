@@ -136,10 +136,8 @@ const Profile = ({ user, profileUser, updateUser }) => {
   const handleEditToggle = () => {
     if (isEditing) {
       // Save changes to the backend
-
       saveProfileChanges();
     }
-
     setIsEditing(!isEditing);
   };
 
@@ -168,6 +166,34 @@ const Profile = ({ user, profileUser, updateUser }) => {
       console.error("Error updating profile:", err);
     } finally {
       updateUser({ ...user, username: editedUsername, bio: editedBio });
+    }
+  };
+
+  const handleFollowUnfollow = async (whoToFollow) => {
+    try {
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/follow",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            myUserId: user.id,
+            targetUserId: whoToFollow.id,
+          }),
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        updateUser({ ...user, following: data.following });
+      } else {
+        console.error("Failed to post.");
+      }
+    } catch (err) {
+      console.error("Error during post: ", err);
     }
   };
 
@@ -210,6 +236,14 @@ const Profile = ({ user, profileUser, updateUser }) => {
         <div className="profile_edit_container">
           {targetUser.username === user.username && (
             <button onClick={handleEditToggle}>{isEditing ? "✔" : "🖉"}</button>
+          )}
+          {targetUser.username !== user.username && (
+            <div className="profile_follow_chat">
+              <button onClick={() => handleFollowUnfollow(targetUser)}>
+                {user.following.includes(targetUser.id) ? "Unfollow" : "Follow"}
+              </button>
+              <button>Chat</button>
+            </div>
           )}
         </div>
       </div>
@@ -333,4 +367,7 @@ export default Profile;
 // [v] posts of that person under their profile
 // [v] perfect css
 // [v] display post dates everywhere (on feed too)
-// [_] follow / message buttons
+// [v] follow / message buttons
+// [v] identify whether you're following that user or not
+// [_] follow button hook up
+// [_] raise the chat button up a level to index by callback passing
