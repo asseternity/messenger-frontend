@@ -7,6 +7,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState();
+  const [targetProfileUser, setTargetProfileUser] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,8 +32,9 @@ const Login = () => {
     }
   };
 
-  const updateUser = (newUser) => {
+  const updateUser = (newUser, newTargetUser) => {
     setUser(newUser);
+    setTargetProfileUser(newTargetUser);
   };
 
   return (
@@ -69,7 +71,13 @@ const Login = () => {
           </div>
         </div>
       )}
-      {user && <Index user={user} updateUser={updateUser} />}
+      {user && (
+        <Index
+          user={user}
+          targetProfileUser={targetProfileUser}
+          updateUser={updateUser}
+        />
+      )}
     </div>
   );
 };

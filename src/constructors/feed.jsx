@@ -23,7 +23,7 @@ import defaultProfilePic from "/silhouette.png";
 // v css comment field
 
 /* eslint-disable react/prop-types */
-const Feed = ({ user }) => {
+const Feed = ({ user, profileCallback }) => {
   const [newPostContent, setNewPostContent] = useState("");
   const [newCommentContent, setNewCommentContent] = useState("");
   const [commentsAdded, setCommentsAdded] = useState(0);
@@ -212,17 +212,16 @@ const Feed = ({ user }) => {
             <div>No posts from people you follow</div>
           ) : (
             feedPosts.map((post) => (
-              <div
-                key={post.id}
-                className="post_item"
-                onClick={() => togglePostExpansion(post.id)}
-              >
-                <div className="post_author">
+              <div key={post.id} className="post_item">
+                <div
+                  className="post_author"
+                  onClick={() => profileCallback(post.author)}
+                >
                   <div className="post_data">
                     <img
                       src={
                         post.author.profilePicture
-                          ? `https://messenger-backend-production-a259.up.railway.app/uploads/${post.author.profilePicture}`
+                          ? `${post.author.profilePicture}`
                           : defaultProfilePic
                       }
                     ></img>
@@ -249,6 +248,7 @@ const Feed = ({ user }) => {
                   className={`post_comments ${
                     expandedPostId === post.id ? "expanded" : ""
                   }`}
+                  onClick={() => togglePostExpansion(post.id)}
                 >
                   {expandedPostId === post.id ? (
                     <div>
@@ -261,7 +261,7 @@ const Feed = ({ user }) => {
                             <img
                               src={
                                 post.author.profilePicture
-                                  ? `https://messenger-backend-production-a259.up.railway.app/uploads/${comment.author.profilePicture}`
+                                  ? `${comment.author.profilePicture}`
                                   : defaultProfilePic
                               }
                             ></img>

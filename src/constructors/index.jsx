@@ -6,22 +6,20 @@ import Feed from "./feed";
 import Profile from "./profile";
 
 /* eslint-disable react/prop-types */
-const Index = ({ user, updateUser }) => {
+const Index = ({ user, targetProfileUser, updateUser }) => {
   const [profilePicUrl, setProfilePicUrl] = useState();
   const [feedOrMessages, setFeedOrMessages] = useState("feed");
   const [searchString, setSearchString] = useState("");
   const [lastSearch, setLastSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [targetUser, setTargetUser] = useState();
+  // const [profileUser, setProfileUser] = useState(targetProfileUser);
   const [instantConversationUser, setInstantConversationUser] = useState("");
 
   useEffect(() => {
     const fetchProfilePic = async () => {
       try {
         if (user.profilePicture) {
-          setProfilePicUrl(
-            `https://messenger-backend-production-a259.up.railway.app/uploads/${user.profilePicture}`
-          );
+          setProfilePicUrl(`${user.profilePicture}`);
         } else {
           setProfilePicUrl(defaultProfilePic);
         }
@@ -80,11 +78,13 @@ const Index = ({ user, updateUser }) => {
 
   const handleGoToProfile = (targetUser) => {
     if (targetUser.id === user.id) {
-      setTargetUser(user);
+      // setProfileUser(user);
       setFeedOrMessages("user_profile");
+      updateUser(user, targetUser);
     } else {
-      setTargetUser(targetUser);
+      // setProfileUser(targetUser);
       setFeedOrMessages("user_profile");
+      updateUser(user, targetUser);
     }
   };
 
@@ -147,7 +147,9 @@ const Index = ({ user, updateUser }) => {
           </button>
         </div>
       </div>
-      {feedOrMessages === "feed" && <Feed user={user} />}
+      {feedOrMessages === "feed" && (
+        <Feed user={user} profileCallback={handleGoToProfile} />
+      )}
       {feedOrMessages === "messages" && (
         <Messages user={user} instantConversation={instantConversationUser} />
       )}
@@ -161,12 +163,13 @@ const Index = ({ user, updateUser }) => {
                   <li key={index}>
                     <div className="search_results_user">
                       <img
-                        src={`https://messenger-backend-production-a259.up.railway.app/uploads/${
-                          result.profilePicture || "default.png"
-                        }`}
+                        src={
+                          result.profilePicture
+                            ? `${result.profilePicture}`
+                            : defaultProfilePic
+                        }
                         alt={`${result.username}'s profile`}
                         className="search_result_pic"
-                        onError={(e) => (e.target.src = defaultProfilePic)} // Handle broken images
                       />
                       <p>{result.username}</p>
                     </div>
@@ -191,7 +194,7 @@ const Index = ({ user, updateUser }) => {
       {feedOrMessages === "user_profile" && (
         <Profile
           user={user}
-          profileUser={targetUser}
+          profileUser={targetProfileUser}
           updateUser={updateUser}
           goToChatFromProfile={goToChatFromProfile}
         />
@@ -224,10 +227,16 @@ export default Index;
 // [v] top left - button returns to the main page
 
 // bugs:
-// [_] chat width on pc if only short messages
-// [_] chats WITH messages there don't show up on the list
+// [v] chat width on pc if only short messages
+// [v] chats WITH messages there don't show up on the list
+// [v] losing profileUser on second render
+// [v] search_results margin
 
 // final features:
+// [v] click on a post to go to the user's profile
+// [v] update profile pics
+// [_] clickable and animated your profile upper left
+// [_] non-animated profile pics in profile
 // [_] login screen
 // [_] registration
 // [_] groupchat creation

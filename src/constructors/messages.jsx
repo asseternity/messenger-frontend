@@ -14,40 +14,6 @@ const Messages = ({ user, instantConversation }) => {
   const [oneOnOneData, setOneOnOneData] = useState();
   const [groupchatData, setGroupchatData] = useState();
 
-  // [v] get all chats and groupchats by searching "" on that route
-  // [v] left bar: search on top
-  // [v] left bar: css the things like buttons
-  // [v] right bar: by clicking on chats, send the thing to chat_window / groupchat_window
-  // [v] "loading o"
-  // [v] bug: between different chats/groupchats doesn't switch
-  // [v] bug: doesn't refetch EVER after initial switch to messages tab
-  // [v] bug: fetches very slow: it's because two fetches go one after another. refactor api?
-  // [v] combine conversationUser and conversationObject into one functionality
-  // [v] remove the searching from users_conversations, it just slows down the fetch
-  // [v] left bar: chats by recency under that (with date of latest message)
-  // [v] right bar: chat css by classes, right leaning, left leaning and with profile pics, not usernames
-
-  // refactoring backend:
-  // what is currently happening:
-  // 1) users_conversations are fetched, but they only include participants
-  // 2) if user clicks on one-on-one chat: i fetches the chat object from the user and target user (2 non-simultaneous fetches)
-  // 3) if user clicks on a groupchat: it fetches allUsers, then fetches groupchatObject based on id, then once again fetches the groupchatObject (4 fetches)
-
-  // solution:
-  // v serve allUsers at the same time
-  // v serve all relevant conversation objects at the same time
-
-  // refactor chats:
-  // v include conversation objects (with messages included) as state and show them immediately
-  // v do not update these on render of chat components, only when something happens
-  // v remove two fetches on switch to the messages tab
-
-  // css messages to do:
-  // v manage overflow without a scrollbar on the right at all times? or restyling the scrollbar?
-  // v fix and beautify keyboard
-  // v loading in the middle of everything
-  // v sizes / responsive for mobile
-
   useEffect(() => {
     const handleGetAllChats = async () => {
       try {
@@ -62,7 +28,6 @@ const Messages = ({ user, instantConversation }) => {
             credentials: "include",
             body: JSON.stringify({
               myUserId: user.id,
-              searchString: "",
             }),
           }
         );
@@ -117,7 +82,7 @@ const Messages = ({ user, instantConversation }) => {
       handleInstantConversation();
     }
     //
-  });
+  }, []);
 
   const handleInputChange = (event) => {
     setSearchString(event.target.value);
@@ -138,7 +103,15 @@ const Messages = ({ user, instantConversation }) => {
   };
 
   const filteredChats = usersConversations
-    ? searchParticipants(usersConversations, searchString)
+    ? searchParticipants(usersConversations, searchString).sort((a, b) => {
+        const aLastMessage = a.message.length
+          ? new Date(a.message[a.message.length - 1].createdAt)
+          : new Date(0); // Handle empty messages (use epoch as fallback)
+        const bLastMessage = b.message.length
+          ? new Date(b.message[b.message.length - 1].createdAt)
+          : new Date(0);
+        return bLastMessage - aLastMessage; // Sort descending (newest first)
+      })
     : [];
 
   const handleChatButton = async (chat, chatType) => {
@@ -263,3 +236,37 @@ const Messages = ({ user, instantConversation }) => {
 };
 
 export default Messages;
+
+// [v] get all chats and groupchats by searching "" on that route
+// [v] left bar: search on top
+// [v] left bar: css the things like buttons
+// [v] right bar: by clicking on chats, send the thing to chat_window / groupchat_window
+// [v] "loading o"
+// [v] bug: between different chats/groupchats doesn't switch
+// [v] bug: doesn't refetch EVER after initial switch to messages tab
+// [v] bug: fetches very slow: it's because two fetches go one after another. refactor api?
+// [v] combine conversationUser and conversationObject into one functionality
+// [v] remove the searching from users_conversations, it just slows down the fetch
+// [v] left bar: chats by recency under that (with date of latest message)
+// [v] right bar: chat css by classes, right leaning, left leaning and with profile pics, not usernames
+
+// refactoring backend:
+// what is currently happening:
+// 1) users_conversations are fetched, but they only include participants
+// 2) if user clicks on one-on-one chat: i fetches the chat object from the user and target user (2 non-simultaneous fetches)
+// 3) if user clicks on a groupchat: it fetches allUsers, then fetches groupchatObject based on id, then once again fetches the groupchatObject (4 fetches)
+
+// solution:
+// v serve allUsers at the same time
+// v serve all relevant conversation objects at the same time
+
+// refactor chats:
+// v include conversation objects (with messages included) as state and show them immediately
+// v do not update these on render of chat components, only when something happens
+// v remove two fetches on switch to the messages tab
+
+// css messages to do:
+// v manage overflow without a scrollbar on the right at all times? or restyling the scrollbar?
+// v fix and beautify keyboard
+// v loading in the middle of everything
+// v sizes / responsive for mobile

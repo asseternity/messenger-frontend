@@ -28,8 +28,8 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
           {
             method: "POST",
             headers: {
-              "Content-Type": "application/json",
               Authorization: `Bearer ${user.token}`,
+              "Content-Type": "application/json",
             },
             credentials: "include",
             body: JSON.stringify({ targetUserId: targetUser.id }),
@@ -165,7 +165,10 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
     } catch (err) {
       console.error("Error updating profile:", err);
     } finally {
-      updateUser({ ...user, username: editedUsername, bio: editedBio });
+      updateUser(
+        { ...user, username: editedUsername, bio: editedBio },
+        targetUser
+      );
     }
   };
 
@@ -188,7 +191,7 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
       );
       if (response.ok) {
         const data = await response.json();
-        updateUser({ ...user, following: data.following });
+        updateUser({ ...user, following: data.following }, targetUser);
       } else {
         console.error("Failed to post.");
       }
@@ -201,6 +204,49 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
     goToChatFromProfile(whoToChatWith);
   };
 
+  const handleClickProfilePicture = () => {
+    // Trigger the click event on the hidden file input element
+    const fileInput = document.getElementById("fileInput");
+    if (fileInput) {
+      fileInput.click();
+    } else {
+      console.error("File input element not found.");
+    }
+  };
+
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) {
+      alert("Please select a file.");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("profilePicture", file);
+    formData.append("userId", user.id);
+    try {
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/upload/upload-profile-pic",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+          body: formData,
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        alert(`Success: ${data.message}`);
+        updateUser({ ...user, profilePicture: data.profilePicture });
+      } else {
+        alert(`Error: ${data.message}`);
+      }
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    }
+  };
+
   return (
     <div className="profile_section">
       <div className="profile_container">
@@ -208,10 +254,23 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
           <img
             src={
               targetUser.profilePicture
-                ? `https://messenger-backend-production-a259.up.railway.app/uploads/${targetUser.profilePicture}`
+                ? `${targetUser.profilePicture}`
                 : defaultProfilePic
             }
+            onClick={
+              targetUser.username === user.username
+                ? handleClickProfilePicture
+                : () => {}
+            }
           ></img>
+          {targetUser.username === user.username && (
+            <input
+              type="file"
+              id="fileInput"
+              style={{ display: "none" }}
+              onChange={handleFileUpload}
+            />
+          )}
         </div>
         <div className="profile_text_container">
           {isEditing ? (
@@ -272,7 +331,7 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
                     <img
                       src={
                         post.author.profilePicture
-                          ? `https://messenger-backend-production-a259.up.railway.app/uploads/${post.author.profilePicture}`
+                          ? `${post.author.profilePicture}`
                           : defaultProfilePic
                       }
                     ></img>
@@ -307,7 +366,7 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
                             <img
                               src={
                                 post.author.profilePicture
-                                  ? `https://messenger-backend-production-a259.up.railway.app/uploads/${comment.author.profilePicture}`
+                                  ? `${comment.author.profilePicture}`
                                   : defaultProfilePic
                               }
                             ></img>
