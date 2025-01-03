@@ -788,6 +788,10 @@ input {
     justify-content: center;
     align-items: center;
   }
+
+  .login_form_card {
+    margin: 25px;
+  }
 }
 
 @media screen and (max-width: 470px) {

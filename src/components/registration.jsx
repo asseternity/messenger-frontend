@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 /* eslint-disable react/prop-types */
 const Registration = () => {
@@ -64,53 +64,61 @@ const Registration = () => {
   };
 
   return (
-    <div>
-      <div>
-        <h2>Register</h2>
+    <div className="login_container">
+      <div className="login_title_container">
+        <h3 className="login_title">Soleira&apos;s</h3>
+        <h3 className="login_title">Lounge</h3>
+      </div>
+      <div className="login_form_card">
         {error && <div>{error}</div>}
         {success && <div>{success}</div>}
         <form onSubmit={handleSubmit}>
-          <div>
-            <label>Username</label>
+          <div className="login_form">
             <input
               type="text"
               name="username"
               value={formData.username}
               onChange={handleChange}
+              placeholder="Username"
               required
             />
           </div>
-          <div>
-            <label>Email</label>
+          <div className="login_form">
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
+              placeholder="Email"
               required
             />
           </div>
-          <div>
-            <label>Password</label>
+          <div className="login_form">
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
+              placeholder="Password"
               required
             />
           </div>
-          <div>
-            <label>Confirm Password</label>
+          <div className="login_form">
             <input
               type="password"
               name="cpassword"
               value={formData.cpassword}
               onChange={handleChange}
+              placeholder="Confirm password"
               required
             />
           </div>
-          <button type="submit">Register</button>
+          <button className="login_button" type="submit">
+            Register
+          </button>
+          <p>
+            Go <Link to="/">back</Link>.
+          </p>
         </form>
       </div>
     </div>

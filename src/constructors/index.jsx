@@ -242,6 +242,8 @@ export default Index;
 // [v] clickable and animated your profile upper left
 // [v] non-animated profile pics in profile
 // [v] login screen
-// [_] registration
+// [v] registration
 // [_] groupchat creation
 // [_] backend - see all messages, comments and posts by date
+// [_] backend - delete account
+// [_] for portfolio - some guest access
