@@ -40,29 +40,34 @@ const Login = () => {
   return (
     <div className="root">
       {!user && (
-        <div>
-          <div>
-            <h3>Soleira's Lounge</h3>
+        <div className="login_container">
+          <div className="login_title_container">
+            <h3 className="login_title">Soleira&apos;s</h3>
+            <h3 className="login_title">Lounge</h3>
+          </div>
+          <div className="login_form_card">
             <form onSubmit={handleSubmit}>
-              <div>
-                <label>Username:</label>
+              <div className="login_form">
                 <input
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Username"
                   required
                 />
               </div>
-              <div>
-                <label>Password:</label>
+              <div className="login_form">
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
                   required
                 />
               </div>
-              <button type="submit">Login</button>
+              <button className="login_button" type="submit">
+                Login
+              </button>
             </form>
             <p>Don&apos;t have an account?</p>
             <p>

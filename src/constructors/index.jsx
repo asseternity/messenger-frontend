@@ -241,7 +241,7 @@ export default Index;
 // [v] update profile pics
 // [v] clickable and animated your profile upper left
 // [v] non-animated profile pics in profile
-// [_] login screen
+// [v] login screen
 // [_] registration
 // [_] groupchat creation
 // [_] backend - see all messages, comments and posts by date
