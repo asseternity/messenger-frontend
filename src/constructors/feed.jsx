@@ -214,7 +214,7 @@ const Feed = ({ user, profileCallback }) => {
             feedPosts.map((post) => (
               <div key={post.id} className="post_item">
                 <div
-                  className="post_author"
+                  className="post_author post_author_animation"
                   onClick={() => profileCallback(post.author)}
                 >
                   <div className="post_data">

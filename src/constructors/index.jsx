@@ -109,7 +109,11 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
               className="sl_logo"
               onClick={() => handleTabClick("feed")}
             />
-            <img src={profilePicUrl} className="profile_picture" />
+            <img
+              src={profilePicUrl}
+              className="profile_picture"
+              onClick={() => handleGoToProfile(user)}
+            />
             {user.username}
           </div>
           <div className="username_bar_right">
@@ -235,8 +239,8 @@ export default Index;
 // final features:
 // [v] click on a post to go to the user's profile
 // [v] update profile pics
-// [_] clickable and animated your profile upper left
-// [_] non-animated profile pics in profile
+// [v] clickable and animated your profile upper left
+// [v] non-animated profile pics in profile
 // [_] login screen
 // [_] registration
 // [_] groupchat creation

@@ -78,6 +78,11 @@ input {
   margin-right: 14px;
 }
 
+.username_bar_left .profile_picture:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
+}
+
 .username_bar_right input {
   padding: 5px;
   border-radius: 8px;
@@ -391,7 +396,7 @@ input {
   margin-right: 10px;
 }
 
-.post_author img:hover {
+.post_author_animation img:hover {
   transform: scale(1.1);
   transition: transform 0.2s ease-in-out;
 }
