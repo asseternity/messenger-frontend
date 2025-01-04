@@ -160,7 +160,7 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
       {feedOrMessages === "search" && (
         <div>
           {searchResults.length > 0 ? (
-            <div className="search_results">
+            <div className="search_results search_for_user">
               <h2>Search results for {lastSearch}</h2>
               <ul>
                 {searchResults.map((result, index) => (
@@ -243,7 +243,17 @@ export default Index;
 // [v] non-animated profile pics in profile
 // [v] login screen
 // [v] registration
-// [_] groupchat creation
+// [v] groupchat creation
+// [_] hook up creation of a groupchat
+// [_] liking and unliking posts!
+// [_] search all users
+// [_] popup for your profile page: list of users you follow and unfollow them
+// [_] automcomplete? bring back persistent sessions?
 // [_] backend - see all messages, comments and posts by date
 // [_] backend - delete account
 // [_] for portfolio - some guest access
+// [_] readme
+// [_] fill with content
+
+// post publish:
+// [_] nice field validations and error messages on login

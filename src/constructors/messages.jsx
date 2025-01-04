@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ChatWindow from "../components/chat_window.jsx";
 import GroupChatWindow from "../components/groupchat_window.jsx";
+import GroupChatCreator from "../components/group_chat_creator.jsx";
 
 /* eslint-disable react/prop-types */
 const Messages = ({ user, instantConversation }) => {
+  const navigate = useNavigate();
+
   const [searchString, setSearchString] = useState("");
   const [activatedChatId, setActivatedChatId] = useState("");
   const [chatType, setChatType] = useState("none");
@@ -148,11 +152,15 @@ const Messages = ({ user, instantConversation }) => {
     });
   };
 
+  const handleClickCreateGroupchat = () => {
+    setChatType("creator");
+  };
+
   return (
     <div className="messages_container">
       <div className="chats_list">
         <div className="search_form">
-          <form>
+          <form className="chats_search_form">
             <input
               type="text"
               placeholder="Search chats..."
@@ -160,6 +168,12 @@ const Messages = ({ user, instantConversation }) => {
               onChange={handleInputChange}
             />
           </form>
+          <button
+            className="delete_post not_rounded_smaller"
+            onClick={handleClickCreateGroupchat}
+          >
+            + Create a groupchat
+          </button>
         </div>
         <div className="search_results">
           {filteredChats.map((item) => (
@@ -230,6 +244,9 @@ const Messages = ({ user, instantConversation }) => {
           allUsers={allOtherUsers}
           user={user}
         />
+      )}
+      {chatType === "creator" && (
+        <GroupChatCreator allUsers={allOtherUsers} user={user} />
       )}
     </div>
   );
