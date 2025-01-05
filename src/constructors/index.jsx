@@ -244,7 +244,8 @@ export default Index;
 // [v] login screen
 // [v] registration
 // [v] groupchat creation
-// [_] hook up creation of a groupchat
+// [v] fix hooking up creation of a groupchat
+// [_] groupchat window width / loading screen
 // [_] liking and unliking posts!
 // [_] search all users
 // [_] popup for your profile page: list of users you follow and unfollow them

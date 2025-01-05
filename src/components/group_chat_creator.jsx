@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 /* eslint-disable react/prop-types */
-const GroupChatCreator = ({ user, allUsers }) => {
+const GroupChatCreator = ({ user, allUsers, callbackHandler }) => {
   const [addedUsers, setAddedUsers] = useState([]);
 
   const handleAddUser = (userToAdd) => {
@@ -19,34 +19,6 @@ const GroupChatCreator = ({ user, allUsers }) => {
       } else {
         setAddedUsers([...addedUsers, userToAdd]);
       }
-    }
-  };
-
-  const handleCreateGroupchat = async () => {
-    try {
-      let arrayIncludingUs = [...addedUsers, user];
-
-      let usernameArray = arrayIncludingUs.map((item) => item.username);
-
-      const response = await fetch(
-        "https://messenger-backend-production-a259.up.railway.app/new-chat",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-          credentials: "include",
-          body: JSON.stringify({ participant_usernames: usernameArray }),
-        }
-      );
-      if (response.ok) {
-        // const data = await response.json();
-        // After successfully creating the group chat, navigate back to the UsersList
-        // Navigate to the newly created groupchat
-      }
-    } catch (err) {
-      console.error("Error during fetch: ", err);
     }
   };
 
@@ -84,7 +56,7 @@ const GroupChatCreator = ({ user, allUsers }) => {
         </div>
         <button
           className="login_button"
-          onClick={() => handleCreateGroupchat()}
+          onClick={() => callbackHandler([...addedUsers, user])}
         >
           Create groupchat
         </button>

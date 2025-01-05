@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import ChatWindow from "../components/chat_window.jsx";
 import GroupChatWindow from "../components/groupchat_window.jsx";
 import GroupChatCreator from "../components/group_chat_creator.jsx";
 
 /* eslint-disable react/prop-types */
 const Messages = ({ user, instantConversation }) => {
-  const navigate = useNavigate();
-
   const [searchString, setSearchString] = useState("");
   const [activatedChatId, setActivatedChatId] = useState("");
   const [chatType, setChatType] = useState("none");
@@ -18,6 +15,7 @@ const Messages = ({ user, instantConversation }) => {
   const [oneOnOneData, setOneOnOneData] = useState();
   const [groupchatData, setGroupchatData] = useState();
 
+  // initial get all user's conversations
   useEffect(() => {
     const handleGetAllChats = async () => {
       try {
@@ -48,6 +46,7 @@ const Messages = ({ user, instantConversation }) => {
     handleGetAllChats();
   }, [user, activatedChatId]);
 
+  // this is for when the user clicks "chat" in profile
   useEffect(() => {
     const handleInstantConversation = async () => {
       // fetch the one on one route
@@ -153,7 +152,49 @@ const Messages = ({ user, instantConversation }) => {
   };
 
   const handleClickCreateGroupchat = () => {
-    setChatType("creator");
+    if (usersConversations) {
+      setChatType("creator");
+    }
+  };
+
+  // let's combine everything in one, outer function
+  const handleGroupchatCreation = async (groupchat_participants) => {
+    // post fetch to create the groupchat
+    try {
+      let usernameArray = groupchat_participants.map((item) => item.username);
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/new-chat",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            participant_usernames: usernameArray,
+          }),
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        console.log(usersConversations[0]);
+        console.log(data);
+        // then add that to usersConversations
+        setUsersConversations((prevConversations) => [
+          ...prevConversations,
+          data,
+        ]);
+        // open the chat
+        setChatType("");
+
+        // change backend:
+        // add "usernames" to be served in new_chat
+        // automatically write a new message to that convo "Groupchat created"
+      }
+    } catch (err) {
+      console.error("Error during fetch: ", err);
+    }
   };
 
   return (
@@ -246,7 +287,11 @@ const Messages = ({ user, instantConversation }) => {
         />
       )}
       {chatType === "creator" && (
-        <GroupChatCreator allUsers={allOtherUsers} user={user} />
+        <GroupChatCreator
+          allUsers={allOtherUsers}
+          user={user}
+          callbackHandler={handleGroupchatCreation}
+        />
       )}
     </div>
   );
