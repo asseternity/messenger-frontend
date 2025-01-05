@@ -872,6 +872,32 @@ input {
 .groupchat_creator button {
 }
 
+/* post_likes */
+.post_like_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.post_like_counter {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+.post_like_likers {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.post_like_img {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: inline;
+  opacity: 0.7;
+}
+
 /* Responsive */
 @media screen and (max-width: 630px) {
   .login_container {

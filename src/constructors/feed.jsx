@@ -31,6 +31,7 @@ const Feed = ({ user, profileCallback }) => {
   const [loading, setLoading] = useState(false);
   const [expandedPostId, setExpandedPostId] = useState(null);
   const [postPagination, setPostPagination] = useState(1);
+  const [allUsers, setAllUsers] = useState([]);
 
   // Fetch the posts of people the user follows
   useEffect(() => {
@@ -53,10 +54,10 @@ const Feed = ({ user, profileCallback }) => {
             }),
           }
         );
-
         if (response.ok) {
           const data = await response.json();
-          setFeedPosts(data);
+          setFeedPosts(data.post);
+          setAllUsers(data.users);
         } else {
           console.error("Failed to fetch feed");
         }
@@ -75,7 +76,6 @@ const Feed = ({ user, profileCallback }) => {
     if (!newPostContent.trim()) {
       return; // Don't submit if content is empty
     }
-
     try {
       const response = await fetch(
         "https://messenger-backend-production-a259.up.railway.app/new_post",
@@ -92,7 +92,6 @@ const Feed = ({ user, profileCallback }) => {
           }),
         }
       );
-
       if (response.ok) {
         const newPost = await response.json();
         setPostPagination(1);
@@ -119,7 +118,6 @@ const Feed = ({ user, profileCallback }) => {
     if (!newCommentContent.trim()) {
       return; // Don't submit if content is empty
     }
-
     try {
       const response = await fetch(
         "https://messenger-backend-production-a259.up.railway.app/new_comment",
@@ -137,7 +135,6 @@ const Feed = ({ user, profileCallback }) => {
           }),
         }
       );
-
       if (response.ok) {
         setCommentsAdded(commentsAdded + 1);
         setNewCommentContent(""); // Clear the input field
@@ -184,6 +181,32 @@ const Feed = ({ user, profileCallback }) => {
       }
     } catch (err) {
       console.error("Error deleting post: ", err);
+    }
+  };
+
+  const handlePostLikeUnlike = async (postId) => {
+    try {
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/like_post",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            myUserId: user.id,
+            postId: postId,
+          }),
+        }
+      );
+      if (response.ok) {
+        setCommentsAdded(commentsAdded + 1);
+        setNewCommentContent(""); // Clear the input field
+      }
+    } catch (err) {
+      console.error("Error during fetch: ", err);
     }
   };
 
@@ -244,6 +267,40 @@ const Feed = ({ user, profileCallback }) => {
                   )}
                 </div>
                 <p>{post.content}</p>
+                <div className="post_like_container">
+                  <button
+                    className="delete_post"
+                    onClick={() => handlePostLikeUnlike(post.id)}
+                  >
+                    ♡
+                  </button>
+                  <div className="post_like_counter">
+                    {post.likes?.length || 0}
+                  </div>
+                  <div className="post_like_likers">
+                    {
+                      // Loop through post.likes and match ids with allUsers
+                      post.likes.map((likeId) => {
+                        // Find the user with the matching id
+                        const user = allUsers.find(
+                          (user) => user.id === likeId
+                        );
+                        return user ? (
+                          <img
+                            key={user.id}
+                            src={
+                              user.profilePicture
+                                ? `${user.profilePicture}`
+                                : defaultProfilePic
+                            }
+                            alt="profile"
+                            className="post_like_img"
+                          />
+                        ) : null;
+                      })
+                    }
+                  </div>
+                </div>
                 <div
                   className={`post_comments ${
                     expandedPostId === post.id ? "expanded" : ""

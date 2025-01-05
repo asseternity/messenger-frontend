@@ -246,9 +246,9 @@ export default Index;
 // [v] groupchat creation
 // [v] fix hooking up creation of a groupchat
 // [v] groupchat window width / loading screen
-// [_] liking and unliking posts!
-// [_] search all users
+// [v] liking and unliking posts!
 // [_] popup for your profile page: list of users you follow and unfollow them
+// [_] search all users
 // [_] automcomplete? bring back persistent sessions?
 // [_] backend - see all messages, comments and posts by date
 // [_] backend - delete account

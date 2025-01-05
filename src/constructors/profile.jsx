@@ -12,6 +12,7 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
   const [editedUsername, setEditedUsername] = useState(profileUser.username);
   const [editedBio, setEditedBio] = useState(profileUser.bio || "");
   const [targetUser, setTargetUser] = useState(profileUser);
+  const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
     if (user.id === targetUser.id) {
@@ -38,7 +39,8 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
 
         if (response.ok) {
           const data = await response.json();
-          setPosts(data);
+          setPosts(data.post);
+          setAllUsers(data.users);
         } else {
           console.error("Failed to fetch feed");
         }
@@ -247,6 +249,32 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
     }
   };
 
+  const handlePostLikeUnlike = async (postId) => {
+    try {
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/like_post",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            myUserId: user.id,
+            postId: postId,
+          }),
+        }
+      );
+      if (response.ok) {
+        setCommentsAdded(commentsAdded + 1);
+        setNewCommentContent(""); // Clear the input field
+      }
+    } catch (err) {
+      console.error("Error during fetch: ", err);
+    }
+  };
+
   return (
     <div className="profile_section">
       <div className="profile_container">
@@ -350,6 +378,41 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
                   </button>
                 </div>
                 <p>{post.content}</p>
+
+                <div className="post_like_container">
+                  <button
+                    className="delete_post"
+                    onClick={() => handlePostLikeUnlike(post.id)}
+                  >
+                    ♡
+                  </button>
+                  <div className="post_like_counter">
+                    {post.likes?.length || 0}
+                  </div>
+                  <div className="post_like_likers">
+                    {
+                      // Loop through post.likes and match ids with allUsers
+                      post.likes.map((likeId) => {
+                        // Find the user with the matching id
+                        const user = allUsers.find(
+                          (user) => user.id === likeId
+                        );
+                        return user ? (
+                          <img
+                            key={user.id}
+                            src={
+                              user.profilePicture
+                                ? `${user.profilePicture}`
+                                : defaultProfilePic
+                            }
+                            alt="profile"
+                            className="post_like_img"
+                          />
+                        ) : null;
+                      })
+                    }
+                  </div>
+                </div>
                 <div
                   className={`post_comments ${
                     expandedPostId === post.id ? "expanded" : ""
