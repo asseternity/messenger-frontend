@@ -323,9 +323,9 @@ const Feed = ({ user, profileCallback }) => {
                               }
                             ></img>
                             <span>{comment.author.username}</span>
-                          </div>
-                          <div className="comment_content">
-                            {comment.content}
+                            <span className="comment_content">
+                              {comment.content}
+                            </span>
                           </div>
                         </div>
                       ))}

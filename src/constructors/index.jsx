@@ -230,12 +230,6 @@ export default Index;
 
 // [v] top left - button returns to the main page
 
-// bugs:
-// [v] chat width on pc if only short messages
-// [v] chats WITH messages there don't show up on the list
-// [v] losing profileUser on second render
-// [v] search_results margin
-
 // final features:
 // [v] click on a post to go to the user's profile
 // [v] update profile pics
@@ -249,6 +243,19 @@ export default Index;
 // [v] liking and unliking posts!
 // [_] popup for your profile page: list of users you follow and unfollow them
 // [_] search all users
+// [_] just use it for a while doing every kind of shit i can think of
+
+// bugs:
+// [v] chat width on pc if only short messages
+// [v] chats WITH messages there don't show up on the list
+// [v] losing profileUser on second render
+// [v] search_results margin
+// [v] crash after post creation
+// [v] crash after profile pic change
+// [v] new profile pic not showing
+// [_] not all chats showing in messages. for "test", where's "test3" and "CoolUsernameBro"?
+
+// backend:
 // [_] automcomplete? bring back persistent sessions?
 // [_] backend - see all messages, comments and posts by date
 // [_] backend - delete account

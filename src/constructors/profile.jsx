@@ -36,7 +36,6 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
             body: JSON.stringify({ targetUserId: targetUser.id }),
           }
         );
-
         if (response.ok) {
           const data = await response.json();
           setPosts(data.post);
@@ -67,7 +66,6 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
     if (!newCommentContent.trim()) {
       return; // Don't submit if content is empty
     }
-
     try {
       const response = await fetch(
         "https://messenger-backend-production-a259.up.railway.app/new_comment",
@@ -85,7 +83,6 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
           }),
         }
       );
-
       if (response.ok) {
         setCommentsAdded(commentsAdded + 1);
         setNewCommentContent(""); // Clear the input field
@@ -123,7 +120,6 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
           }),
         }
       );
-
       if (response.ok) {
         setCommentsAdded(commentsAdded + 1);
         setNewCommentContent(""); // Clear the input field
@@ -207,6 +203,8 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
   };
 
   const handleClickProfilePicture = () => {
+    console.log("user.profilepicture = ", user.profilePicture);
+    console.log("targetUser.profilepicture = ", targetUser.profilePicture);
     // Trigger the click event on the hidden file input element
     const fileInput = document.getElementById("fileInput");
     if (fileInput) {
@@ -239,8 +237,8 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
       );
       const data = await response.json();
       if (response.ok) {
-        alert(`Success: ${data.message}`);
-        updateUser({ ...user, profilePicture: data.profilePicture });
+        updateUser({ ...user, profilePicture: data.fileUrl }, targetUser);
+        console.log(user.profilePicture);
       } else {
         alert(`Error: ${data.message}`);
       }
@@ -434,9 +432,9 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
                               }
                             ></img>
                             <span>{comment.author.username}</span>
-                          </div>
-                          <div className="comment_content">
-                            {comment.content}
+                            <span className="comment_content">
+                              {comment.content}
+                            </span>
                           </div>
                         </div>
                       ))}
