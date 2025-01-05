@@ -828,7 +828,14 @@ input {
   box-shadow: 5px 5px 15px #000000;
 }
 
+.groupchat_title {
+  text-align: center;
+  align-self: center;
+}
+
 .groupchat_status {
+  text-align: center;
+  width: 140px;
   font-size: 10px;
   font-style: italic;
   padding: 5px;

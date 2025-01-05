@@ -3,6 +3,7 @@ import { useState } from "react";
 /* eslint-disable react/prop-types */
 const GroupChatCreator = ({ user, allUsers, callbackHandler }) => {
   const [addedUsers, setAddedUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleAddUser = (userToAdd) => {
     // check if userToAdd is already in addedUsers
@@ -25,7 +26,7 @@ const GroupChatCreator = ({ user, allUsers, callbackHandler }) => {
   return (
     <div className="groupchat_container">
       <div className="groupchat_creator">
-        <h3>Create a groupchat</h3>
+        <h3 className="groupchat_title">Create a groupchat</h3>
         {addedUsers.length > 0 ? (
           <div className="groupchat_status">
             {"New groupchat: "}
@@ -39,24 +40,31 @@ const GroupChatCreator = ({ user, allUsers, callbackHandler }) => {
           </div>
         )}
         <div className="groupchat_roster">
-          <ul>
-            {allUsers.map((item) => (
-              <div key={item.id}>
-                <li key={item.id}>
-                  <button
-                    className="chat_button"
-                    onClick={() => handleAddUser(item)}
-                  >
-                    {item.username}
-                  </button>
-                </li>
-              </div>
-            ))}
-          </ul>
+          {isLoading ? (
+            <div>{"Loading..."}</div>
+          ) : (
+            <ul>
+              {allUsers.map((item) => (
+                <div key={item.id}>
+                  <li key={item.id}>
+                    <button
+                      className="chat_button"
+                      onClick={() => handleAddUser(item)}
+                    >
+                      {item.username}
+                    </button>
+                  </li>
+                </div>
+              ))}
+            </ul>
+          )}
         </div>
         <button
           className="login_button"
-          onClick={() => callbackHandler([...addedUsers, user])}
+          onClick={() => {
+            setIsLoading(true);
+            callbackHandler([...addedUsers, user]);
+          }}
         >
           Create groupchat
         </button>
