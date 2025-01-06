@@ -253,7 +253,10 @@ export default Index;
 // [v] crash after post creation
 // [v] crash after profile pic change
 // [v] new profile pic not showing
-// [_] not all chats showing in messages. for "test", where's "test3" and "CoolUsernameBro"?
+// [v] not all chats showing in messages. for "test", where's "test3" and "CoolUsernameBro"?
+// [v] display who's your current chat with, whether it's a groupchat etc
+// [v] it's the CHAT button in profile and search - it doesn't go to the one on one!
+// [_] YOUR messages not on the right in groupchats
 
 // backend:
 // [_] automcomplete? bring back persistent sessions?

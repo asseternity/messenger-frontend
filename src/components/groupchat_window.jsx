@@ -96,6 +96,20 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
     <div className="chat_inner">
       {currentConversation && (
         <div className="message_window" ref={messageWindowRef}>
+          <h2>
+            Groupchat:{" "}
+            {conversation.participants.map((i) => (
+              <span
+                key={
+                  "username_lister_groupchat_" +
+                  conversation.id +
+                  i.user.username
+                }
+              >
+                {i.user.username + " | "}
+              </span>
+            ))}
+          </h2>
           {currentConversation.message.map((msg, index) => (
             <div
               key={index}

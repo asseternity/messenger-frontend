@@ -71,6 +71,7 @@ const Messages = ({ user, instantConversation }) => {
 
         if (response.ok) {
           const data = await response.json();
+          console.log(data);
           setChatType("one-on-one");
           setOneOnOneData({ ...data });
         } else {
@@ -178,8 +179,6 @@ const Messages = ({ user, instantConversation }) => {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log(usersConversations[0]);
-        console.log(data);
         // then add that to usersConversations
         setUsersConversations((prevConversations) => [
           ...prevConversations,

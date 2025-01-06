@@ -57,6 +57,16 @@ const ChatWindow = ({ conversation, user }) => {
     <div className="chat_inner">
       {currentConversation && currentConversation.message && (
         <div className="message_window" ref={messageWindowRef}>
+          <h2>
+            Chat with{" "}
+            {conversation.participants.map((i) => (
+              <span
+                key={"username_lister_1-1_" + conversation.id + i.user.username}
+              >
+                {i.user.username === user.username ? "" : i.user.username}
+              </span>
+            ))}
+          </h2>
           {currentConversation.message.map((msg, index) => (
             <div
               key={index}
