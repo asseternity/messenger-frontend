@@ -7,7 +7,17 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
   const messageWindowRef = useRef(null);
 
   useEffect(() => {
-    setCurrentConversation(conversation); // Update when the prop changes
+    // Update when the prop changes
+    // setCurrentConversation(conversation);
+    const dataWithUsernames = combineGroupChatWithUsernames(
+      conversation,
+      allUsers
+    );
+    const mappedMessages = combineMessageWithUsername(
+      dataWithUsernames,
+      allUsers
+    );
+    setCurrentConversation(mappedMessages);
   }, [conversation]);
 
   useEffect(() => {
@@ -59,6 +69,7 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
   };
 
   const combineGroupChatWithUsernames = (groupchat, allUsers) => {
+    console.log("combineGroupChatWithUsernames called!");
     // Create a new object for the groupchat
     let newChat = {
       ...groupchat, // Spread existing groupchat properties
@@ -72,10 +83,12 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
         };
       }),
     };
+    console.log(newChat);
     return newChat;
   };
 
   const combineMessageWithUsername = (groupchat, allUsers) => {
+    console.log("combineMessageWithUsername calledl!");
     // Create a map of userId to username for faster lookup
     const userMap = allUsers.reduce((acc, user) => {
       acc[user.id] = user.username;
@@ -88,7 +101,7 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
         msg.senderUsername = senderUsername;
       }
     });
-
+    console.log(groupchat);
     return groupchat; // Return updated groupchat
   };
 
