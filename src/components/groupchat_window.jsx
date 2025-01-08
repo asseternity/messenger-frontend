@@ -46,49 +46,11 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
       );
       if (response.ok) {
         const data = await response.json();
-        const dataWithUsernames = combineGroupChatWithUsernames(data, allUsers);
-        const mappedMessages = combineMessageWithUsername(
-          dataWithUsernames,
-          allUsers
-        );
-        setCurrentConversation(mappedMessages);
+        setCurrentConversation(data);
       }
     } catch (err) {
       console.error("Error during fetch: ", err);
     }
-  };
-
-  const combineGroupChatWithUsernames = (groupchat, allUsers) => {
-    // Create a new object for the groupchat
-    let newChat = {
-      ...groupchat, // Spread existing groupchat properties
-      participants: groupchat.participants.map((participant) => {
-        // Find the user corresponding to the userId in the allUsers array
-        const eachUser = allUsers.find((u) => u.id === participant.userId);
-        // Add the username to the participant object
-        return {
-          ...participant, // spread existing participant properties
-          username: eachUser ? eachUser.username : participant.username, // Ensure a fallback if user not found
-        };
-      }),
-    };
-    return newChat;
-  };
-
-  const combineMessageWithUsername = (groupchat, allUsers) => {
-    // Create a map of userId to username for faster lookup
-    const userMap = allUsers.reduce((acc, user) => {
-      acc[user.id] = user.username;
-      return acc;
-    }, {});
-    // Update messages with senderUsername
-    groupchat.message.forEach((msg) => {
-      const senderUsername = userMap[msg.senderId]; // Lookup username by senderId
-      if (senderUsername) {
-        msg.senderUsername = senderUsername;
-      }
-    });
-    return groupchat; // Return updated groupchat
   };
 
   return (

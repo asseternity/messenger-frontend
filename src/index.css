@@ -60,6 +60,14 @@ input {
   background-color: #a45953;
 }
 
+.username_bar_allUsers {
+  background-color: #b8860b;
+}
+
+.username_bar_other {
+  background-color: #8b3a3a;
+}
+
 .username_bar_left {
   display: flex;
   flex-direction: row;
@@ -160,6 +168,19 @@ input {
 
 .messagesInactive {
   background-color: #803f3a;
+  transform: translateY(-15px);
+  z-index: 0;
+}
+
+.allUsersActive {
+  background-color: #b8860b;
+  box-shadow: -5px 5px 15px #6e5a2c;
+  z-index: 1;
+  transform: translateY(0);
+}
+
+.allUsersInactive {
+  background-color: #a38f66;
   transform: translateY(-15px);
   z-index: 0;
 }
@@ -626,28 +647,77 @@ input {
 
 /* Profile component */
 .profile_section {
-  width: 100%; /* Ensures it covers the entire parent */
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
   justify-content: center;
   max-width: 800px;
   margin: 0 auto;
   padding: 10px;
   background-color: #f88379;
   box-sizing: border-box;
+  max-height: calc(100svh - 100px);
+}
+
+.profile_top {
+  display: grid;
+  grid-template-columns: auto 150px;
+  gap: 7px;
+}
+
+.profile_follows {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  border-radius: 30px;
+  border: none;
+  box-sizing: border-box;
+  padding: 10px;
+  overflow-y: scroll;
+  max-height: 180px;
+}
+
+.profile_follows::-webkit-scrollbar {
+  display: none;
+}
+
+.profile_follows {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.following_title {
+  display: block;
+}
+
+.following_click {
+  font-size: 8px;
+  height: 15px;
+}
+
+.following_img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline;
+  margin-right: 4px;
+}
+
+.following_img:hover {
+  opacity: 0.4;
 }
 
 .profile_container {
-  display: flex;
-  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 120px 1fr 85px;
   justify-content: start;
   align-items: center;
   background-color: white;
   border-radius: 30px;
   border: none;
   margin-bottom: 10px;
-  width: fit-content;
-  height: fit-content;
 }
 
 .profile_pic_container img {
@@ -659,6 +729,11 @@ input {
 
 .profile_text_container {
   padding: 10px;
+  box-sizing: border-box;
+}
+
+.profile_text_container input {
+  box-sizing: border-box;
 }
 
 .profile_username {
@@ -667,6 +742,11 @@ input {
 }
 
 .profile_bio {
+  width: 100%;
+}
+
+.profile_bio textarea {
+  box-sizing: border-box;
 }
 
 .profile_edit_container {
@@ -917,6 +997,17 @@ input {
   }
 }
 
+@media screen and (max-width: 510px) {
+  .profile_top {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .profile_container {
+    min-width: 100%;
+  }
+}
+
 @media screen and (max-width: 470px) {
   .chat_keyboard input {
     font-size: 12px;
@@ -933,5 +1024,8 @@ input {
     height: 60px;
     border-radius: 50%;
     margin: 5px;
+  }
+  .profile_container {
+    grid-template-columns: 60px 1fr 50px;
   }
 }

@@ -13,12 +13,28 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
   const [editedBio, setEditedBio] = useState(profileUser.bio || "");
   const [targetUser, setTargetUser] = useState(profileUser);
   const [allUsers, setAllUsers] = useState([]);
+  const [following, setFollowing] = useState([]);
+
+  console.log(
+    "Profile reloaded with user = " +
+      user.username +
+      " and profileUser = " +
+      profileUser.username
+  );
 
   useEffect(() => {
     if (user.id === targetUser.id) {
       setTargetUser(user);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (profileUser !== targetUser) {
+      setEditedUsername(profileUser.username);
+      setEditedBio(profileUser.bio || "");
+      setTargetUser(profileUser);
+    }
+  }, [profileUser]);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -51,6 +67,41 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
     };
 
     fetchPosts();
+  }, [user, targetUser, commentsAdded]);
+
+  // fetch all users, then map follows to usernames
+  useEffect(() => {
+    const fetchFollows = async () => {
+      try {
+        const response = await fetch(
+          "https://messenger-backend-production-a259.up.railway.app/all-users",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          const filteredData = data.filter((item) =>
+            user.following.includes(item.id)
+          );
+          console.log(filteredData);
+          setFollowing(filteredData);
+        } else {
+          console.error("Failed to fetch follows");
+        }
+      } catch (err) {
+        console.error("Error fetching follows:", err);
+      }
+    };
+
+    if (targetUser.username === user.username) {
+      fetchFollows();
+    }
   }, [user, targetUser, commentsAdded]);
 
   // Handle post expansion/collapse
@@ -203,8 +254,6 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
   };
 
   const handleClickProfilePicture = () => {
-    console.log("user.profilepicture = ", user.profilePicture);
-    console.log("targetUser.profilepicture = ", targetUser.profilePicture);
     // Trigger the click event on the hidden file input element
     const fileInput = document.getElementById("fileInput");
     if (fileInput) {
@@ -238,7 +287,6 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
       const data = await response.json();
       if (response.ok) {
         updateUser({ ...user, profilePicture: data.fileUrl }, targetUser);
-        console.log(user.profilePicture);
       } else {
         alert(`Error: ${data.message}`);
       }
@@ -275,63 +323,90 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
 
   return (
     <div className="profile_section">
-      <div className="profile_container">
-        <div className="profile_pic_container">
-          <img
-            src={
-              targetUser.profilePicture
-                ? `${targetUser.profilePicture}`
-                : defaultProfilePic
-            }
-            onClick={
-              targetUser.username === user.username
-                ? handleClickProfilePicture
-                : () => {}
-            }
-          ></img>
-          {targetUser.username === user.username && (
-            <input
-              type="file"
-              id="fileInput"
-              style={{ display: "none" }}
-              onChange={handleFileUpload}
-            />
-          )}
-        </div>
-        <div className="profile_text_container">
-          {isEditing ? (
-            <input
-              type="text"
-              value={editedUsername}
-              onChange={(e) => setEditedUsername(e.target.value)}
-              className="edit_username_input"
-            />
-          ) : (
-            <h3 className="profile_username">{targetUser.username}</h3>
-          )}
-          <div className="profile_bio">
+      <div className="profile_top">
+        <div className="profile_container">
+          <div className="profile_pic_container">
+            <img
+              src={
+                targetUser.profilePicture
+                  ? `${targetUser.profilePicture}`
+                  : defaultProfilePic
+              }
+              onClick={
+                targetUser.username === user.username
+                  ? handleClickProfilePicture
+                  : () => {}
+              }
+            ></img>
+            {targetUser.username === user.username && (
+              <input
+                type="file"
+                id="fileInput"
+                style={{ display: "none" }}
+                onChange={handleFileUpload}
+              />
+            )}
+          </div>
+          <div className="profile_text_container">
             {isEditing ? (
-              <textarea
-                value={editedBio}
-                onChange={(e) => setEditedBio(e.target.value)}
-                className="edit_bio_textarea"
-              ></textarea>
+              <input
+                type="text"
+                value={editedUsername}
+                onChange={(e) => setEditedUsername(e.target.value)}
+                className="edit_username_input"
+              />
             ) : (
-              targetUser.bio || "This user has not added a bio."
+              <h3 className="profile_username">{targetUser.username}</h3>
+            )}
+            <div className="profile_bio">
+              {isEditing ? (
+                <textarea
+                  value={editedBio}
+                  onChange={(e) => setEditedBio(e.target.value)}
+                  className="edit_bio_textarea"
+                ></textarea>
+              ) : (
+                targetUser.bio || "This user has not added a bio."
+              )}
+            </div>
+          </div>
+          <div className="profile_edit_container">
+            {targetUser.username === user.username && (
+              <button onClick={handleEditToggle}>
+                {isEditing ? "✔" : "🖉"}
+              </button>
+            )}
+            {targetUser.username !== user.username && (
+              <div className="profile_follow_chat">
+                <button onClick={() => handleFollowUnfollow(targetUser)}>
+                  {user.following.includes(targetUser.id)
+                    ? "Unfollow"
+                    : "Follow"}
+                </button>
+                <button onClick={() => handleChat(targetUser)}>Chat</button>
+              </div>
             )}
           </div>
         </div>
-
-        <div className="profile_edit_container">
+        <div className="profile_follows">
+          <span className="following_title">Following</span>
+          <span className="following_click">
+            {targetUser.username === user.username ? "(click to unfollow)" : ""}{" "}
+          </span>
           {targetUser.username === user.username && (
-            <button onClick={handleEditToggle}>{isEditing ? "✔" : "🖉"}</button>
-          )}
-          {targetUser.username !== user.username && (
-            <div className="profile_follow_chat">
-              <button onClick={() => handleFollowUnfollow(targetUser)}>
-                {user.following.includes(targetUser.id) ? "Unfollow" : "Follow"}
-              </button>
-              <button onClick={() => handleChat(targetUser)}>Chat</button>
+            <div className="profile_follows_inner">
+              {following.map((item) => (
+                <img
+                  key={"following_list_" + item.id + item.username}
+                  src={
+                    item.profilePicture
+                      ? `${item.profilePicture}`
+                      : defaultProfilePic
+                  }
+                  className="following_img"
+                  onClick={() => handleFollowUnfollow(item)}
+                ></img>
+              ))}
             </div>
           )}
         </div>

@@ -12,7 +12,6 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
   const [searchString, setSearchString] = useState("");
   const [lastSearch, setLastSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  // const [profileUser, setProfileUser] = useState(targetProfileUser);
   const [instantConversationUser, setInstantConversationUser] = useState("");
 
   useEffect(() => {
@@ -35,9 +34,12 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
     if (section === "feed") {
       setInstantConversationUser("");
       setFeedOrMessages("feed");
-    } else {
+    } else if (section === "messages") {
       setInstantConversationUser("");
       setFeedOrMessages("messages");
+    } else {
+      setInstantConversationUser("");
+      setFeedOrMessages("allUsers");
     }
   };
 
@@ -77,15 +79,8 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
   };
 
   const handleGoToProfile = (targetUser) => {
-    if (targetUser.id === user.id) {
-      // setProfileUser(user);
-      setFeedOrMessages("user_profile");
-      updateUser(user, targetUser);
-    } else {
-      // setProfileUser(targetUser);
-      setFeedOrMessages("user_profile");
-      updateUser(user, targetUser);
-    }
+    setFeedOrMessages("user_profile");
+    updateUser(user, targetUser);
   };
 
   const goToChatFromProfile = (data) => {
@@ -93,16 +88,25 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
     setFeedOrMessages("messages");
   };
 
+  const setUsernameBarClass = (tab) => {
+    switch (tab) {
+      case "feed":
+        return "username_bar username_bar_feed";
+      case "messages":
+        return "username_bar username_bar_messages";
+      case "user_profile":
+        return "username_bar username_bar_other";
+      case "search":
+        return "username_bar username_bar_other";
+      case "allUsers":
+        return "username_bar username_bar_allUsers";
+    }
+  };
+
   return (
     <div className="container">
       <div className="top_bar">
-        <div
-          className={
-            feedOrMessages === "feed"
-              ? "username_bar username_bar_feed"
-              : "username_bar username_bar_messages"
-          }
-        >
+        <div className={setUsernameBarClass(feedOrMessages)}>
           <div className="username_bar_left">
             <img
               src={sl_logo}
@@ -149,6 +153,17 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
           >
             Messages
           </button>
+          <button
+            className={
+              feedOrMessages === "allUsers"
+                ? "tab_bar allUsersActive"
+                : "tab_bar allUsersInactive"
+            }
+            onClick={() => handleTabClick("allUsers")}
+          >
+            Make a scrollable grid of profile pics for all users, clickable to
+            go to their profile
+          </button>
         </div>
       </div>
       {feedOrMessages === "feed" && (
@@ -156,6 +171,9 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
       )}
       {feedOrMessages === "messages" && (
         <Messages user={user} instantConversation={instantConversationUser} />
+      )}
+      {feedOrMessages === "allUsers" && (
+        <div className="allUsers_container">All users</div>
       )}
       {feedOrMessages === "search" && (
         <div>
@@ -191,7 +209,7 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
               <div className="search_results_filler"></div>
             </div>
           ) : (
-            <div>No results</div>
+            <div className="search_results">No results</div>
           )}
         </div>
       )}
@@ -241,8 +259,8 @@ export default Index;
 // [v] fix hooking up creation of a groupchat
 // [v] groupchat window width / loading screen
 // [v] liking and unliking posts!
-// [_] popup for your profile page: list of users you follow and unfollow them
-// [_] search all users
+// [v] popup for your profile page: list of users you follow and unfollow them
+// [_] list of all users
 // [_] just use it for a while doing every kind of shit i can think of
 
 // bugs:
@@ -257,6 +275,11 @@ export default Index;
 // [v] display who's your current chat with, whether it's a groupchat etc
 // [v] it's the CHAT button in profile and search - it doesn't go to the one on one!
 // [v] YOUR messages not on the right in groupchats
+// [v] profile pics not showing in "following"
+// [v] "following" scrollable
+// [v] make "click to unfollow" small and only showing for you
+// [v] follow and chat cover bio in others profiles
+// [v] if you're already looking at a profile, top left for your own profile doesn't work
 
 // backend:
 // [_] automcomplete? bring back persistent sessions?
