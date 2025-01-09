@@ -385,7 +385,7 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
           <span className="following_click">
             {targetUser.username === user.username ? "(click to unfollow)" : ""}{" "}
           </span>
-          {targetUser.username === user.username && (
+          {targetUser.username === user.username ? (
             <div className="profile_follows_inner">
               {following.map((item) => (
                 <img
@@ -397,6 +397,20 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
                   }
                   className="following_img"
                   onClick={() => handleFollowUnfollow(item)}
+                ></img>
+              ))}
+            </div>
+          ) : (
+            <div className="profile_follows_inner">
+              {following.map((item) => (
+                <img
+                  key={"following_list_" + item.id + item.username}
+                  src={
+                    item.profilePicture
+                      ? `${item.profilePicture}`
+                      : defaultProfilePic
+                  }
+                  className="following_img"
                 ></img>
               ))}
             </div>

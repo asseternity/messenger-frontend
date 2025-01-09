@@ -333,8 +333,8 @@ export default Index;
 // [_] just use it for a while doing every kind of shit i can think of
 
 // backend:
-// [_] backend - see all messages, comments and posts by date
-// [_] backend - delete account
+// [v] backend - see all messages, comments and posts by date
+// [v] backend - delete account
 // [_] fill with content
 // [_] automcomplete? bring back persistent sessions?
 // [_] for portfolio - some guest access
