@@ -37,9 +37,6 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
     } else if (section === "messages") {
       setInstantConversationUser("");
       setFeedOrMessages("messages");
-    } else {
-      setInstantConversationUser("");
-      setFeedOrMessages("allUsers");
     }
   };
 
@@ -103,6 +100,35 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
     }
   };
 
+  const handleClickAllUsers = async () => {
+    try {
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/search_username",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            targetUsername: "",
+          }),
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setSearchResults(data);
+        setInstantConversationUser("");
+        setFeedOrMessages("allUsers");
+      } else {
+        setSearchResults([]);
+      }
+    } catch (err) {
+      console.error("error during fetch: ", err);
+    }
+  };
+
   return (
     <div className="container">
       <div className="top_bar">
@@ -159,10 +185,9 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
                 ? "tab_bar allUsersActive"
                 : "tab_bar allUsersInactive"
             }
-            onClick={() => handleTabClick("allUsers")}
+            onClick={handleClickAllUsers}
           >
-            Make a scrollable grid of profile pics for all users, clickable to
-            go to their profile
+            All users
           </button>
         </div>
       </div>
@@ -173,7 +198,33 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
         <Messages user={user} instantConversation={instantConversationUser} />
       )}
       {feedOrMessages === "allUsers" && (
-        <div className="allUsers_container">All users</div>
+        <div className="allUsers_container">
+          <h2>All users</h2>
+          {searchResults.length > 0 ? (
+            <div className="allUsers_inner">
+              {searchResults.map((result, index) => (
+                <div
+                  key={index}
+                  className="allUsers_user"
+                  onClick={() => handleGoToProfile(result)}
+                >
+                  <img
+                    src={
+                      result.profilePicture
+                        ? `${result.profilePicture}`
+                        : defaultProfilePic
+                    }
+                    alt={`${result.username}'s profile`}
+                    className="search_result_pic"
+                  />
+                  <p>{result.username}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="search_results">No results</div>
+          )}
+        </div>
       )}
       {feedOrMessages === "search" && (
         <div>
@@ -260,8 +311,7 @@ export default Index;
 // [v] groupchat window width / loading screen
 // [v] liking and unliking posts!
 // [v] popup for your profile page: list of users you follow and unfollow them
-// [_] list of all users
-// [_] just use it for a while doing every kind of shit i can think of
+// [v] list of all users
 
 // bugs:
 // [v] chat width on pc if only short messages
@@ -280,14 +330,15 @@ export default Index;
 // [v] make "click to unfollow" small and only showing for you
 // [v] follow and chat cover bio in others profiles
 // [v] if you're already looking at a profile, top left for your own profile doesn't work
+// [_] just use it for a while doing every kind of shit i can think of
 
 // backend:
-// [_] automcomplete? bring back persistent sessions?
 // [_] backend - see all messages, comments and posts by date
 // [_] backend - delete account
+// [_] fill with content
+// [_] automcomplete? bring back persistent sessions?
 // [_] for portfolio - some guest access
 // [_] readme
-// [_] fill with content
 
 // post publish:
 // [_] nice field validations and error messages on login

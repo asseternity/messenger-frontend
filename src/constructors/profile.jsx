@@ -15,13 +15,6 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
   const [allUsers, setAllUsers] = useState([]);
   const [following, setFollowing] = useState([]);
 
-  console.log(
-    "Profile reloaded with user = " +
-      user.username +
-      " and profileUser = " +
-      profileUser.username
-  );
-
   useEffect(() => {
     if (user.id === targetUser.id) {
       setTargetUser(user);
@@ -89,7 +82,6 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
           const filteredData = data.filter((item) =>
             user.following.includes(item.id)
           );
-          console.log(filteredData);
           setFollowing(filteredData);
         } else {
           console.error("Failed to fetch follows");
