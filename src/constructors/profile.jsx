@@ -80,7 +80,7 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
         if (response.ok) {
           const data = await response.json();
           const filteredData = data.filter((item) =>
-            user.following.includes(item.id)
+            targetUser.following.includes(item.id)
           );
           setFollowing(filteredData);
         } else {
@@ -91,9 +91,7 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
       }
     };
 
-    if (targetUser.username === user.username) {
-      fetchFollows();
-    }
+    fetchFollows();
   }, [user, targetUser, commentsAdded]);
 
   // Handle post expansion/collapse
