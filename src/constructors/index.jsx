@@ -330,7 +330,22 @@ export default Index;
 // [v] make "click to unfollow" small and only showing for you
 // [v] follow and chat cover bio in others profiles
 // [v] if you're already looking at a profile, top left for your own profile doesn't work
-// [_] just use it for a while doing every kind of shit i can think of
+// [v] max width of any message, smaller text a little
+// [v] in one on one chat, partner is called "other guy"
+// [v] just use it for a while doing every kind of shit i can think of
+// [v] add to admin panel - latest comments and latest posts
+// [v] clicking on an ACTIVE comment box removes the text
+// [v] box of follows grows too big and overflows
+// [v] now box of follows is too small, doesn't grow as responsive!!!
+// [v] bio too wide on mobile (example - garrick)
+// [v] long usernames go out of the box in allUsers
+// [_] all users doesn't scroll
+// [_] profile doesn't scroll on mobile (posts too small). make both containers scrollable
+// [_] in chats, messages not sorted by date
+// [_] add a section - all posts
+// [_] test user - go in without the ability to leave messages etc
+// [_] надо добавить функцию отвечать на сообщения и получать уведомления, когда отвечают тебе или к твоим постам
+// [_] like comments
 
 // backend:
 // [v] backend - see all messages, comments and posts by date

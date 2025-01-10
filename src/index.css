@@ -90,7 +90,7 @@ input {
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  margin-right: 14px;
+  margin-right: 10px;
 }
 
 .username_bar_left .profile_picture:hover {
@@ -256,6 +256,9 @@ input {
   background-color: white;
   border-radius: 20px;
   padding: 8px;
+  max-width: 60%;
+  font-size: 12px;
+  overflow-wrap: break-word;
 }
 
 .message_window {
@@ -673,9 +676,8 @@ input {
   border-radius: 30px;
   border: none;
   box-sizing: border-box;
-  padding: 10px;
+  padding: 15px;
   overflow-y: scroll;
-  max-height: 180px;
 }
 
 .profile_follows::-webkit-scrollbar {
@@ -1039,7 +1041,7 @@ input {
 }
 
 .allUsers_user p {
-  font-size: 14px;
+  font-size: 11px;
   font-weight: bold;
   color: #333;
   text-align: center;
@@ -1080,8 +1082,21 @@ input {
   .notmy_message {
     font-size: 13px;
   }
+  .username_bar_left {
+    font-size: 11px;
+  }
+  .username_bar_left .profile_picture {
+    margin-right: 5px;
+  }
   .username_bar_right input {
-    width: 100px;
+    width: 80px;
+    padding: 3px;
+    font-size: 10px;
+  }
+  .username_bar_right button {
+    padding: 5px;
+    margin-right: 3px;
+    font-size: 10px;
   }
   .profile_pic_container img {
     width: 60px;
@@ -1090,6 +1105,6 @@ input {
     margin: 5px;
   }
   .profile_container {
-    grid-template-columns: 60px 1fr 50px;
+    grid-template-columns: 60px 1fr 85px;
   }
 }

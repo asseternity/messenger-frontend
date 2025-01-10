@@ -77,7 +77,9 @@ const ChatWindow = ({ conversation, user }) => {
               }
             >
               <div className="sender">
-                {msg.senderId === user.userId ? user.username : "other guy"}
+                {msg.senderId === user.userId
+                  ? user.username
+                  : msg.sender.username}
               </div>
               <span>{msg.content}</span>
             </div>

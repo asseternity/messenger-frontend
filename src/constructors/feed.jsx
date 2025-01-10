@@ -107,8 +107,8 @@ const Feed = ({ user, profileCallback }) => {
 
   // Handle post expansion/collapse
   const togglePostExpansion = (postId) => {
-    setNewCommentContent("");
     if (expandedPostId !== postId) {
+      setNewCommentContent("");
       setExpandedPostId(postId);
     }
   };

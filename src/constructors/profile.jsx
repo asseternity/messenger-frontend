@@ -96,8 +96,8 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
 
   // Handle post expansion/collapse
   const togglePostExpansion = (postId) => {
-    setNewCommentContent("");
     if (expandedPostId !== postId) {
+      setNewCommentContent("");
       setExpandedPostId(postId);
     }
   };
