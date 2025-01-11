@@ -266,7 +266,7 @@ const Feed = ({ user, profileCallback }) => {
                     <div></div>
                   )}
                 </div>
-                <p>{post.content}</p>
+                <p className="post_content_text">{post.content}</p>
                 <div className="post_like_container">
                   <button
                     className="delete_post"

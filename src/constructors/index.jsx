@@ -341,7 +341,7 @@ export default Index;
 // [v] bio too wide on mobile (example - garrick)
 // [v] long usernames go out of the box in allUsers
 // [v] all users doesn't scroll
-// [_] profile doesn't scroll on mobile (posts too small). make both containers scrollable
+// [v] profile doesn't scroll on mobile (posts too small). make both containers scrollable
 // [_] why aren't linebreaks preserved in messages or posts?
 // [_] in chats, messages not sorted by date
 // [_] add a section - all posts

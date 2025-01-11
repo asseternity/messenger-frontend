@@ -259,6 +259,7 @@ input {
   max-width: 60%;
   font-size: 12px;
   overflow-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .message_window {
@@ -1050,6 +1051,11 @@ input {
   font-weight: bold;
   color: #333;
   text-align: center;
+}
+
+/* Preserving line breaks */
+.post_content_text {
+  white-space: pre-wrap;
 }
 
 /* Responsive */
