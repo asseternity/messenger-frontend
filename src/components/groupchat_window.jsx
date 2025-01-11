@@ -88,8 +88,7 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
       )}
       <div className="chat_keyboard_div">
         <form onSubmit={handleSend} className="chat_keyboard">
-          <input
-            type="text"
+          <textarea
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type a message"

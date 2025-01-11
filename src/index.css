@@ -305,15 +305,18 @@ input {
 .chat_keyboard {
   display: flex;
   width: 100%; /* Ensure the form covers the entire div */
+  margin-bottom: 3px;
 }
 
-.chat_keyboard input {
-  flex-grow: 1; /* Input takes up remaining space */
-  padding: 10px;
-  font-size: 16px;
+.chat_keyboard textarea {
+  width: 100%;
+  padding: 6px;
+  font-size: 12px;
   border: 1px solid #ccc; /* Border for separation */
   border-radius: 5px;
   box-sizing: border-box; /* Ensure padding doesn't affect layout */
+  resize: none;
+  font-family: "Poppins";
 }
 
 .chat_keyboard button {
@@ -413,7 +416,7 @@ input {
   border-radius: 10px;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   border: 1px solid #e0e0e0;
-  font-size: 16px;
+  font-size: 14px;
   box-sizing: border-box;
 }
 
@@ -1058,6 +1061,21 @@ input {
   white-space: pre-wrap;
 }
 
+/* Fix resizing bug */
+
+/* Remove any unintentional minimum width restriction */
+.feed_container {
+  min-width: 0;
+}
+
+/* Ensure no element inside the feed is preventing shrinking */
+.feed_posts,
+.post_item,
+.new_post_section,
+.comment_container {
+  min-width: 0;
+}
+
 /* Responsive */
 @media screen and (max-width: 630px) {
   .login_container {
@@ -1086,6 +1104,11 @@ input {
 }
 
 @media screen and (max-width: 470px) {
+  .tabs_bar button {
+    font-size: 12px;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
   .chat_keyboard input {
     font-size: 12px;
   }

@@ -342,7 +342,8 @@ export default Index;
 // [v] long usernames go out of the box in allUsers
 // [v] all users doesn't scroll
 // [v] profile doesn't scroll on mobile (posts too small). make both containers scrollable
-// [_] why aren't linebreaks preserved in messages or posts?
+// [v] why aren't linebreaks preserved in messages or posts?
+// [v] something in "home" doesn't want to go lower than 400px width
 // [_] in chats, messages not sorted by date
 // [_] add a section - all posts
 // [_] test user - go in without the ability to leave messages etc
@@ -352,7 +353,7 @@ export default Index;
 // backend:
 // [v] backend - see all messages, comments and posts by date
 // [v] backend - delete account
-// [_] fill with content
+// [v] fill with content
 // [_] automcomplete? bring back persistent sessions?
 // [_] for portfolio - some guest access
 // [_] readme
