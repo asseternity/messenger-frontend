@@ -220,6 +220,7 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
                   <p>{result.username}</p>
                 </div>
               ))}
+              <div className="search_results_filler"></div>
             </div>
           ) : (
             <div className="search_results">No results</div>
@@ -339,8 +340,9 @@ export default Index;
 // [v] now box of follows is too small, doesn't grow as responsive!!!
 // [v] bio too wide on mobile (example - garrick)
 // [v] long usernames go out of the box in allUsers
-// [_] all users doesn't scroll
+// [v] all users doesn't scroll
 // [_] profile doesn't scroll on mobile (posts too small). make both containers scrollable
+// [_] why aren't linebreaks preserved in messages or posts?
 // [_] in chats, messages not sorted by date
 // [_] add a section - all posts
 // [_] test user - go in without the ability to leave messages etc

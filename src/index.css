@@ -348,7 +348,9 @@ input {
   max-width: 800px;
   width: 100%;
   margin: 0 auto;
-  padding: 10px;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   background-color: #f88379;
   box-sizing: border-box;
 }
@@ -394,7 +396,7 @@ input {
 
 /* Feed posts section (scrollable container) */
 .feed_posts {
-  max-height: 500px;
+  max-height: calc(100svh - 130px);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -657,7 +659,9 @@ input {
   justify-content: center;
   max-width: 800px;
   margin: 0 auto;
-  padding: 10px;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   background-color: #f88379;
   box-sizing: border-box;
   max-height: calc(100svh - 100px);
@@ -788,7 +792,7 @@ input {
 }
 
 .profile_feed {
-  max-height: 500px;
+  max-height: 800px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -805,7 +809,7 @@ input {
 }
 
 .profile_feed_filler {
-  padding-bottom: 250px;
+  padding-bottom: 450px;
 }
 
 .delete_post {
@@ -1002,6 +1006,7 @@ input {
   gap: 15px;
   padding: 15px;
   box-sizing: border-box;
+  max-height: 500px;
 }
 
 .allUsers_inner ::-webkit-scrollbar {
@@ -1098,13 +1103,32 @@ input {
     margin-right: 3px;
     font-size: 10px;
   }
+  .profile_text_container {
+    font-size: 11px;
+  }
   .profile_pic_container img {
-    width: 60px;
-    height: 60px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
-    margin: 5px;
+    margin: 8px;
+  }
+  .profile_section {
+    padding-top: 0px;
   }
   .profile_container {
     grid-template-columns: 60px 1fr 85px;
+  }
+  .profile_top {
+    gap: 3px;
+  }
+  .profile_follows {
+    max-height: 80px;
+  }
+  .posts_by {
+    font-size: 12px;
+    max-height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

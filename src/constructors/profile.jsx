@@ -14,6 +14,7 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
   const [targetUser, setTargetUser] = useState(profileUser);
   const [allUsers, setAllUsers] = useState([]);
   const [following, setFollowing] = useState([]);
+  const [profileHidden, setProfileHidden] = useState(false);
 
   useEffect(() => {
     if (user.id === targetUser.id) {
@@ -99,6 +100,14 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
     if (expandedPostId !== postId) {
       setNewCommentContent("");
       setExpandedPostId(postId);
+    }
+  };
+
+  const toggleHideProfile = () => {
+    if (profileHidden) {
+      setProfileHidden(false);
+    } else {
+      setProfileHidden(true);
     }
   };
 
@@ -313,110 +322,117 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
 
   return (
     <div className="profile_section">
-      <div className="profile_top">
-        <div className="profile_container">
-          <div className="profile_pic_container">
-            <img
-              src={
-                targetUser.profilePicture
-                  ? `${targetUser.profilePicture}`
-                  : defaultProfilePic
-              }
-              onClick={
-                targetUser.username === user.username
-                  ? handleClickProfilePicture
-                  : () => {}
-              }
-            ></img>
-            {targetUser.username === user.username && (
-              <input
-                type="file"
-                id="fileInput"
-                style={{ display: "none" }}
-                onChange={handleFileUpload}
-              />
-            )}
-          </div>
-          <div className="profile_text_container">
-            {isEditing ? (
-              <input
-                type="text"
-                value={editedUsername}
-                onChange={(e) => setEditedUsername(e.target.value)}
-                className="edit_username_input"
-              />
-            ) : (
-              <h3 className="profile_username">{targetUser.username}</h3>
-            )}
-            <div className="profile_bio">
+      {!profileHidden && (
+        <div className="profile_top">
+          <div className="profile_container">
+            <div className="profile_pic_container">
+              <img
+                src={
+                  targetUser.profilePicture
+                    ? `${targetUser.profilePicture}`
+                    : defaultProfilePic
+                }
+                onClick={
+                  targetUser.username === user.username
+                    ? handleClickProfilePicture
+                    : () => {}
+                }
+              ></img>
+              {targetUser.username === user.username && (
+                <input
+                  type="file"
+                  id="fileInput"
+                  style={{ display: "none" }}
+                  onChange={handleFileUpload}
+                />
+              )}
+            </div>
+            <div className="profile_text_container">
               {isEditing ? (
-                <textarea
-                  value={editedBio}
-                  onChange={(e) => setEditedBio(e.target.value)}
-                  className="edit_bio_textarea"
-                ></textarea>
+                <input
+                  type="text"
+                  value={editedUsername}
+                  onChange={(e) => setEditedUsername(e.target.value)}
+                  className="edit_username_input"
+                />
               ) : (
-                targetUser.bio || "This user has not added a bio."
+                <h3 className="profile_username">{targetUser.username}</h3>
+              )}
+              <div className="profile_bio">
+                {isEditing ? (
+                  <textarea
+                    value={editedBio}
+                    onChange={(e) => setEditedBio(e.target.value)}
+                    className="edit_bio_textarea"
+                  ></textarea>
+                ) : (
+                  targetUser.bio || "This user has not added a bio."
+                )}
+              </div>
+            </div>
+            <div className="profile_edit_container">
+              {targetUser.username === user.username && (
+                <button onClick={handleEditToggle}>
+                  {isEditing ? "✔" : "🖉"}
+                </button>
+              )}
+              {targetUser.username !== user.username && (
+                <div className="profile_follow_chat">
+                  <button onClick={() => handleFollowUnfollow(targetUser)}>
+                    {user.following.includes(targetUser.id)
+                      ? "Unfollow"
+                      : "Follow"}
+                  </button>
+                  <button onClick={() => handleChat(targetUser)}>Chat</button>
+                </div>
               )}
             </div>
           </div>
-          <div className="profile_edit_container">
-            {targetUser.username === user.username && (
-              <button onClick={handleEditToggle}>
-                {isEditing ? "✔" : "🖉"}
-              </button>
-            )}
-            {targetUser.username !== user.username && (
-              <div className="profile_follow_chat">
-                <button onClick={() => handleFollowUnfollow(targetUser)}>
-                  {user.following.includes(targetUser.id)
-                    ? "Unfollow"
-                    : "Follow"}
-                </button>
-                <button onClick={() => handleChat(targetUser)}>Chat</button>
+          <div className="profile_follows">
+            <span className="following_title">Following</span>
+            <span className="following_click">
+              {targetUser.username === user.username
+                ? "(click to unfollow)"
+                : ""}{" "}
+            </span>
+            {targetUser.username === user.username ? (
+              <div className="profile_follows_inner">
+                {following.map((item) => (
+                  <img
+                    key={"following_list_" + item.id + item.username}
+                    src={
+                      item.profilePicture
+                        ? `${item.profilePicture}`
+                        : defaultProfilePic
+                    }
+                    className="following_img"
+                    onClick={() => handleFollowUnfollow(item)}
+                  ></img>
+                ))}
+              </div>
+            ) : (
+              <div className="profile_follows_inner">
+                {following.map((item) => (
+                  <img
+                    key={"following_list_" + item.id + item.username}
+                    src={
+                      item.profilePicture
+                        ? `${item.profilePicture}`
+                        : defaultProfilePic
+                    }
+                    className="following_img"
+                  ></img>
+                ))}
               </div>
             )}
           </div>
         </div>
-        <div className="profile_follows">
-          <span className="following_title">Following</span>
-          <span className="following_click">
-            {targetUser.username === user.username ? "(click to unfollow)" : ""}{" "}
-          </span>
-          {targetUser.username === user.username ? (
-            <div className="profile_follows_inner">
-              {following.map((item) => (
-                <img
-                  key={"following_list_" + item.id + item.username}
-                  src={
-                    item.profilePicture
-                      ? `${item.profilePicture}`
-                      : defaultProfilePic
-                  }
-                  className="following_img"
-                  onClick={() => handleFollowUnfollow(item)}
-                ></img>
-              ))}
-            </div>
-          ) : (
-            <div className="profile_follows_inner">
-              {following.map((item) => (
-                <img
-                  key={"following_list_" + item.id + item.username}
-                  src={
-                    item.profilePicture
-                      ? `${item.profilePicture}`
-                      : defaultProfilePic
-                  }
-                  className="following_img"
-                ></img>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-      <div>
-        <h3>Posts by {targetUser.username}</h3>
+      )}
+      <div className="posts_by" onClick={toggleHideProfile}>
+        <h3>
+          Posts by {targetUser.username}{" "}
+          {!profileHidden ? "(click to expand)" : "(click to collapse)"}
+        </h3>
       </div>
       {loading ? (
         <div className="profile_feed">Loading...</div>
