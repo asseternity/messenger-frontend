@@ -754,6 +754,8 @@ input {
 
 .profile_bio {
   width: 100%;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .profile_bio textarea {

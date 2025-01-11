@@ -344,6 +344,7 @@ export default Index;
 // [v] profile doesn't scroll on mobile (posts too small). make both containers scrollable
 // [v] why aren't linebreaks preserved in messages or posts?
 // [v] something in "home" doesn't want to go lower than 400px width
+// [_] switching between tabs in "message" should re-fetch and re-load the conversation
 // [_] in chats, messages not sorted by date
 // [_] add a section - all posts
 // [_] test user - go in without the ability to leave messages etc
