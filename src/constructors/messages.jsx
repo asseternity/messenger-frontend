@@ -68,10 +68,8 @@ const Messages = ({ user, instantConversation }) => {
             }),
           }
         );
-
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           setChatType("one-on-one");
           setOneOnOneData({ ...data });
         } else {

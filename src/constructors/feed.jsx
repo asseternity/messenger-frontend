@@ -23,7 +23,7 @@ import defaultProfilePic from "/silhouette.png";
 // v css comment field
 
 /* eslint-disable react/prop-types */
-const Feed = ({ user, profileCallback }) => {
+const Feed = ({ user, profileCallback, isAllUsers }) => {
   const [newPostContent, setNewPostContent] = useState("");
   const [newCommentContent, setNewCommentContent] = useState("");
   const [commentsAdded, setCommentsAdded] = useState(0);
@@ -38,28 +38,53 @@ const Feed = ({ user, profileCallback }) => {
     const fetchFeed = async () => {
       setLoading(true);
       try {
-        const response = await fetch(
-          "https://messenger-backend-production-a259.up.railway.app/get_feed",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user.token}`,
-            },
-            credentials: "include",
-            body: JSON.stringify({
-              myUserId: user.id,
-              page: postPagination, // You can implement pagination if needed
-              pageSize: 5,
-            }),
+        if (!isAllUsers) {
+          const response = await fetch(
+            "https://messenger-backend-production-a259.up.railway.app/get_feed",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user.token}`,
+              },
+              credentials: "include",
+              body: JSON.stringify({
+                myUserId: user.id,
+                page: postPagination, // You can implement pagination if needed
+                pageSize: 5,
+              }),
+            }
+          );
+          if (response.ok) {
+            const data = await response.json();
+            setFeedPosts(data.post);
+            setAllUsers(data.users);
+          } else {
+            console.error("Failed to fetch feed");
           }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setFeedPosts(data.post);
-          setAllUsers(data.users);
         } else {
-          console.error("Failed to fetch feed");
+          const response = await fetch(
+            "https://messenger-backend-production-a259.up.railway.app/all_posts",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user.token}`,
+              },
+              credentials: "include",
+              body: JSON.stringify({
+                page: postPagination, // You can implement pagination if needed
+                pageSize: 5,
+              }),
+            }
+          );
+          if (response.ok) {
+            const data = await response.json();
+            setFeedPosts(data.allPosts);
+            setAllUsers(data.users);
+          } else {
+            console.error("Failed to fetch feed");
+          }
         }
       } catch (err) {
         console.error("Error fetching feed:", err);
@@ -69,7 +94,7 @@ const Feed = ({ user, profileCallback }) => {
     };
 
     fetchFeed();
-  }, [user, commentsAdded, postPagination]);
+  }, [user, commentsAdded, postPagination, isAllUsers]);
 
   // Handle creating a new post
   const handlePostSubmit = async () => {
@@ -213,19 +238,20 @@ const Feed = ({ user, profileCallback }) => {
   return (
     <div className="feed_container">
       {/* New Post Section */}
-      <div className="new_post_section">
-        <textarea
-          value={newPostContent}
-          onChange={(e) => setNewPostContent(e.target.value)}
-          placeholder="What's happening?"
-          rows="5"
-          className="new_post_textarea"
-        />
-        <button onClick={handlePostSubmit} className="post_button">
-          Post
-        </button>
-      </div>
-
+      {!isAllUsers && (
+        <div className="new_post_section">
+          <textarea
+            value={newPostContent}
+            onChange={(e) => setNewPostContent(e.target.value)}
+            placeholder="What's happening?"
+            rows="5"
+            className="new_post_textarea"
+          />
+          <button onClick={handlePostSubmit} className="post_button">
+            Post
+          </button>
+        </div>
+      )}
       {/* Feed Section */}
       {loading ? (
         <div>Loading...</div>

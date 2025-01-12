@@ -1004,24 +1004,28 @@ input {
   box-sizing: border-box;
 }
 
-.allUsers_inner {
+.allUsers_outer {
   overflow-x: hidden;
   overflow-y: auto;
+  max-height: 500px;
+  box-sizing: border-box;
+}
+
+.allUsers_outer ::-webkit-scrollbar {
+  display: none;
+}
+
+.allUsers_outer {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.allUsers_inner {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 15px;
   padding: 15px;
   box-sizing: border-box;
-  max-height: 500px;
-}
-
-.allUsers_inner ::-webkit-scrollbar {
-  display: none;
-}
-
-.allUsers_inner {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
 .allUsers_user {
@@ -1066,7 +1070,9 @@ input {
 /* Fix resizing bug */
 
 /* Remove any unintentional minimum width restriction */
-.feed_container {
+.feed_container,
+.allUsers_container,
+.allUsers_outer {
   min-width: 0;
 }
 

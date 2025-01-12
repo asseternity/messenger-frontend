@@ -187,44 +187,54 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
             }
             onClick={handleClickAllUsers}
           >
-            All users
+            Featured
           </button>
         </div>
       </div>
       {feedOrMessages === "feed" && (
-        <Feed user={user} profileCallback={handleGoToProfile} />
+        <Feed
+          user={user}
+          profileCallback={handleGoToProfile}
+          isAllUsers={false}
+        />
       )}
       {feedOrMessages === "messages" && (
         <Messages user={user} instantConversation={instantConversationUser} />
       )}
       {feedOrMessages === "allUsers" && (
         <div className="allUsers_container">
-          <h2>All users</h2>
-          {searchResults.length > 0 ? (
-            <div className="allUsers_inner">
-              {searchResults.map((result, index) => (
-                <div
-                  key={index}
-                  className="allUsers_user"
-                  onClick={() => handleGoToProfile(result)}
-                >
-                  <img
-                    src={
-                      result.profilePicture
-                        ? `${result.profilePicture}`
-                        : defaultProfilePic
-                    }
-                    alt={`${result.username}'s profile`}
-                    className="search_result_pic"
-                  />
-                  <p>{result.username}</p>
-                </div>
-              ))}
-              <div className="search_results_filler"></div>
-            </div>
-          ) : (
-            <div className="search_results">No results</div>
-          )}
+          <div className="allUsers_outer">
+            {searchResults.length > 0 ? (
+              <div className="allUsers_inner">
+                {searchResults.map((result, index) => (
+                  <div
+                    key={index}
+                    className="allUsers_user"
+                    onClick={() => handleGoToProfile(result)}
+                  >
+                    <img
+                      src={
+                        result.profilePicture
+                          ? `${result.profilePicture}`
+                          : defaultProfilePic
+                      }
+                      alt={`${result.username}'s profile`}
+                      className="search_result_pic"
+                    />
+                    <p>{result.username}</p>
+                  </div>
+                ))}
+                <div className="search_results_filler"></div>
+              </div>
+            ) : (
+              <div className="search_results">No results</div>
+            )}
+            <Feed
+              user={user}
+              profileCallback={handleGoToProfile}
+              isAllUsers={true}
+            />
+          </div>
         </div>
       )}
       {feedOrMessages === "search" && (
@@ -313,6 +323,9 @@ export default Index;
 // [v] liking and unliking posts!
 // [v] popup for your profile page: list of users you follow and unfollow them
 // [v] list of all users
+// [v] backend - see all messages, comments and posts by date
+// [v] backend - delete account
+// [v] fill with content
 
 // bugs:
 // [v] chat width on pc if only short messages
@@ -344,20 +357,12 @@ export default Index;
 // [v] profile doesn't scroll on mobile (posts too small). make both containers scrollable
 // [v] why aren't linebreaks preserved in messages or posts?
 // [v] something in "home" doesn't want to go lower than 400px width
-// [_] switching between tabs in "message" should re-fetch and re-load the conversation
+// [v] clicking "chat" from profile on someone you already have a 1-1 convo with breaks / doesn't serve username?
+// [v] add a section - all posts
 // [_] in chats, messages not sorted by date
-// [_] add a section - all posts
-// [_] test user - go in without the ability to leave messages etc
+// [_] automcomplete? bring back persistent sessions?
+// [_] for portfolio - test user - go in without the ability to leave messages etc
 // [_] надо добавить функцию отвечать на сообщения и получать уведомления, когда отвечают тебе или к твоим постам
 // [_] like comments
-
-// backend:
-// [v] backend - see all messages, comments and posts by date
-// [v] backend - delete account
-// [v] fill with content
-// [_] automcomplete? bring back persistent sessions?
-// [_] for portfolio - some guest access
-// [_] readme
-
-// post publish:
 // [_] nice field validations and error messages on login
+// [_] readme
