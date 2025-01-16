@@ -359,10 +359,15 @@ export default Index;
 // [v] something in "home" doesn't want to go lower than 400px width
 // [v] clicking "chat" from profile on someone you already have a 1-1 convo with breaks / doesn't serve username?
 // [v] add a section - all posts
-// [_] in chats, messages not sorted by date
-// [_] automcomplete? bring back persistent sessions?
+// [v] posts are not linebreaking in profile
+// [v] on mobile in profile "posts by" cuts off in two lines with longer usernames
+// [v] "following" has no max-height?
+// [v] comments not sorted by date
+// [v] in chats, messages not sorted by date
+// [v] like comments
+// [_] editing and deleting posts
+// [_] autocomplete? bring back persistent sessions?
 // [_] for portfolio - test user - go in without the ability to leave messages etc
 // [_] надо добавить функцию отвечать на сообщения и получать уведомления, когда отвечают тебе или к твоим постам
-// [_] like comments
 // [_] nice field validations and error messages on login
 // [_] readme

@@ -320,6 +320,32 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
     }
   };
 
+  const handleCommentLikeUnlike = async (commentId) => {
+    try {
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/like_comment",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            myUserId: user.id,
+            commentId: commentId,
+          }),
+        }
+      );
+      if (response.ok) {
+        setCommentsAdded(commentsAdded + 1);
+        setNewCommentContent(""); // Clear the input field
+      }
+    } catch (err) {
+      console.error("Error during fetch: ", err);
+    }
+  };
+
   return (
     <div className="profile_section">
       {!profileHidden && (
@@ -470,7 +496,7 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
                     🗑
                   </button>
                 </div>
-                <p>{post.content}</p>
+                <p className="profile_post_content">{post.content}</p>
 
                 <div className="post_like_container">
                   <button
@@ -527,9 +553,39 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
                               }
                             ></img>
                             <span>{comment.author.username}</span>
-                            <span className="comment_content">
-                              {comment.content}
-                            </span>
+                            <button
+                              className="like_comment"
+                              onClick={() =>
+                                handleCommentLikeUnlike(comment.id)
+                              }
+                            >
+                              ♡
+                            </button>
+                            <div className="comment_main">
+                              <span className="comment_content">
+                                {comment.content}
+                              </span>
+                              {comment.likes.length > 0 ? (
+                                <span className="comment_likers">
+                                  {comment.likes.length === 1
+                                    ? "1 like:"
+                                    : `${comment.likes.length} likes:`}
+                                  {comment.likes.map((likeId) => {
+                                    const user = allUsers.find(
+                                      (user) => user.id === likeId
+                                    );
+                                    return user ? (
+                                      <span key={user.id}>
+                                        {" "}
+                                        {user.username}
+                                      </span>
+                                    ) : null;
+                                  })}
+                                </span>
+                              ) : (
+                                ""
+                              )}
+                            </div>
                           </div>
                         </div>
                       ))}

@@ -519,6 +519,7 @@ input {
   flex-direction: row;
   justify-content: start;
   align-items: center;
+  width: 100%;
 }
 
 .comment_author {
@@ -695,6 +696,10 @@ input {
 .profile_follows {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.profile_follows_inner {
+  max-height: 150px;
 }
 
 .following_title {
@@ -1064,6 +1069,12 @@ input {
 
 /* Preserving line breaks */
 .post_content_text {
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.profile_post_content {
+  overflow-wrap: break-word;
   white-space: pre-wrap;
 }
 
@@ -1082,6 +1093,36 @@ input {
 .new_post_section,
 .comment_container {
   min-width: 0;
+}
+
+/* Comment like button */
+.like_comment {
+  border: none;
+  background-color: transparent;
+  color: #a00223;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 2px;
+  margin-left: 6px;
+}
+
+.like_comment:hover {
+  color: black;
+}
+
+.comment_main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.comment_likers {
+  font-style: italic;
+  font-size: 9px;
+  padding-left: 10px;
 }
 
 /* Responsive */
@@ -1162,7 +1203,7 @@ input {
     max-height: 80px;
   }
   .posts_by {
-    font-size: 12px;
+    font-size: 11px;
     max-height: 30px;
     display: flex;
     justify-content: center;
