@@ -16,6 +16,8 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
   const [following, setFollowing] = useState([]);
   const [profileHidden, setProfileHidden] = useState(false);
 
+  console.log("Profile loading!");
+
   useEffect(() => {
     if (user.id === targetUser.id) {
       setTargetUser(user);

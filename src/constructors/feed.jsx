@@ -32,6 +32,8 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
   const [expandedPostId, setExpandedPostId] = useState(null);
   const [postPagination, setPostPagination] = useState(1);
   const [allUsers, setAllUsers] = useState([]);
+  const [isPostEditing, setIsPostEditing] = useState(false);
+  const [editedPostContent, setEditedPostContent] = useState("");
 
   // Fetch the posts of people the user follows
   useEffect(() => {
@@ -261,6 +263,19 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
     }
   };
 
+  const handlePostEditToggle = (post) => {
+    if (isPostEditing) {
+      // Save changes to the backend
+      savePostChanges();
+    }
+    if (!isPostEditing) {
+      setEditedPostContent(post.content);
+    }
+    setIsPostEditing(!isPostEditing);
+  };
+
+  const savePostChanges = async () => {};
+
   return (
     <div className="feed_container">
       {/* New Post Section */}
@@ -288,12 +303,10 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
           ) : (
             feedPosts.map((post) => (
               <div key={post.id} className="post_item">
-                <div
-                  className="post_author post_author_animation"
-                  onClick={() => profileCallback(post.author)}
-                >
+                <div className="post_author post_author_animation">
                   <div className="post_data">
                     <img
+                      onClick={() => profileCallback(post.author)}
                       src={
                         post.author.profilePicture
                           ? `${post.author.profilePicture}`
@@ -308,17 +321,33 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
                     </div>
                   </div>
                   {post.author.username === user.username ? (
-                    <button
-                      onClick={() => handlePostDelete(post)}
-                      className="delete_post"
-                    >
-                      🗑
-                    </button>
+                    <div>
+                      <button
+                        onClick={() => handlePostDelete(post)}
+                        className="delete_post"
+                      >
+                        🗑
+                      </button>{" "}
+                      <button
+                        className="delete_post"
+                        onClick={() => handlePostEditToggle(post)}
+                      >
+                        {isPostEditing ? "✔" : "🖉"}
+                      </button>
+                    </div>
                   ) : (
                     <div></div>
                   )}
                 </div>
-                <p className="post_content_text">{post.content}</p>
+                {!isPostEditing ? (
+                  <p className="post_content_text">{post.content}</p>
+                ) : (
+                  <textarea
+                    value={editedPostContent}
+                    onChange={(e) => setEditedPostContent(e.target.value)}
+                    className="edit_bio_textarea"
+                  ></textarea>
+                )}
                 <div className="post_like_container">
                   <button
                     className="delete_post"
