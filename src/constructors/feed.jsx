@@ -266,15 +266,40 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
   const handlePostEditToggle = (post) => {
     if (isPostEditing) {
       // Save changes to the backend
-      savePostChanges();
+      savePostChanges(post);
+      setIsPostEditing(false);
     }
     if (!isPostEditing) {
       setEditedPostContent(post.content);
+      setIsPostEditing(post.id);
     }
-    setIsPostEditing(!isPostEditing);
   };
 
-  const savePostChanges = async () => {};
+  const savePostChanges = async (post) => {
+    try {
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/update_post",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            postId: post.id,
+            postContent: editedPostContent,
+          }),
+        }
+      );
+      if (response.ok) {
+        setCommentsAdded(commentsAdded + 1);
+        setEditedPostContent(""); // Clear the input field
+      }
+    } catch (err) {
+      console.error("Error during fetch: ", err);
+    }
+  };
 
   return (
     <div className="feed_container">
@@ -332,14 +357,15 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
                         className="delete_post"
                         onClick={() => handlePostEditToggle(post)}
                       >
-                        {isPostEditing ? "✔" : "🖉"}
+                        {isPostEditing === post.id && "✔"}
+                        {isPostEditing === false && "🖉"}
                       </button>
                     </div>
                   ) : (
                     <div></div>
                   )}
                 </div>
-                {!isPostEditing ? (
+                {isPostEditing !== post.id ? (
                   <p className="post_content_text">{post.content}</p>
                 ) : (
                   <textarea
