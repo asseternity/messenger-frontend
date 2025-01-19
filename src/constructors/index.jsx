@@ -365,9 +365,10 @@ export default Index;
 // [v] comments not sorted by date
 // [v] in chats, messages not sorted by date
 // [v] like comments
-// [_] editing and deleting posts
+// [v] editing and deleting posts
 // [_] autocomplete? bring back persistent sessions?
 // [_] for portfolio - test user - go in without the ability to leave messages etc
+// [_] comments editing and deleting
 // [_] надо добавить функцию отвечать на сообщения и получать уведомления, когда отвечают тебе или к твоим постам
 // [_] nice field validations and error messages on login
 // [_] readme
