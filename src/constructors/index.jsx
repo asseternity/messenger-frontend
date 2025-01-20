@@ -366,7 +366,15 @@ export default Index;
 // [v] in chats, messages not sorted by date
 // [v] like comments
 // [v] editing and deleting posts
-// [_] autocomplete? bring back persistent sessions?
+
+// [v] jwt auto login
+// [v] jwt refresh token
+// [_] jwt logout:
+// const handleLogout = () => {
+//   localStorage.removeItem("jwtToken");
+//   setUser(null);
+// };
+
 // [_] for portfolio - test user - go in without the ability to leave messages etc
 // [_] comments editing and deleting
 // [_] надо добавить функцию отвечать на сообщения и получать уведомления, когда отвечают тебе или к твоим постам

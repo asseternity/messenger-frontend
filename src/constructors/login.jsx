@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Index from "./index";
 
@@ -9,6 +9,36 @@ const Login = () => {
   const [user, setUser] = useState();
   const [targetProfileUser, setTargetProfileUser] = useState();
 
+  // Automatically log in the user if the token is present
+  useEffect(() => {
+    const autoLogin = async () => {
+      try {
+        const response = await fetch(
+          "https://messenger-backend-production-a259.up.railway.app/auto-login",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setUser(data);
+        }
+      } catch (err) {
+        console.error("Error during auto-login: ", err);
+      }
+    };
+
+    const token = localStorage.getItem("jwtToken");
+    if (token) {
+      autoLogin();
+    }
+  }, []);
+
+  // Manual login
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -25,6 +55,7 @@ const Login = () => {
       );
       if (response.ok) {
         const data = await response.json();
+        localStorage.setItem("jwtToken", data.token);
         setUser(data);
       }
     } catch (err) {
