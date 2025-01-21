@@ -381,6 +381,6 @@ export default Index;
 // [v] edit posts in your profile
 // [v] style textareas for editing posts and bio
 // [v] comments editing and deleting
-// [_] for portfolio - test user - go in without the ability to leave messages etc
 // [_] надо добавить функцию отвечать на сообщения и получать уведомления, когда отвечают тебе или к твоим постам
+// [_] for portfolio - test user - go in without the ability to leave messages etc
 // [_] readme
