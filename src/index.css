@@ -1152,6 +1152,21 @@ input {
   padding: 0;
 }
 
+/* Login error message */
+.error_message {
+  font-size: 11px;
+  padding: 6px;
+  color: #a00223;
+  border: solid 1px #a00223;
+  border-radius: 15px;
+  font-style: italic;
+  text-align: center;
+}
+
+.error_margin {
+  margin-bottom: 5px;
+}
+
 /* Responsive */
 @media screen and (max-width: 630px) {
   .login_container {

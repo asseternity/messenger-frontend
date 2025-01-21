@@ -70,7 +70,7 @@ const Registration = () => {
         <h3 className="login_title">Lounge</h3>
       </div>
       <div className="login_form_card">
-        {error && <div>{error}</div>}
+        {error && <div className="error_message error_margin">{error}</div>}
         {success && <div>{success}</div>}
         <form onSubmit={handleSubmit}>
           <div className="login_form">

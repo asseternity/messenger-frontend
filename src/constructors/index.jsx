@@ -376,7 +376,9 @@ export default Index;
 // [v] jwt auto login
 // [v] jwt refresh token
 // [v] jwt logout
-// [_] nice field validations and error messages on login
+// [v] no login screen while fetching, a blank instead, use an isLoading state
+// [v] nice field validations and error messages on login
+
 // [_] comments editing and deleting
 // [_] for portfolio - test user - go in without the ability to leave messages etc
 // [_] надо добавить функцию отвечать на сообщения и получать уведомления, когда отвечают тебе или к твоим постам
