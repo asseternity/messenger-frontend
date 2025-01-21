@@ -353,13 +353,22 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
                       >
                         🗑
                       </button>{" "}
-                      <button
-                        className="delete_post"
-                        onClick={() => handlePostEditToggle(post)}
-                      >
-                        {isPostEditing === post.id && "✔"}
-                        {isPostEditing === false && "🖉"}
-                      </button>
+                      {isPostEditing === post.id && (
+                        <button
+                          className="delete_post"
+                          onClick={() => handlePostEditToggle(post)}
+                        >
+                          {"✔"}
+                        </button>
+                      )}
+                      {isPostEditing === false && (
+                        <button
+                          className="delete_post"
+                          onClick={() => handlePostEditToggle(post)}
+                        >
+                          {"🖉"}
+                        </button>
+                      )}
                     </div>
                   ) : (
                     <div></div>

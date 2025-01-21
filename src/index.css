@@ -744,8 +744,11 @@ input {
 }
 
 .profile_text_container {
+  height: 100%;
   padding: 10px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 .profile_text_container input {
@@ -758,6 +761,7 @@ input {
 }
 
 .profile_bio {
+  height: 100%;
   width: 100%;
   overflow-wrap: break-word;
   white-space: pre-wrap;
@@ -1165,6 +1169,15 @@ input {
 
 .error_margin {
   margin-bottom: 5px;
+}
+
+/* Textareas */
+.edit_bio_textarea {
+  height: 100%;
+  min-height: 200px;
+  width: 100%;
+  background-color: white;
+  font-family: "Poppins";
 }
 
 /* Responsive */

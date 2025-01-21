@@ -378,7 +378,8 @@ export default Index;
 // [v] jwt logout
 // [v] no login screen while fetching, a blank instead, use an isLoading state
 // [v] nice field validations and error messages on login
-
+// [v] edit posts in your profile
+// [v] style textareas for editing posts and bio
 // [_] comments editing and deleting
 // [_] for portfolio - test user - go in without the ability to leave messages etc
 // [_] надо добавить функцию отвечать на сообщения и получать уведомления, когда отвечают тебе или к твоим постам

@@ -15,6 +15,8 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
   const [allUsers, setAllUsers] = useState([]);
   const [following, setFollowing] = useState([]);
   const [profileHidden, setProfileHidden] = useState(false);
+  const [isPostEditing, setIsPostEditing] = useState(false);
+  const [editedPostContent, setEditedPostContent] = useState("");
 
   console.log("Profile loading!");
 
@@ -348,6 +350,44 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
     }
   };
 
+  const handlePostEditToggle = (post) => {
+    if (isPostEditing) {
+      // Save changes to the backend
+      savePostChanges(post);
+      setIsPostEditing(false);
+    }
+    if (!isPostEditing) {
+      setEditedPostContent(post.content);
+      setIsPostEditing(post.id);
+    }
+  };
+
+  const savePostChanges = async (post) => {
+    try {
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/update_post",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            postId: post.id,
+            postContent: editedPostContent,
+          }),
+        }
+      );
+      if (response.ok) {
+        setCommentsAdded(commentsAdded + 1);
+        setEditedPostContent(""); // Clear the input field
+      }
+    } catch (err) {
+      console.error("Error during fetch: ", err);
+    }
+  };
+
   return (
     <div className="profile_section">
       {!profileHidden && (
@@ -470,12 +510,8 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
             <div>This user has no posts.</div>
           ) : (
             posts.map((post) => (
-              <div
-                key={post.id}
-                className="post_item"
-                onClick={() => togglePostExpansion(post.id)}
-              >
-                <div className="post_author">
+              <div key={post.id} className="post_item">
+                <div className="post_author post_author_animation">
                   <div className="post_data">
                     <img
                       src={
@@ -491,15 +527,44 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
                       </span>
                     </div>
                   </div>
-                  <button
-                    onClick={() => handlePostDelete(post)}
-                    className="delete_post"
-                  >
-                    🗑
-                  </button>
+                  {post.author.username === user.username ? (
+                    <div>
+                      <button
+                        onClick={() => handlePostDelete(post)}
+                        className="delete_post"
+                      >
+                        🗑
+                      </button>{" "}
+                      {isPostEditing === post.id && (
+                        <button
+                          className="delete_post"
+                          onClick={() => handlePostEditToggle(post)}
+                        >
+                          {"✔"}
+                        </button>
+                      )}
+                      {isPostEditing === false && (
+                        <button
+                          className="delete_post"
+                          onClick={() => handlePostEditToggle(post)}
+                        >
+                          {"🖉"}
+                        </button>
+                      )}
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
-                <p className="profile_post_content">{post.content}</p>
-
+                {isPostEditing !== post.id ? (
+                  <p className="post_content_text">{post.content}</p>
+                ) : (
+                  <textarea
+                    value={editedPostContent}
+                    onChange={(e) => setEditedPostContent(e.target.value)}
+                    className="edit_bio_textarea"
+                  ></textarea>
+                )}
                 <div className="post_like_container">
                   <button
                     className="delete_post"
@@ -538,6 +603,7 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
                   className={`post_comments ${
                     expandedPostId === post.id ? "expanded" : ""
                   }`}
+                  onClick={() => togglePostExpansion(post.id)}
                 >
                   {expandedPostId === post.id ? (
                     <div>
