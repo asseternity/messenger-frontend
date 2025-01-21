@@ -26,8 +26,9 @@ const Login = () => {
         );
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           setUser(data);
+        } else {
+          setShowLoginScreen(true);
         }
       } catch (err) {
         console.error("Error during auto-login: ", err);

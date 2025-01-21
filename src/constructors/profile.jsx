@@ -17,8 +17,8 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
   const [profileHidden, setProfileHidden] = useState(false);
   const [isPostEditing, setIsPostEditing] = useState(false);
   const [editedPostContent, setEditedPostContent] = useState("");
-
-  console.log("Profile loading!");
+  const [isCommentEditing, setIsCommentEditing] = useState(false);
+  const [editedCommentContent, setEditedCommentContent] = useState("");
 
   useEffect(() => {
     if (user.id === targetUser.id) {
@@ -388,6 +388,42 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
     }
   };
 
+  const handleCommentEditToggle = (comment) => {
+    if (isCommentEditing) {
+      saveCommentChanges(comment);
+      setIsCommentEditing(false);
+    } else {
+      setEditedCommentContent(comment.content);
+      setIsCommentEditing(comment.id);
+    }
+  };
+
+  const saveCommentChanges = async (comment) => {
+    try {
+      const response = await fetch(
+        "https://messenger-backend-production-a259.up.railway.app/edit_comment",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            commentId: comment.id,
+            commentContent: editedCommentContent,
+          }),
+        }
+      );
+      if (response.ok) {
+        setCommentsAdded(commentsAdded + 1);
+        setEditedCommentContent(""); // Clear the input field
+      }
+    } catch (err) {
+      console.error("Error during fetch: ", err);
+    }
+  };
+
   return (
     <div className="profile_section">
       {!profileHidden && (
@@ -628,11 +664,47 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
                               }
                             >
                               ♡
-                            </button>
+                            </button>{" "}
+                            {comment.author.username === user.username ? (
+                              <div>
+                                {isCommentEditing === false && (
+                                  <button
+                                    className="like_comment edit_comment"
+                                    onClick={() =>
+                                      handleCommentEditToggle(comment)
+                                    }
+                                  >
+                                    Edit
+                                  </button>
+                                )}
+                                {isCommentEditing === comment.id && (
+                                  <button
+                                    className="like_comment edit_comment"
+                                    onClick={() =>
+                                      handleCommentEditToggle(comment)
+                                    }
+                                  >
+                                    Confirm
+                                  </button>
+                                )}
+                              </div>
+                            ) : (
+                              <div></div>
+                            )}
                             <div className="comment_main">
-                              <span className="comment_content">
-                                {comment.content}
-                              </span>
+                              {isCommentEditing !== comment.id ? (
+                                <span className="comment_content">
+                                  {comment.content}
+                                </span>
+                              ) : (
+                                <textarea
+                                  value={editedCommentContent}
+                                  onChange={(e) =>
+                                    setEditedCommentContent(e.target.value)
+                                  }
+                                  className="edit_bio_textarea edit_comment_textarea"
+                                ></textarea>
+                              )}
                               {comment.likes.length > 0 ? (
                                 <span className="comment_likers">
                                   {comment.likes.length === 1
