@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import defaultProfilePic from "/silhouette.png";
 import sl_logo from "/sl_logo.png";
+import logout_img from "/logout.png";
 import Messages from "./messages";
 import Feed from "./feed";
 import Profile from "./profile";
@@ -145,6 +146,12 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
               onClick={() => handleGoToProfile(user)}
             />
             {user.username}
+            <button
+              className="logout_button"
+              onClick={() => updateUser(null, null)}
+            >
+              <img src={logout_img} className="logout_img" />
+            </button>
           </div>
           <div className="username_bar_right">
             <form onSubmit={handleSearch}>
@@ -366,17 +373,11 @@ export default Index;
 // [v] in chats, messages not sorted by date
 // [v] like comments
 // [v] editing and deleting posts
-
 // [v] jwt auto login
 // [v] jwt refresh token
-// [_] jwt logout:
-// const handleLogout = () => {
-//   localStorage.removeItem("jwtToken");
-//   setUser(null);
-// };
-
-// [_] for portfolio - test user - go in without the ability to leave messages etc
-// [_] comments editing and deleting
-// [_] надо добавить функцию отвечать на сообщения и получать уведомления, когда отвечают тебе или к твоим постам
+// [v] jwt logout
 // [_] nice field validations and error messages on login
+// [_] comments editing and deleting
+// [_] for portfolio - test user - go in without the ability to leave messages etc
+// [_] надо добавить функцию отвечать на сообщения и получать уведомления, когда отвечают тебе или к твоим постам
 // [_] readme

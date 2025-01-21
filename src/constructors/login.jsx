@@ -64,8 +64,13 @@ const Login = () => {
   };
 
   const updateUser = (newUser, newTargetUser) => {
-    setUser(newUser);
-    setTargetProfileUser(newTargetUser);
+    if (newUser === null) {
+      localStorage.removeItem("jwtToken");
+      setUser(null);
+    } else {
+      setUser(newUser);
+      setTargetProfileUser(newTargetUser);
+    }
   };
 
   return (
