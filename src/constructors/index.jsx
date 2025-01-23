@@ -5,6 +5,7 @@ import logout_img from "/logout.png";
 import Messages from "./messages";
 import Feed from "./feed";
 import Profile from "./profile";
+import Popup from "./popup";
 
 /* eslint-disable react/prop-types */
 const Index = ({ user, targetProfileUser, updateUser }) => {
@@ -14,6 +15,9 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
   const [lastSearch, setLastSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [instantConversationUser, setInstantConversationUser] = useState("");
+  const [showNotificationPopup, setShowNotificationPopup] = useState(false);
+  const [unreadMessages, setUnreadMessages] = useState([]);
+  const [unreadComments, setUnreadComments] = useState([]);
 
   useEffect(() => {
     const fetchProfilePic = async () => {
@@ -30,6 +34,38 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
 
     fetchProfilePic();
   }, [user]);
+
+  useEffect(() => {
+    const fetchUpdates = async () => {
+      try {
+        const response = await fetch(
+          "https://messenger-backend-production-a259.up.railway.app/notifications",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`,
+            },
+            credentials: "include",
+            body: JSON.stringify({
+              myUserId: user.id,
+            }),
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setUnreadMessages(data.unreadMessages);
+          setUnreadComments(data.unreadComments);
+        } else {
+          console.error("Failed to fetch notifications");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchUpdates();
+  }, []);
 
   const handleTabClick = (section) => {
     if (section === "feed") {
@@ -130,6 +166,10 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
     }
   };
 
+  const toggleNoficationPopup = () => {
+    setShowNotificationPopup(!showNotificationPopup);
+  };
+
   return (
     <div className="container">
       <div className="top_bar">
@@ -140,11 +180,30 @@ const Index = ({ user, targetProfileUser, updateUser }) => {
               className="sl_logo"
               onClick={() => handleTabClick("feed")}
             />
-            <img
-              src={profilePicUrl}
-              className="profile_picture"
-              onClick={() => handleGoToProfile(user)}
-            />
+            <div className="profile_picture">
+              <img
+                src={profilePicUrl}
+                onClick={() => handleGoToProfile(user)}
+              />
+              <div
+                className={
+                  unreadComments.length === 0 && unreadMessages.length === 0
+                    ? "notification_div hidden"
+                    : "notification_div"
+                }
+                onClick={toggleNoficationPopup}
+              ></div>
+              {showNotificationPopup && (
+                <div className="notification_popup">
+                  <Popup
+                    user={user}
+                    unreadMessages={unreadMessages}
+                    unreadComments={unreadComments}
+                    closeCallback={toggleNoficationPopup}
+                  />
+                </div>
+              )}
+            </div>
             {user.username}
             <button
               className="logout_button"
@@ -381,6 +440,8 @@ export default Index;
 // [v] edit posts in your profile
 // [v] style textareas for editing posts and bio
 // [v] comments editing and deleting
-// [_] надо добавить функцию отвечать на сообщения и получать уведомления, когда отвечают тебе или к твоим постам
+// [v] надо добавить функцию отвечать на сообщения и получать уведомления, когда отвечают тебе или к твоим постам
+// ui: a red circle under your profile pic on top left with a number of (1) messages and (2) comments to your posts since your last login
+// clicking on the red circle shows a list, and red circle disappears
 // [_] for portfolio - test user - go in without the ability to leave messages etc
 // [_] readme

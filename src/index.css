@@ -87,14 +87,51 @@ input {
 }
 
 .username_bar_left .profile_picture {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  margin-right: 10px;
+  position: relative;
 }
 
-.username_bar_left .profile_picture:hover {
+.username_bar_left .profile_picture img {
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.username_bar_left .profile_picture img:hover {
   transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.username_bar_left .notification_div {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  background-color: #afeeee;
+  box-shadow: 0px 0px 10px black;
+  border: none;
+  border-radius: 50%;
+  transform: translate(20%, -20%);
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.username_bar_left .notification_popup {
+  position: fixed;
+  height: 200px;
+  width: 150px;
+  background-color: #afeeee;
+  padding: 15px;
+  transform: translate(0, -10%);
+}
+
+.username_bar_left .notification_div:hover {
+  transform: translate(20%, -20%) scale(1.5);
   transition: transform 0.2s ease-in-out;
 }
 
@@ -1201,6 +1238,45 @@ input {
   margin-left: 3px;
 }
 
+/* Popup */
+.popup_inner {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-size: 10px;
+}
+
+.popup_inner::-webkit-scrollbar {
+  display: none;
+}
+
+.popup_inner {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.popup_inner p {
+  padding: 2px;
+  border-bottom: 1px solid white;
+}
+
+.popup_inner_top {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+}
+
+.popup_inner button {
+  background-color: transparent;
+  color: white;
+  padding: 2px;
+  margin: 2px;
+  border: 1px solid white;
+  border-radius: 15px;
+}
+
 /* Responsive */
 @media screen and (max-width: 630px) {
   .login_container {
@@ -1229,10 +1305,6 @@ input {
 }
 
 @media screen and (max-width: 470px) {
-  .sl_logo {
-  }
-  .profile_picture {
-  }
   .tabs_bar button {
     font-size: 12px;
     padding-left: 4px;
@@ -1249,14 +1321,14 @@ input {
     font-size: 11px;
   }
   .username_bar_left .sl_logo {
-    width: 18px;
-    height: 18px;
-    margin: 3px;
+    width: 22px;
+    height: 22px;
+    margin: 2px;
   }
-  .username_bar_left .profile_picture {
-    width: 18px;
-    height: 18px;
-    margin-right: 5px;
+  .username_bar_left .profile_picture img {
+    width: 22px;
+    height: 22px;
+    margin-right: 2px;
   }
   .username_bar_right input {
     width: 80px;
