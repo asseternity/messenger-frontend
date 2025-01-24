@@ -52,7 +52,7 @@ createRoot(document.getElementById("root")).render(
 // [v] Users should be able to sign in using your chosen authentication method.
 // [v] Users can send follow requests to other users.
 // [v] Users can create posts (text only).
-// [_] Users can like posts.
+// v] Users can like posts.
 // [v] Users can comment on posts.
 // [v] Posts should always display the post content, author, comments, and likes.
 // [v] There should be an index page for posts, which shows all the recent posts from the current user and users they are following.

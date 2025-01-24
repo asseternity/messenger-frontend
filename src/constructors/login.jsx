@@ -85,6 +85,37 @@ const Login = () => {
     }
   };
 
+  // guest login
+  const handleGuest = async () => {
+    setErrorMessage("");
+    const token = localStorage.getItem("jwtToken");
+    if (token) {
+      localStorage.removeItem("jwtToken");
+    } else
+      try {
+        const response = await fetch(
+          "https://messenger-backend-production-a259.up.railway.app/log-in",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({ username: "Guest", password: "123" }),
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setUser(data);
+        } else {
+          setErrorMessage("An error occurred. Please try again."); // General error message
+        }
+      } catch (err) {
+        console.error("Error during login: ", err);
+        setErrorMessage("An error occurred. Please try again."); // Handle network errors
+      }
+  };
+
   return (
     <div className="root">
       {!user && showLoginScreen && (
@@ -122,7 +153,8 @@ const Login = () => {
             </form>
             <p>Don&apos;t have an account?</p>
             <p>
-              Register <Link to="/registration">here</Link>.
+              Register <Link to="/registration">here</Link> or try{" "}
+              <Link onClick={handleGuest}>Guest</Link> access.
             </p>
           </div>
         </div>

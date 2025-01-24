@@ -443,5 +443,11 @@ export default Index;
 // [v] надо добавить функцию отвечать на сообщения и получать уведомления, когда отвечают тебе или к твоим постам
 // ui: a red circle under your profile pic on top left with a number of (1) messages and (2) comments to your posts since your last login
 // clicking on the red circle shows a list, and red circle disappears
-// [_] for portfolio - test user - go in without the ability to leave messages etc
+// [v] for portfolio - test user - go in without the ability to leave messages etc
+// [v] create guest
+// [v] login as guest
+// [v] prevent auto-login for guest
+// [v] check: inability to post / comment / vandalize account; no auto-login
+// [_] ui feedback for no changing bio / username
+// [_] ui feedback / popup for no posts or comments
 // [_] readme
