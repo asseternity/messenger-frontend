@@ -19,6 +19,7 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
   const [editedPostContent, setEditedPostContent] = useState("");
   const [isCommentEditing, setIsCommentEditing] = useState(false);
   const [editedCommentContent, setEditedCommentContent] = useState("");
+  const [showGuestMessage, setShowGuestMessage] = useState(false);
 
   useEffect(() => {
     if (user.id === targetUser.id) {
@@ -186,6 +187,10 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
   };
 
   const handleEditToggle = () => {
+    if (user.username === "Guest") {
+      setShowGuestMessage(true);
+      return;
+    }
     if (isEditing) {
       // Save changes to the backend
       saveProfileChanges();
@@ -257,6 +262,10 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
   };
 
   const handleClickProfilePicture = () => {
+    if (user.username === "Guest") {
+      setShowGuestMessage(true);
+      return;
+    }
     // Trigger the click event on the hidden file input element
     const fileInput = document.getElementById("fileInput");
     if (fileInput) {
@@ -426,6 +435,13 @@ const Profile = ({ user, profileUser, updateUser, goToChatFromProfile }) => {
 
   return (
     <div className="profile_section">
+      {showGuestMessage && (
+        <div className="guest_message">
+          As a guest user, you may not edit your profile or change your profile
+          picture. Register to use the Lounge!
+          <button onClick={() => setShowGuestMessage(false)}>Confirm</button>
+        </div>
+      )}
       {!profileHidden && (
         <div className="profile_top">
           <div className="profile_container">
@@ -785,4 +801,4 @@ export default Profile;
 // [v] follow / message buttons
 // [v] identify whether you're following that user or not
 // [v] follow button hook up
-// [_] raise the chat button up a level to index by callback passing
+// [v] raise the chat button up a level to index by callback passing

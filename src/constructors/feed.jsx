@@ -36,6 +36,7 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
   const [editedPostContent, setEditedPostContent] = useState("");
   const [isCommentEditing, setIsCommentEditing] = useState(false);
   const [editedCommentContent, setEditedCommentContent] = useState("");
+  const [showGuestMessage, setShowGuestMessage] = useState(false);
 
   // Fetch the posts of people the user follows
   useEffect(() => {
@@ -102,6 +103,10 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
 
   // Handle creating a new post
   const handlePostSubmit = async () => {
+    if (user.username === "Guest") {
+      setShowGuestMessage(true);
+      return;
+    }
     if (!newPostContent.trim()) {
       return; // Don't submit if content is empty
     }
@@ -144,6 +149,10 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
 
   // Handle add comment
   const handleCommentSubmit = async (postId) => {
+    if (user.username === "Guest") {
+      setShowGuestMessage(true);
+      return;
+    }
     if (!newCommentContent.trim()) {
       return; // Don't submit if content is empty
     }
@@ -341,6 +350,14 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
 
   return (
     <div className="feed_container">
+      {/* Guest restriction popup*/}
+      {showGuestMessage && (
+        <div className="guest_message">
+          As a guest user, you may not create posts or comments. Register to use
+          the Lounge!
+          <button onClick={() => setShowGuestMessage(false)}>Confirm</button>
+        </div>
+      )}
       {/* New Post Section */}
       {!isAllUsers && (
         <div className="new_post_section">

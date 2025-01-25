@@ -448,6 +448,7 @@ export default Index;
 // [v] login as guest
 // [v] prevent auto-login for guest
 // [v] check: inability to post / comment / vandalize account; no auto-login
-// [_] ui feedback for no changing bio / username
-// [_] ui feedback / popup for no posts or comments
-// [_] readme
+// [v] permanent notification message for guest
+// [v] ui feedback / popup for no posts or comments
+// [v] ui feedback for no changing bio / username
+// [v] readme
