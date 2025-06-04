@@ -335,6 +335,8 @@ input {
 }
 
 .chat_keyboard_div {
+  display: flex;
+  flex-direction: row;
   max-width: 700px;
   width: 100%; /* Full width of the parent container */
 }
@@ -382,6 +384,30 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* Chat keyboard buttons */
+.chat_keyboard_mode_buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat_keyboard_mode_button {
+  background-color: #b8860b;
+  opacity: 0.7;
+}
+
+.text_button {
+}
+
+.image_button {
+  background-color: #b8860b;
+  opacity: 0.7;
+}
+
+.chat_button_selected {
+  background-color: #a00223;
+  opacity: 1;
 }
 
 /* Feed container */
