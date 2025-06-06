@@ -101,7 +101,7 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
             }
             onClick={() => setImageSendingMode(false)}
           >
-            Message
+            Text
           </div>
           <div
             className={
@@ -125,15 +125,17 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
           </form>
         )}
         {imageSendingMode && (
-          <form
-            onSubmit={handleSendImage}
-            className="chat_keyboard chat_keyboard_message"
-          >
-            <textarea
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Insert the image URL."
-            />
+          <form onSubmit={handleSendImage} className="chat_keyboard">
+            <div className="chat_keyboard_image">
+              <label>Insert the image URL below...</label>
+              <input
+                style={{ width: "100%" }}
+                type="text"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder="https://yourwebsite.com/image.jpg"
+              />
+            </div>
             <button type="submit">Send</button>
           </form>
         )}

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 const ChatWindow = ({ conversation, user }) => {
   const [newMessage, setNewMessage] = useState("");
   const [currentConversation, setCurrentConversation] = useState(conversation);
+  const [imageSendingMode, setImageSendingMode] = useState(false);
   const messageWindowRef = useRef(null);
 
   useEffect(() => {
@@ -24,6 +25,10 @@ const ChatWindow = ({ conversation, user }) => {
       onSendMessage(newMessage);
       setNewMessage("");
     }
+  };
+
+  const handleSendImage = (e) => {
+    e.preventDefault();
   };
 
   const onSendMessage = async (message) => {
@@ -87,14 +92,53 @@ const ChatWindow = ({ conversation, user }) => {
         </div>
       )}
       <div className="chat_keyboard_div">
-        <form onSubmit={handleSend} className="chat_keyboard">
-          <textarea
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Type a message"
-          />
-          <button type="submit">Send</button>
-        </form>
+        <div className="chat_keyboard_mode_buttons">
+          <div
+            className={
+              imageSendingMode
+                ? "chat_keyboard_mode_button"
+                : "chat_keyboard_mode_button chat_button_selected"
+            }
+            onClick={() => setImageSendingMode(false)}
+          >
+            Text
+          </div>
+          <div
+            className={
+              imageSendingMode
+                ? "chat_keyboard_mode_button chat_button_selected"
+                : "chat_keyboard_mode_button"
+            }
+            onClick={() => setImageSendingMode(true)}
+          >
+            Image
+          </div>
+        </div>
+        {!imageSendingMode && (
+          <form onSubmit={handleSend} className="chat_keyboard">
+            <textarea
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="Type a message"
+            />
+            <button type="submit">Send</button>
+          </form>
+        )}
+        {imageSendingMode && (
+          <form onSubmit={handleSendImage} className="chat_keyboard">
+            <div className="chat_keyboard_image">
+              <label>Insert the image URL below...</label>
+              <input
+                style={{ width: "100%" }}
+                type="text"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder="https://yourwebsite.com/image.jpg"
+              />
+            </div>
+            <button type="submit">Send</button>
+          </form>
+        )}
       </div>
     </div>
   );
