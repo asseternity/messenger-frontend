@@ -63,3 +63,4 @@ createRoot(document.getElementById("root")).render(
 // [_] frontend upload button instead of link pasting
 // [_] after new message chats don't update
 // [_] create new conversation is bugged
+// [_] writing a post does not update the page
