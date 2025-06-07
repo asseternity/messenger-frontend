@@ -57,3 +57,9 @@ createRoot(document.getElementById("root")).render(
 // [v] Posts should always display the post content, author, comments, and likes.
 // [v] There should be an index page for posts, which shows all the recent posts from the current user and users they are following.
 // [v] Users can create a profile with a profile picture.
+
+// 2025 changes:
+// [_] backend for image upload
+// [_] frontend upload button instead of link pasting
+// [_] after new message chats don't update
+// [_] create new conversation is bugged
