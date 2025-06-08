@@ -58,9 +58,20 @@ createRoot(document.getElementById("root")).render(
 // [v] There should be an index page for posts, which shows all the recent posts from the current user and users they are following.
 // [v] Users can create a profile with a profile picture.
 
-// 2025 changes:
-// [_] backend for image upload
-// [_] frontend upload button instead of link pasting
+// image messages:
+// [v] frontend function for sending [image] + urls
+// [v] backend for image upload for message
+// [_] *decipher image_ messages in frontend*
+// [_] replace broken image_ messages with a stock error
+
+// image posts:
+// [_] frontend for images in posts: section to post an image
+// [_] frontend for images in posts: cipher the image posts
+// [_] backend for image upload for posts
+// [_] *decipher image_ posts in frontend*
+// [_] replace broken image_ posts with a stock error
+
+// bugs:
 // [_] after new message chats don't update
 // [_] create new conversation is bugged
 // [_] writing a post does not update the page

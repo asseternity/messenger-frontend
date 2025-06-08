@@ -27,12 +27,14 @@ const ChatWindow = ({ conversation, user }) => {
     }
   };
 
-  const handleSendImage = (e) => {
-    e.preventDefault();
-  };
-
   const onSendMessage = async (message) => {
     try {
+      let messageText = "";
+      if (!imageSendingMode) {
+        messageText = message;
+      } else {
+        messageText = "image_" + message;
+      }
       const response = await fetch(
         "https://messenger-backend-production-a259.up.railway.app/new-message",
         {
@@ -43,7 +45,7 @@ const ChatWindow = ({ conversation, user }) => {
           },
           body: JSON.stringify({
             conversationId: currentConversation.id,
-            content: message,
+            content: messageText,
             userId: user.userId,
           }),
           credentials: "include",
@@ -86,7 +88,14 @@ const ChatWindow = ({ conversation, user }) => {
                   ? user.username
                   : msg.sender.username}
               </div>
-              <span>{msg.content}</span>
+              {msg.content.startsWith("image_") && (
+                <img
+                  src={msg.content.split("_").pop()}
+                  alt="sent image"
+                  className="chat_image"
+                />
+              )}
+              {!msg.content.startsWith("image_") && <span>{msg.content}</span>}
             </div>
           ))}
         </div>
@@ -125,7 +134,7 @@ const ChatWindow = ({ conversation, user }) => {
           </form>
         )}
         {imageSendingMode && (
-          <form onSubmit={handleSendImage} className="chat_keyboard">
+          <form onSubmit={handleSend} className="chat_keyboard">
             <div className="chat_keyboard_image">
               <label>Insert the image URL below...</label>
               <input

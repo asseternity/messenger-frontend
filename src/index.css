@@ -330,6 +330,7 @@ input {
 }
 
 .sender {
+  width: auto;
   font-size: 70%;
   font-style: italic;
 }
@@ -1347,6 +1348,12 @@ input {
 
 .guest_message:hover {
   border: 1px solid white;
+}
+
+/* in-chat images */
+.chat_image {
+  max-width: 60%;
+  width: fit-content;
 }
 
 /* Responsive */
