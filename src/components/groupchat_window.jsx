@@ -144,13 +144,16 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
         {imageSendingMode && (
           <form onSubmit={handleSend} className="chat_keyboard">
             <div className="chat_keyboard_image">
-              <label className="image_label">Paste image URL</label>
+              <div className="image_label">
+                <label>Paste image URL</label>
+              </div>
               <input
-                style={{ width: "100%" }}
+                style={{ width: "calc(100% - 6px)" }}
                 type="text"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="https://yourwebsite.com/image.jpg"
+                className="image_text_input"
               />
             </div>
             <button type="submit">Send</button>

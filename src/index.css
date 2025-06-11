@@ -344,8 +344,9 @@ input {
 
 .chat_keyboard {
   display: flex;
+  flex-direction: row;
   width: 100%; /* Ensure the form covers the entire div */
-  margin-bottom: 3px;
+  height: 100%;
 }
 
 .chat_keyboard textarea {
@@ -390,6 +391,7 @@ input {
 /* Chat keyboard buttons */
 .chat_keyboard_image {
   display: flex;
+  height: 100%;
   flex-direction: column;
   flex-grow: 1;
   padding: 0 5px;
@@ -1357,7 +1359,12 @@ input {
 }
 
 .image_label {
-  font-size: 10px;
+  font-size: 12px;
+  flex-grow: 1;
+}
+
+.image_text_label {
+  box-sizing: border-box;
 }
 
 /* Responsive */
