@@ -1352,7 +1352,7 @@ input {
 
 /* in-chat images */
 .chat_image {
-  max-width: 60%;
+  max-width: 100%;
   width: fit-content;
 }
 

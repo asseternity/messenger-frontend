@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import not_found from "/not_found.png";
 
 /* eslint-disable react/prop-types */
 const ChatWindow = ({ conversation, user }) => {
@@ -60,6 +61,12 @@ const ChatWindow = ({ conversation, user }) => {
     }
   };
 
+  const handleImageError = (e) => {
+    // avoid infinite loop if placeholder also fails
+    e.currentTarget.onerror = null;
+    e.currentTarget.src = not_found;
+  };
+
   return (
     <div className="chat_inner">
       {currentConversation && currentConversation.message && (
@@ -93,6 +100,7 @@ const ChatWindow = ({ conversation, user }) => {
                   src={msg.content.split("_").pop()}
                   alt="sent image"
                   className="chat_image"
+                  onError={handleImageError}
                 />
               )}
               {!msg.content.startsWith("image_") && <span>{msg.content}</span>}

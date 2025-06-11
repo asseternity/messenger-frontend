@@ -61,14 +61,16 @@ createRoot(document.getElementById("root")).render(
 // image messages:
 // [v] frontend function for sending [image] + urls
 // [v] backend for image upload for message
-// [_] *decipher image_ messages in frontend*
-// [_] replace broken image_ messages with a stock error
+// [v] *decipher image_ messages in frontend*
+// [v] css
+// [v] replace broken image_ messages with a stock error
 
 // image posts:
 // [_] frontend for images in posts: section to post an image
 // [_] frontend for images in posts: cipher the image posts
 // [_] backend for image upload for posts
 // [_] *decipher image_ posts in frontend*
+// [_] css
 // [_] replace broken image_ posts with a stock error
 
 // bugs:
