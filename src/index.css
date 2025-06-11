@@ -1356,6 +1356,10 @@ input {
   width: fit-content;
 }
 
+.image_label {
+  font-size: 10px;
+}
+
 /* Responsive */
 @media screen and (max-width: 630px) {
   .login_container {

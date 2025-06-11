@@ -144,7 +144,7 @@ const GroupChatWindow = ({ conversation, allUsers, user }) => {
         {imageSendingMode && (
           <form onSubmit={handleSend} className="chat_keyboard">
             <div className="chat_keyboard_image">
-              <label>Insert the image URL below...</label>
+              <label className="image_label">Paste image URL</label>
               <input
                 style={{ width: "100%" }}
                 type="text"
