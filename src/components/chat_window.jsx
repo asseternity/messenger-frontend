@@ -97,7 +97,7 @@ const ChatWindow = ({ conversation, user }) => {
               </div>
               {msg.content.startsWith("image_") && (
                 <img
-                  src={msg.content.split("_").pop()}
+                  src={msg.content.slice(6)}
                   alt="sent image"
                   className="chat_image"
                   onError={handleImageError}
