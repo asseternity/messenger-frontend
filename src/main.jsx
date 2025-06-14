@@ -65,6 +65,11 @@ createRoot(document.getElementById("root")).render(
 // [v] css
 // [v] replace broken image_ messages with a stock error
 
+// bugs:
+// [v] after new message chats don't update
+// [v] create new conversation is bugged
+// [v] writing a post does not update the page
+
 // image posts:
 // [_] frontend for images in posts: section to post an image
 // [_] frontend for images in posts: cipher the image posts
@@ -72,8 +77,3 @@ createRoot(document.getElementById("root")).render(
 // [_] *decipher image_ posts in frontend*
 // [_] css
 // [_] replace broken image_ posts with a stock error
-
-// bugs:
-// [_] after new message chats don't update
-// [_] create new conversation is bugged
-// [_] writing a post does not update the page
