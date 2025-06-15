@@ -465,11 +465,11 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
                   )}
                 </div>
                 {isPostEditing !== post.id ? (
-                  <div>
+                  <div style={{ height: "100%", width: "100%" }}>
                     {post.content.startsWith("image_") && (
-                      <div>
+                      <div style={{ height: "100%", width: "100%" }}>
                         <img
-                          src={post.content.split("({[image]})")}
+                          src={post.content.split("({[image]})")[0].slice(6)}
                           className="post_image"
                         />
                         <p>{post.content.split("({[image]})").pop()}</p>

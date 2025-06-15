@@ -500,6 +500,11 @@ input {
 }
 
 /* Individual post card */
+.post_image {
+  height: 60%;
+  width: 60%;
+}
+
 .post_item {
   display: flex;
   flex-direction: column;
