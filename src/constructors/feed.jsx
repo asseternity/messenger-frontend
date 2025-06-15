@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import defaultProfilePic from "/silhouette.png";
 
 // api changes:
@@ -37,6 +37,7 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
   const [isCommentEditing, setIsCommentEditing] = useState(false);
   const [editedCommentContent, setEditedCommentContent] = useState("");
   const [showGuestMessage, setShowGuestMessage] = useState(false);
+  const textareaRef = useRef(null);
 
   // Fetch the posts of people the user follows
   useEffect(() => {
@@ -348,6 +349,15 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
     }
   };
 
+  // dynamically resize new post textarea
+  const handleInput = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  };
+
   return (
     <div className="feed_container">
       {/* Guest restriction popup*/}
@@ -362,6 +372,8 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
       {!isAllUsers && (
         <div className="new_post_section">
           <textarea
+            ref={textareaRef}
+            onInput={handleInput}
             value={newPostContent}
             onChange={(e) => setNewPostContent(e.target.value)}
             placeholder="What's happening?"
