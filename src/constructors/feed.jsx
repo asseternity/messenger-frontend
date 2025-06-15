@@ -37,6 +37,7 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
   const [isCommentEditing, setIsCommentEditing] = useState(false);
   const [editedCommentContent, setEditedCommentContent] = useState("");
   const [showGuestMessage, setShowGuestMessage] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
   const textareaRef = useRef(null);
 
   // Fetch the posts of people the user follows
@@ -111,6 +112,15 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
     if (!newPostContent.trim()) {
       return; // Don't submit if content is empty
     }
+
+    // handle attaching an image to the post
+    let postText = "";
+    if (imageUrl !== "") {
+      postText = "image_" + imageUrl + "({[image]})" + newPostContent;
+    } else {
+      postText = newPostContent;
+    }
+
     try {
       const response = await fetch(
         "https://messenger-backend-production-a259.up.railway.app/new_post",
@@ -123,7 +133,7 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
           credentials: "include",
           body: JSON.stringify({
             myUserId: user.id,
-            postContent: newPostContent,
+            postContent: postText,
           }),
         }
       );
@@ -132,6 +142,7 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
         setPostPagination(1);
         setFeedPosts([newPost, ...feedPosts]); // Add new post to the top of the feed
         setNewPostContent(""); // Clear the input field
+        setImageUrl(""); // Clear the input field
       } else {
         console.error("Failed to create post");
       }
@@ -380,9 +391,21 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
             rows="5"
             className="new_post_textarea"
           />
-          <button onClick={handlePostSubmit} className="post_button">
-            Post
-          </button>
+          <div className="new_post_options">
+            <button onClick={handlePostSubmit} className="post_button">
+              Post
+            </button>
+            <div className="image_post_section">
+              Attach image to post:
+              <input
+                type="text"
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)}
+                placeholder="https://yourwebsite.com/image.jpg"
+                className="image_post_input"
+              />
+            </div>
+          </div>
         </div>
       )}
       {/* Feed Section */}
@@ -442,7 +465,20 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
                   )}
                 </div>
                 {isPostEditing !== post.id ? (
-                  <p className="post_content_text">{post.content}</p>
+                  <div>
+                    {post.content.startsWith("image_") && (
+                      <div>
+                        <img
+                          src={post.content.split("({[image]})")}
+                          className="post_image"
+                        />
+                        <p>{post.content.split("({[image]})").pop()}</p>
+                      </div>
+                    )}
+                    {!post.content.startsWith("image_") && (
+                      <p className="post_content_text">{post.content}</p>
+                    )}
+                  </div>
                 ) : (
                   <textarea
                     value={editedPostContent}

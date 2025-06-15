@@ -471,6 +471,25 @@ input {
   border: 1px solid white;
 }
 
+/* Post option area */
+.new_post_options {
+  display: flex;
+  flex-direction: row;
+}
+
+.image_post_section {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 3px;
+  font-size: 12px;
+}
+
+.image_post_input {
+  flex-grow: 1;
+}
+
 /* Feed posts section (scrollable container) */
 .feed_posts {
   max-height: calc(100svh - 130px);
