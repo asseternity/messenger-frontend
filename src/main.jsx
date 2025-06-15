@@ -75,6 +75,6 @@ createRoot(document.getElementById("root")).render(
 // [v] frontend for images in posts: section to post an image
 // [v] frontend for images in posts: cipher the image posts
 // [v] *decipher image_ posts in frontend*
-// [_] test and debug
-// [_] css
+// [v] test and debug
+// [v] css
 // [_] replace broken image_ posts with a stock error
