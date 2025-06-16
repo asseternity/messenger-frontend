@@ -77,4 +77,5 @@ createRoot(document.getElementById("root")).render(
 // [v] *decipher image_ posts in frontend*
 // [v] test and debug
 // [v] css
-// [_] replace broken image_ posts with a stock error
+// [v] replace broken image_ posts with a stock error
+// [v] revamp post editing - handlePostEditToggle & savePostChanges

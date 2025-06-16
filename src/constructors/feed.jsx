@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import defaultProfilePic from "/silhouette.png";
+import not_found from "/not_found.png";
 
 // api changes:
 // v include the user's OWN posts into the original fetch
@@ -34,6 +35,7 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
   const [allUsers, setAllUsers] = useState([]);
   const [isPostEditing, setIsPostEditing] = useState(false);
   const [editedPostContent, setEditedPostContent] = useState("");
+  const [editedUrlContent, setEditedUrlContent] = useState("");
   const [isCommentEditing, setIsCommentEditing] = useState(false);
   const [editedCommentContent, setEditedCommentContent] = useState("");
   const [showGuestMessage, setShowGuestMessage] = useState(false);
@@ -293,12 +295,25 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
       setIsPostEditing(false);
     }
     if (!isPostEditing) {
-      setEditedPostContent(post.content);
+      // break up the content string into postContent and url
+      const initialPostString = post.content;
+      const editing_postContent = initialPostString.split("({[image]})").pop();
+      const editing_imageUrl = initialPostString
+        .split("({[image]})")[0]
+        .slice(6);
+      setEditedPostContent(editing_postContent);
+      setEditedUrlContent(editing_imageUrl);
       setIsPostEditing(post.id);
     }
   };
 
   const savePostChanges = async (post) => {
+    // if the post NOW contains an image url, cipher the two into a coded string
+    let postText = newPostContent;
+    if (editedUrlContent !== "") {
+      postText =
+        "image_" + editedUrlContent + "({[image]})" + editedPostContent;
+    }
     try {
       const response = await fetch(
         "https://messenger-backend-production-a259.up.railway.app/update_post",
@@ -311,13 +326,14 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
           credentials: "include",
           body: JSON.stringify({
             postId: post.id,
-            postContent: editedPostContent,
+            postContent: postText,
           }),
         }
       );
       if (response.ok) {
         setCommentsAdded(commentsAdded + 1);
         setEditedPostContent(""); // Clear the input field
+        setEditedUrlContent("");
       }
     } catch (err) {
       console.error("Error during fetch: ", err);
@@ -367,6 +383,12 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
       textarea.style.height = "auto";
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
+  };
+
+  const handleImageError = (e) => {
+    // avoid infinite loop if placeholder also fails
+    e.currentTarget.onerror = null;
+    e.currentTarget.src = not_found;
   };
 
   return (
@@ -471,6 +493,7 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
                         <img
                           src={post.content.split("({[image]})")[0].slice(6)}
                           className="post_image"
+                          onError={handleImageError}
                         />
                         <p>{post.content.split("({[image]})").pop()}</p>
                       </div>
@@ -480,11 +503,20 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
                     )}
                   </div>
                 ) : (
-                  <textarea
-                    value={editedPostContent}
-                    onChange={(e) => setEditedPostContent(e.target.value)}
-                    className="edit_bio_textarea"
-                  ></textarea>
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Add your image URL..."
+                      value={editedUrlContent}
+                      onChange={(e) => setEditedUrlContent(e.target.value)}
+                      className="edit_post_url"
+                    />
+                    <textarea
+                      value={editedPostContent}
+                      onChange={(e) => setEditedPostContent(e.target.value)}
+                      className="edit_bio_textarea"
+                    ></textarea>
+                  </div>
                 )}
                 <div className="post_like_container">
                   <button
