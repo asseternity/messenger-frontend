@@ -70,6 +70,8 @@ createRoot(document.getElementById("root")).render(
 // [v] create new conversation is bugged
 // [v] writing a post does not update the page
 // [v] expand post writing zone when text overflows
+// [v] post order bugs
+// [_] tian's post bugs
 
 // image posts:
 // [v] frontend for images in posts: section to post an image

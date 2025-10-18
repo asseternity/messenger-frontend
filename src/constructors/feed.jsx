@@ -117,7 +117,7 @@ const Feed = ({ user, profileCallback, isAllUsers }) => {
 
     // handle attaching an image to the post
     let postText = "";
-    if (imageUrl !== "") {
+    if (imageUrl.trim() !== "") {
       postText = "image_" + imageUrl + "({[image]})" + newPostContent;
     } else {
       postText = newPostContent;
